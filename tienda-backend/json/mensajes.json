@@ -1,0 +1,12 @@
+{
+    "validationErrors": {
+      "isDate": "El campo '{{param}}' no es una fecha valida.",
+      "isEmpty": "El campo '{{param}}' no puede estar vacío",
+      "isInt": "El campo '{{param}}' debe ser un número entero",
+      "isLength": "El campo '{{param}}' debe tener entre {{min}} y {{max}} caracteres",
+      "isEmail": "El campo '{{param}}' debe ser un email válido",
+      "custom": "Error personalizado en el campo '{{param}}'",
+      "matches": "El campo '{{param}}' debe coincidir con el patrón '{{pattern}}'"
+    }
+  }
+  
