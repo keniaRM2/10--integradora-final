@@ -11,6 +11,22 @@ exports.listarUsuario = async (req, res) => {
         return utileria.reponseError(error, res);
     }
 };
+
+exports.obtenerUsuarioPorId = async (req, res) => {
+    try {
+        const idUsuario = req.params.idUsuario; // Obtén el ID de usuario desde los parámetros de la URL
+        const usuario = await usuarioDAO.obtenerUsuarioPorId({ idUsuario });
+
+        if (!usuario) {
+           console.log("el usuario no existe");
+        }
+
+        return utileria.responseOk(usuario, res);
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};
+
 exports.actualizar = async (req, res) => {
     try {
 
@@ -33,4 +49,5 @@ exports.actualizarEstatus = async (req, res) =>{
         return utileria.reponseError(error, res);
     }
 }
+
 

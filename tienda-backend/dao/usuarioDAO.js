@@ -14,6 +14,30 @@ module.exports = {
       throw error;
     }
   },
+
+  obtenerUsuarioPorId: async (parametros) => {
+    try {
+      const { idUsuario } = parametros;
+      const user = await usuario.findOne({
+        where: {
+          idUsuario: idUsuario
+        },
+        include: [{
+          model: persona,
+          as: 'persona',
+          required: false
+        }]
+      });
+  
+      if (!user) {
+        throw new Error(`El usuario con ID ${idUsuario} no existe`);
+      }
+      
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  },
   registrarUsuario: async (parametros) => {
     try {
 

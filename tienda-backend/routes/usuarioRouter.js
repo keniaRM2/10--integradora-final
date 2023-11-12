@@ -32,4 +32,8 @@ router.post('/usuario/actualizarEstatus',
     ],
     usuarioController.actualizarEstatus)
 
+
+    router.get('/usuario/usuarioById/:idUsuario', usuarioController.obtenerUsuarioPorId);
+
+
 module.exports = router;
