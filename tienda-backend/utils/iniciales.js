@@ -115,7 +115,6 @@ async function iniciales() {
 
         insertarRoles()
 
-
         insertarCategorias();
 
         console.log('Datos registrados con éxito');

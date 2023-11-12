@@ -42,7 +42,7 @@ function initModels(sequelize) {
 
   carrito_producto.belongsTo(carrito, { as: "carrito", foreignKey: "carritoId"});
   carrito.hasMany(carrito_producto, { as: "carrito_productos", foreignKey: "carritoId"});
-  subcategoria.belongsTo(categoria, { as: "categorium", foreignKey: "categoriaId"});
+  subcategoria.belongsTo(categoria, { as: "categoria", foreignKey: "categoriaId"});
   categoria.hasMany(subcategoria, { as: "subcategoria", foreignKey: "categoriaId"});
   compra_producto.belongsTo(compra, { as: "compra", foreignKey: "compraId"});
   compra.hasMany(compra_producto, { as: "compra_productos", foreignKey: "compraId"});
@@ -84,7 +84,7 @@ function initModels(sequelize) {
   status.hasMany(producto, { as: "productos", foreignKey: "statusId"});
   usuario.belongsTo(status, { as: "status", foreignKey: "statusId"});
   status.hasMany(usuario, { as: "usuarios", foreignKey: "statusId"});
-  producto.belongsTo(subcategoria, { as: "subcategorium", foreignKey: "subcategoriaId"});
+  producto.belongsTo(subcategoria, { as: "subcategoria", foreignKey: "subcategoriaId"});
   subcategoria.hasMany(producto, { as: "productos", foreignKey: "subcategoriaId"});
 
   return {

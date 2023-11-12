@@ -12,7 +12,7 @@ module.exports = {
             return await categoria.findAll({
                 include: [{
                     model: subcategoria,
-                    as: 'subcategoria' 
+                    as: 'subcategoria'
                 }]
             });
         } catch (error) {
@@ -77,16 +77,11 @@ module.exports = {
                 throw new Error(`Nombre de la categoría ${nombre}, no disponible.`);
             }
 
-            let actualizado = await categoria.findOne({
-                where: {
-                    idCategoria: idCategoria
-                }
-            });
-
-            actualizado.nombre = nombre;
-            actualizado.descripcion = descripcion;
-
-            return await categoria.update(actualizado);
+            let actualizado = {
+                nombre: nombre,
+                descripcion: descripcion
+            };
+            return await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
         } catch (error) {
             throw error;
         }
@@ -123,7 +118,7 @@ module.exports = {
                 actualizado.statusId = statusActivo.idStatus;
 
             }
-            return await categoria.update(actualizado);
+            return await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
 
         } catch (error) {
             throw error;
@@ -147,9 +142,26 @@ module.exports = {
             }
 
 
-            return await categoria.delete({
+            return await categoria.destroy({
                 where: {
-                    categoriaId: idCategoria
+                    idCategoria: idCategoria
+                }
+            });
+
+        } catch (error) {
+            throw error;
+        }
+    },
+    obtener: async (parametros) => {
+        try {
+
+            const {
+                idCategoria
+            } = parametros;
+
+            return await categoria.findOne({
+                where: {
+                    idCategoria: idCategoria
                 }
             });
 

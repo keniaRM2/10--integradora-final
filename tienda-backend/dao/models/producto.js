@@ -7,11 +7,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    clave: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: "clave_UNIQUE"
-    },
     nombre: {
       type: DataTypes.STRING(100),
       allowNull: false,
@@ -68,14 +63,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "nombre" },
-        ]
-      },
-      {
-        name: "clave_UNIQUE",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "clave" },
         ]
       },
       {

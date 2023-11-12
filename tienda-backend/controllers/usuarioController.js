@@ -23,3 +23,27 @@ exports.actualizar = async (req, res) => {
     }
 };
 
+exports.eliminar = async (req, res) => {
+    try {
+
+        const parametros = req.body;
+        const respuesta = await usuarioDAO.eliminar(parametros);
+        
+        return utileria.responseOk(respuesta, res);
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};
+
+exports.obtener = async (req, res) => {
+    try {
+
+        const parametros = req.body;
+        const respuesta = await usuarioDAO.obtener(parametros);
+        
+        return utileria.responseOk(respuesta, res);
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};
+
