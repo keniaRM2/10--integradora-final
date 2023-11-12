@@ -25,4 +25,11 @@ router.post('/usuario/actualizar', [
     utileria.validarCampos
 ], usuarioController.actualizar);
 
+router.post('/usuario/actualizarEstatus',
+    [
+        body('idUsuario').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+        utileria.validarCampos
+    ],
+    usuarioController.actualizarEstatus)
+
 module.exports = router;

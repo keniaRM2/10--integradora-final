@@ -23,3 +23,14 @@ exports.actualizar = async (req, res) => {
     }
 };
 
+exports.actualizarEstatus = async (req, res) =>{
+    try{
+        const parametros = req.body;
+        const respuesta = await usuarioDAO.actualizarEstatus(parametros);
+
+        return utileria.responseOk(respuesta, res);
+    }catch (error) {
+        return utileria.reponseError(error, res);
+    }
+}
+

@@ -129,4 +129,42 @@ module.exports = {
       throw error;
     }
   },
+  actualizarEstatus: async (parametros) => {
+    try {
+        const { idUsuario } = parametros;
+
+        let actualizado = await usuario.findOne({
+            where: {
+                idUsuario: idUsuario
+            }
+        });
+
+        if (!actualizado) {
+            throw new Error(`El usuario con ID ${idUsuario} no existe.`);
+        }
+
+        const statusActivo = await status.findOne({
+            where: {
+                nombre: constantes.ESTATUS_ACTIVO
+            }
+        });
+
+        const statusInactivo = await status.findOne({
+            where: {
+                nombre: constantes.ESTATUS_INACTIVO
+            }
+        });
+
+        if (actualizado.statusId === statusActivo.idStatus) {
+            actualizado.statusId = statusInactivo.idStatus;
+        } else if (actualizado.statusId === statusInactivo.idStatus) {
+            actualizado.statusId = statusActivo.idStatus;
+        }
+
+        await actualizado.save();
+        return actualizado;
+    } catch (error) {
+        throw error;
+    }
+  }
 };
