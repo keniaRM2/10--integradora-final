@@ -14,12 +14,7 @@ const cabecera = {
 
 
 //COLUMNAS DE TABLA
-const columnas = [{
-    name: 'ID CATEGORÍA',
-    center: true,
-    selector: row => row.idCategoria,
-    width: "10%"
-  },
+const columnas = [
   {
     name: 'NOMBRE',
     center: true,
