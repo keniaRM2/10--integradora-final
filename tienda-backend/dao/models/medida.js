@@ -1,36 +1,43 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('carrito_producto', {
-    idCarritoProducto: {
+  return sequelize.define('medida', {
+    idMedida: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    fechaRegistro: {
-      type: DataTypes.DATE,
+    medida: {
+      type: DataTypes.STRING(25),
       allowNull: false
     },
-    carritoId: {
+    tipoMedidaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'carrito',
-        key: 'idCarrito'
-      },
-      unique: "fkCarritoCopy1Carrito1"
+        model: 'tipomedida',
+        key: 'idTipoMedida'
+      }
     },
-    stockId: {
+    tallaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'stock',
-        key: 'idStock'
+        model: 'talla',
+        key: 'idTalla'
+      }
+    },
+    productoId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'producto',
+        key: 'idProducto'
       }
     }
   }, {
     sequelize,
-    tableName: 'carrito_producto',
+    tableName: 'medida',
     timestamps: false,
     indexes: [
       {
@@ -38,29 +45,28 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "idCarritoProducto" },
+          { name: "idMedida" },
         ]
       },
       {
-        name: "carritoProductoUnique",
-        unique: true,
+        name: "fk_medida_tipoMedida1_idx",
         using: "BTREE",
         fields: [
-          { name: "carritoId" },
+          { name: "tipoMedidaId" },
         ]
       },
       {
-        name: "fkCarritoCopy1Carrito1Idx",
+        name: "fk_medida_talla1_idx",
         using: "BTREE",
         fields: [
-          { name: "carritoId" },
+          { name: "tallaId" },
         ]
       },
       {
-        name: "fk_carrito_producto_stock1_idx",
+        name: "fk_medida_producto1_idx",
         using: "BTREE",
         fields: [
-          { name: "stockId" },
+          { name: "productoId" },
         ]
       },
     ]

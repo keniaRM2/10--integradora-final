@@ -71,24 +71,25 @@ const Crud = (props) => {
       let datos = data.map((item) => {
         item["acciones"] = (<div>
 
-          <Button onClick={() => eliminar(item)} outline className="mb-2 me-2 border-0 btn-transition" color="danger">
-            <i className="pe-7s-trash" />
+          <Button onClick={() => eliminar(item)} outline className="my-2 border-0 btn-transition" color="danger">
+            <i className="pe-7s-trash" style={{ fontSize : 19}}/>
           </Button>
-          <Button onClick={() => obtener(item)} outline className="mb-2 me-2 border-0 btn-transition" color="info">
-            <i className="pe-7s-pen" />
+          <Button onClick={() => obtener(item)} outline className="my-2 me-2 border-0 btn-transition" color="warning">
+            <i className="pe-7s-pen" style={{ fontSize : 19 }}/>
           </Button>
         </div>);
         return item;
       })
       setRegistros(datos);
 
-    }).catch((error) => {
+    }).catch((e) => {
       Utileria.errorhttp(e);
     });
   };
 
   const registrar = (valores) => {
-
+    console.log(valores)
+    console.log(JSON.stringify(valores))
     if (!enviando) {
       setEnviando(true);
 
@@ -172,9 +173,21 @@ const Crud = (props) => {
     if (vista === LISTADO) {
       return (
         <Card className="main-card mb-3">
-          <CardTitle className="text-center mt-2">
-              <i className="pe-7s-plus btn-outline-2x hand" color="dark" style={{ fontSize: '2.5em' }}  size="lg" onClick={() => setVista(REGISTRO)}/>
-          </CardTitle>
+          <div style={{ marginLeft : 40 , marginTop : 40}} className='row'>
+            <Col md="10">
+            <PageTitle
+              className="col-10"
+                          heading={cabecera.titulo}
+                          subheading={cabecera.descripcion}
+                          icon={cabecera.icono ||"pe-7s-tools"}
+              />
+            </Col>
+            <Col md="2">
+              <CardTitle className="text-center mt-2">
+                <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }}  size="lg" onClick={() => setVista(REGISTRO)}/>
+            </CardTitle>
+            </Col>
+          </div>
           <CardBody>
             <Tabla columnas={columnas} registros={registros} />
           </CardBody>
@@ -217,11 +230,6 @@ const Crud = (props) => {
               <TransitionGroup>
                 <CSSTransition component="div" appear={true} timeout={0} enter={false} exit={false}>
                   <div>
-                    <PageTitle
-                      heading={cabecera.titulo}
-                      subheading={cabecera.descripcion}
-                      icon={cabecera.icono || "pe-7s-tools"}
-                    />
                     <div>
                       <Row>
                         <Col lg="12">

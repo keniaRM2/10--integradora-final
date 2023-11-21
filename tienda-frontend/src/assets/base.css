@@ -7560,7 +7560,7 @@ textarea.form-control-lg {
 }
 
 .bg-success {
-  background-color: #3ac47d !important;
+  background-color: #abc123 !important;
 }
 
 .bg-info {
@@ -7577,6 +7577,10 @@ textarea.form-control-lg {
 
 .bg-light {
   background-color: #eeeeee !important;
+}
+
+.bg-integradora {
+  background-color: #F6D9BC !important;
 }
 
 .bg-dark {
@@ -28434,7 +28438,7 @@ body .card.mb-3 {
 }
 
 .bg-login {
-  background-image: url("../assets/utils/images/fondo.jpg");
+  background-image: url("../assets/utils/images/logo_background.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

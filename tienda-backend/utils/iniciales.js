@@ -3,10 +3,48 @@ const {
     status,
     genero,
     categoria,
-    subcategoria
+    subcategoria,
+    talla,
+    tipomedida,usuario
 } = require("../dao/models/init-models");
+const usuarioDAO = require("../dao/usuarioDAO");
 const constantes = require("./constantes");
 
+
+async function insertarTipoMedidas() {
+    let obj = undefined;
+
+    for (const nombre of constantes.TIPOS_MEDIDAS) {
+        obj = await tipomedida.findOne({
+            where: {
+                nombre: nombre
+            }
+        });
+
+        if (!obj) {
+            await tipomedida.create({
+                nombre: nombre
+            });
+        }
+    }
+}
+async function insertarTallas() {
+    let obj = undefined;
+
+    for (const nombre of constantes.TALLAS) {
+        obj = await talla.findOne({
+            where: {
+                nombre: nombre
+            }
+        });
+
+        if (!obj) {
+            await talla.create({
+                nombre: nombre
+            });
+        }
+    }
+}
 
 async function insertarCategorias() {
     let obj = undefined;
@@ -32,14 +70,14 @@ async function insertarCategorias() {
             });
         }
 
-        for (const subItem of item.subcategorias){
+        for (const subItem of item.subcategorias) {
             let subobj = await subcategoria.findOne({
                 where: {
                     nombre: subItem,
                     categoriaId: obj.idCategoria
                 }
             });
-    
+
             if (!subobj) {
                 subobj = await subcategoria.create({
                     nombre: subItem,
@@ -90,6 +128,7 @@ async function insertarStatus() {
     let obj = undefined;
 
     for (const nombre of constantes.ESTATUS) {
+
         obj = await status.findOne({
             where: {
                 nombre: nombre
@@ -105,17 +144,47 @@ async function insertarStatus() {
 }
 
 
+async function insertarUsuarios() {
+
+    const usuarioAdmin = {
+        usuario: 'admin@gmail.com',
+        contrasena: 'admin@gmail.com',
+        rolId: 5
+    };
+
+    const usuarios = [usuarioAdmin];
+
+
+    for (const item of usuarios) {
+        let usuarioExistente = await usuario.findOne({
+            where: {
+                usuario: item.usuario
+            }
+        });
+        if(!usuarioExistente){
+            usuarioDAO.registrarUsuario(item);
+        }
+    }
+}
 
 async function iniciales() {
     try {
 
-        insertarStatus();
+        await insertarStatus();
 
-        insertarGeneros();
+        await insertarGeneros();
 
-        insertarRoles()
+        await insertarRoles()
 
-        insertarCategorias();
+
+        //await insertarUsuarios();
+
+        await insertarCategorias();
+
+        await insertarTallas();
+
+        await insertarTipoMedidas();
+
 
         console.log('Datos registrados con éxito');
     } catch (error) {

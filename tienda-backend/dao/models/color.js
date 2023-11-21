@@ -1,20 +1,26 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('status', {
-    idStatus: {
-      autoIncrement: true,
+  return sequelize.define('color', {
+    idColor: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    nombre: {
-      type: DataTypes.STRING(50),
+    color: {
+      type: DataTypes.STRING(45),
+      allowNull: false
+    },
+    productoId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: "status_UNIQUE"
+      references: {
+        model: 'producto',
+        key: 'idProducto'
+      }
     }
   }, {
     sequelize,
-    tableName: 'status',
+    tableName: 'color',
     timestamps: false,
     indexes: [
       {
@@ -22,15 +28,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "idStatus" },
+          { name: "idColor" },
         ]
       },
       {
-        name: "status_UNIQUE",
-        unique: true,
+        name: "fk_colorProducto_producto1_idx",
         using: "BTREE",
         fields: [
-          { name: "nombre" },
+          { name: "productoId" },
         ]
       },
     ]

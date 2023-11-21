@@ -16,6 +16,11 @@ export const AdminNav = [
         label: 'Categorías',
         to: RouteConstant.CATEGORIA
     },
+    {
+        icon: 'pe-7s-albums',
+        label: 'Subcategorías',
+        to: RouteConstant.SUBCATEGORIA
+    },
 ];
 
 export const MainNav = [

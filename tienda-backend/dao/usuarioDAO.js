@@ -39,7 +39,8 @@ module.exports = {
         usuario: nombreUsuario,
         contrasena: utileria.encriptarContrasena(parametros.contrasena),
         rolId: parametros.rolId,
-        statusId: statusActivo.idStatus
+        statusId: statusActivo.idStatus,
+        fechaRegistro: new Date()
       };
 
       const {
@@ -92,7 +93,7 @@ module.exports = {
 
       return {
         idUsuario: usuarioLogin.idUsuario,
-        token: token, ... usuarioLogin.persona.dataValues
+        token: token, ... usuarioLogin.persona?.dataValues
       }
     } catch (error) {
       throw error;

@@ -10,23 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     nombre: {
       type: DataTypes.STRING(100),
       allowNull: false,
-      unique: "usuario_UNIQUE"
+      unique: "producto_UNIQUE"
     },
     descripcion: {
       type: DataTypes.TEXT,
       allowNull: false
-    },
-    precio: {
-      type: DataTypes.DOUBLE,
-      allowNull: false
-    },
-    existencia: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    color: {
-      type: DataTypes.STRING(45),
-      allowNull: true
     },
     statusId: {
       type: DataTypes.INTEGER,
@@ -58,7 +46,7 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "usuario_UNIQUE",
+        name: "producto_UNIQUE",
         unique: true,
         using: "BTREE",
         fields: [

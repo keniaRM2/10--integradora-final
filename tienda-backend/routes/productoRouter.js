@@ -13,9 +13,6 @@ router.put('/producto/registrar',
     [
         body('nombre').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         body('descripcion').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-        body('precio').isDecimal().withMessage(mensajes.validationErrors.isInt),
-        body('existencia').isInt().withMessage(mensajes.validationErrors.isInt),
-        body('color').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         body('subcategoriaId').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         utileria.validarCampos
     ],
@@ -24,10 +21,8 @@ router.put('/producto/registrar',
 router.post('/producto/actualizar',
     [
         body('idProducto').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+        body('nombre').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         body('descripcion').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-        body('precio').isDecimal().withMessage(mensajes.validationErrors.isInt),
-        body('existencia').isInt().withMessage(mensajes.validationErrors.isInt),
-        body('color').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         body('subcategoriaId').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         utileria.validarCampos
     ],
