@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       references: {
         model: 'color',
-        key: 'idcolor'
+        key: 'idColor'
       }
     }
   }, {

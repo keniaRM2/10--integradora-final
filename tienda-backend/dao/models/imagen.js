@@ -17,10 +17,26 @@ module.exports = function(sequelize, DataTypes) {
     },
     productoId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'producto',
         key: 'idProducto'
+      }
+    },
+    subcategoriaId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'subcategoria',
+        key: 'idSubcategoria'
+      }
+    },
+    categoriaId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'categoria',
+        key: 'idCategoria'
       }
     }
   }, {
@@ -41,6 +57,20 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "productoId" },
+        ]
+      },
+      {
+        name: "fk_imagen_subcategoria1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "subcategoriaId" },
+        ]
+      },
+      {
+        name: "fk_imagen_categoria1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "categoriaId" },
         ]
       },
     ]

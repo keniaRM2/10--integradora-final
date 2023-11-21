@@ -146,10 +146,16 @@ async function insertarStatus() {
 
 async function insertarUsuarios() {
 
+    const rolAdministrador = await rol.findOne({
+        where: {
+            nombre: constantes.ROL_ADMINISTRADOR
+        }
+    }); 
+    
     const usuarioAdmin = {
         usuario: 'admin@gmail.com',
         contrasena: 'admin@gmail.com',
-        rolId: 5
+        rolId: rolAdministrador.idRol
     };
 
     const usuarios = [usuarioAdmin];
@@ -177,7 +183,7 @@ async function iniciales() {
         await insertarRoles()
 
 
-        //await insertarUsuarios();
+        await insertarUsuarios();
 
         await insertarCategorias();
 

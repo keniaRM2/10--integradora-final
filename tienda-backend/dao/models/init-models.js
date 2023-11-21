@@ -52,6 +52,8 @@ function initModels(sequelize) {
 
   carrito_producto.belongsTo(carrito, { as: "carrito", foreignKey: "carritoId"});
   carrito.hasOne(carrito_producto, { as: "carrito_producto", foreignKey: "carritoId"});
+  imagen.belongsTo(categoria, { as: "categoria", foreignKey: "categoriaId"});
+  categoria.hasMany(imagen, { as: "imagens", foreignKey: "categoriaId"});
   subcategoria.belongsTo(categoria, { as: "categoria", foreignKey: "categoriaId"});
   categoria.hasMany(subcategoria, { as: "subcategoria", foreignKey: "categoriaId"});
   stock.belongsTo(color, { as: "color", foreignKey: "colorId"});
@@ -94,6 +96,8 @@ function initModels(sequelize) {
   status.hasMany(categoria, { as: "categoria", foreignKey: "statusId"});
   compra.belongsTo(status, { as: "status", foreignKey: "statusId"});
   status.hasMany(compra, { as: "compras", foreignKey: "statusId"});
+  envio.belongsTo(status, { as: "status", foreignKey: "statusId"});
+  status.hasMany(envio, { as: "envios", foreignKey: "statusId"});
   producto.belongsTo(status, { as: "status", foreignKey: "statusId"});
   status.hasMany(producto, { as: "productos", foreignKey: "statusId"});
   usuario.belongsTo(status, { as: "status", foreignKey: "statusId"});
@@ -102,6 +106,8 @@ function initModels(sequelize) {
   stock.hasMany(carrito_producto, { as: "carrito_productos", foreignKey: "stockId"});
   compra_producto.belongsTo(stock, { as: "stock", foreignKey: "stockId"});
   stock.hasMany(compra_producto, { as: "compra_productos", foreignKey: "stockId"});
+  imagen.belongsTo(subcategoria, { as: "subcategoria", foreignKey: "subcategoriaId"});
+  subcategoria.hasMany(imagen, { as: "imagens", foreignKey: "subcategoriaId"});
   producto.belongsTo(subcategoria, { as: "subcategoria", foreignKey: "subcategoriaId"});
   subcategoria.hasMany(producto, { as: "productos", foreignKey: "subcategoriaId"});
   medida.belongsTo(talla, { as: "talla", foreignKey: "tallaId"});
