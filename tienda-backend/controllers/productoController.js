@@ -3,7 +3,7 @@ const utileria = require('../utils/utileria.js')
 
 exports.listar = async (req, res) => {
   try {
-
+console.log(req.body);
     let lista = await productoDAO.listar();
     return utileria.responseOk(lista, res);
 

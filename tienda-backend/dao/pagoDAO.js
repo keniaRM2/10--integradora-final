@@ -1,5 +1,5 @@
 const {
-    talla, stock,
+    pago, stock, persona,
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
@@ -7,8 +7,15 @@ const constantes = require("../utils/constantes");
 module.exports = {
     listar: async () => {
         try {
-            return await talla.findAll({
-                order: [['idTalla', 'DESC']]
+            return await pago.findAll({
+                order: [['idPago', 'DESC']],
+                include: [
+                    {
+                        model: persona,
+                        as: 'persona',
+                        required: false, 
+                    },
+                ]
             });
         } catch (error) {
             throw error;
@@ -17,27 +24,16 @@ module.exports = {
     registrar: async (parametros) => {
         try {
 
-            const nombreTalla = parametros.nombre;
+            const nuevo = {
+                fechaPago: new Date(),
+                monto: parametros.monto,
+                personaId: parametros.usuarioSesion.idPersona,
+                compraId: parametros.compraId,
+                clave: parametros.clave
+           };
 
-            const tallaRepetida = await talla.findOne({
-                where: {
-                    nombre: nombreTalla
-                }
-            });
-
-            if (tallaRepetida) {
-                throw new Error(`Nombre de la talla ${nombreTalla}, no disponible.`);
-            }
-
-            const nuevo = { nombre: nombreTalla};
-
-            const {
-                idTalla
-            } = await talla.create(nuevo);
-
-            return {
-                idTalla: idTalla
-            };
+            const { idPago } = await pago.create(nuevo);
+            return { idPago: idPago};   
         } catch (error) {
             throw error;
         }
@@ -47,24 +43,24 @@ module.exports = {
 
 
             const {
-                idTalla,
+                idPago,
                 nombre
             } = parametros;
 
-            const tallaRepetida = await talla.findOne({
+            const pagoRepetida = await pago.findOne({
                 where: {
                     nombre: nombre
                 }
             });
 
-            if (tallaRepetida && tallaRepetida.idTalla !== idTalla) {
-                throw new Error(`Nombre de la talla ${nombre}, no disponible.`);
+            if (pagoRepetida && pagoRepetida.idPago !== idPago) {
+                throw new Error(`Nombre de la pago ${nombre}, no disponible.`);
             }
 
             let actualizado = {
                 nombre: nombre
             };
-            return await talla.update(actualizado, {where: { idTalla: idTalla}});
+            return await pago.update(actualizado, {where: { idPago: idPago}});
         } catch (error) {
             throw error;
         }
@@ -73,23 +69,23 @@ module.exports = {
         try {
 
             const {
-                idTalla
+                idPago
             } = parametros;
 
             const stocks = await stock.findAll({
                 where: {
-                    tallaId: idTalla
+                    pagoId: idPago
                 }
             });
 
             if (!utileria.arrayVacio(stocks)) {
-                throw new Error(`La talla cuenta con dependencias de stocks.`);
+                throw new Error(`La pago cuenta con dependencias de stocks.`);
             }
 
 
-            return await talla.destroy({
+            return await pago.destroy({
                 where: {
-                    idTalla: idTalla
+                    idPago: idPago
                 }
             });
 
@@ -101,12 +97,12 @@ module.exports = {
         try {
 
             const {
-                idTalla
+                idPago
             } = parametros;
 
-            return await talla.findOne({
+            return await pago.findOne({
                 where: {
-                    idTalla: idTalla
+                    idPago: idPago
                 }
             });
 

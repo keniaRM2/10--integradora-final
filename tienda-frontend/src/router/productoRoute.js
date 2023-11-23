@@ -16,6 +16,12 @@ const cabecera = {
 //COLUMNAS DE TABLA
 const columnas = [
   {
+    name: 'NO.',
+    center: true,
+    selector: row => row.indice,
+    width: "10%"
+  },
+  {
     name: "NOMBRE",
     center: true,
     selector: (row) => row.nombre,
@@ -56,6 +62,8 @@ const columnas = [
 const inicial = {
   nombre: "",
   descripcion: "",
+  tallas:[],
+  colores:[]
 };
 
 //VALIDACIONES POR CADA ATRIBUTO DEL FORMULARIO

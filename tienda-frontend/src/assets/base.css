@@ -3022,6 +3022,7 @@ textarea.form-control-lg {
   color: #000;
   background-color: #3ac47d;
   border-color: #3ac47d;
+  cursor: not-allowed !important;
 }
 
 .btn-info {
@@ -7580,7 +7581,7 @@ textarea.form-control-lg {
 }
 
 .bg-integradora {
-  background-color: #F6D9BC !important;
+  /* background-color: #F6D9BC !important; */
 }
 
 .bg-dark {
@@ -11862,7 +11863,10 @@ button,
 }
 .app-theme-white .app-footer .app-footer__inner,
 .app-theme-white .app-header {
-  background: #fafbfc;
+  background: linear-gradient(90deg,#FBB660,#D5C8FF);
+  font-weight: bolder;
+  color: #fff!important;
+  /* background: #fafbfc; */
 }
 .app-theme-white.fixed-header .app-header__logo {
   background: rgba(250, 251, 252, 0.1);
@@ -22386,6 +22390,10 @@ button.rbc-input::-moz-focus-inner {
   background-color: #f88ca270;
 }
 
+.dKzMcW {
+  height: 32px !important;
+}
+
 @font-face {
   font-family: "Linearicons-Free";
   src: url("components/icons/linearicons/Linearicons-Free.eot?w118d");
@@ -28427,7 +28435,7 @@ body .card.mb-3 {
   -webkit-box-align: stretch;
   align-items: stretch;
   width: 100%;
-  background-color: #F88CA2 !important;
+  background-color: #D5C8FF !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   min-height: 32px;
   color: white !important;

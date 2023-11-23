@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    productoid: {
+    productoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -56,7 +56,7 @@ module.exports = function(sequelize, DataTypes) {
         name: "fk_existencia_producto1_idx",
         using: "BTREE",
         fields: [
-          { name: "productoid" },
+          { name: "productoId" },
         ]
       },
       {

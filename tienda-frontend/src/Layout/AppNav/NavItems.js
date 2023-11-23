@@ -1,27 +1,57 @@
 import RouteConstant from '../../router/routeConstant';
 
+
 export const AdminNav = [
-    {
-        icon: 'pe-7s-user-female',
-        label: 'Usuarios',
-        to: RouteConstant.USUARIO
-    },
-    {
-        icon: 'pe-7s-cart',
-        label: 'Productos',
-        to: RouteConstant.PRODUCTO
-    },
     {
         icon: 'pe-7s-graph3',
         label: 'Categorías',
         to: RouteConstant.CATEGORIA
     },
     {
-        icon: 'pe-7s-albums',
+        icon: 'pe-7s-safe',
         label: 'Subcategorías',
         to: RouteConstant.SUBCATEGORIA
     },
+    {
+        icon: 'pe-7s-link',
+        label: 'Tallas',
+        to: RouteConstant.TALLAS
+    },
+    {
+        icon: 'pe-7s-albums',
+        label: 'Tipos de medida',
+        to: RouteConstant.TIPO_MEDIDA
+    },
 ];
+
+export const CajaNav = [
+    {
+        icon: 'pe-7s-cash',
+        label: 'Pagos',
+        to: RouteConstant.PAGO
+    },
+];
+export const AccesoNav = [
+    {
+        icon: 'pe-7s-user-female',
+        label: 'Usuarios',
+        to: RouteConstant.USUARIO
+    },
+];
+
+export const ProductoNav = [
+    {
+        icon: 'pe-7s-cart',
+        label: 'Productos',
+        to: RouteConstant.PRODUCTO
+    },
+    {
+        icon: 'pe-7s-box1',
+        label: 'Almacén',
+        to: RouteConstant.STOCK
+    }
+];
+
 
 export const MainNav = [
     {

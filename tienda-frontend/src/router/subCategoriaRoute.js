@@ -1,15 +1,15 @@
 import React from 'react';
 import Yup from '../config/i18nYup';
 import Crud from '../components/crud';
-import servicio from "../services/CategoriaService";
-import formulario from "../components/categoria/Formulario";
+import servicio from "../services/SubCategoriaService";
+import formulario from "../components/subCategoria/Formulario";
 import RouteConstant from './routeConstant';
 
 // TITULO DE CRUD
 const cabecera = {
-  titulo: "Categorías",
+  titulo: "SubCategorías",
   descripcion: "Administración de registros, listar, registrar, actualizar, eliminar.",
-  icono: "pe-7s-graph3"
+  icono: "pe-7s-safe"
 };
 
 
@@ -28,9 +28,9 @@ const columnas = [
     width: "30%"
   },
   {
-    name: 'DESCRIPCIÓN',
+    name: 'CATEGORÍA',
     center: true,
-    selector: row => row.descripcion,
+    selector: row => row.categoria.nombre,
     width: "40%"
   },
   {
@@ -44,36 +44,33 @@ const columnas = [
 //VALOR INICIAL DEL OBJETO DEL FORMULARIO
 const inicial = {
   nombre: '',
-  descripcion: ''
+  categoriaId: ''
 };
 
 //VALIDACIONES POR CADA ATRIBUTO DEL FORMULARIO
 let validaciones = Yup.object().shape({
   nombre: Yup.string().min(1).max(50).required(),
-  descripcion: Yup.string().min(1).max(100).required()
+  categoriaId: Yup.number().required()
 });
 
 const ruta = {
-  path: RouteConstant.CATEGORIA,
-  component: () => ( <
-    Crud columnas = {
-      columnas
-    }
-    cabecera = {
-      cabecera
-    }
-    inicial = {
-      inicial
-    }
-    servicio = {
-      servicio
-    }
-    Formulario = {
-      formulario
-    }
-    validaciones = {
-      validaciones
-    }
+  path: RouteConstant.SUBCATEGORIA,
+  component: () => (
+    <Crud
+      columnas={columnas}
+      cabecera={cabecera}
+      inicial={
+        inicial
+      }
+      servicio={
+        servicio
+      }
+      Formulario={
+        formulario
+      }
+      validaciones={
+        validaciones
+      }
     />
   )
 

@@ -1,14 +1,14 @@
 const {
     status,
     producto,
-    compra_producto,
-    carrito_producto,
+    talla,
     subcategoria,
     categoria,
     imagen,
     color,
     medida,
-    stock
+    stock,
+    tipomedida
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
@@ -18,7 +18,7 @@ const Sequelize = require('sequelize');
 module.exports = {
     listar: async () => {
         try {
-            const productosConExistencia = await producto.findAll({
+            let productosConExistencia = await producto.findAll({
                 attributes: [
                     'idProducto', // Incluir las columnas que necesitas
                     'nombre',
@@ -28,13 +28,12 @@ module.exports = {
                     [Sequelize.fn('SUM', Sequelize.col('stocks.existencia')), 'totalExistencia'] // Sumar la columna existencia
                 ],
                 include: [
-                    
+
                     {
                         model: stock,
                         as: 'stocks',
                         attributes: [], // No se necesitan atributos de la tabla stock en el resultado
                         required: false, // LEFT JOIN para incluir productos sin stock
-
                     },
                     {
                         model: subcategoria,
@@ -48,10 +47,12 @@ module.exports = {
                         as: 'status',
                     }
                 ],
-                group: ['producto.idProducto'] // Agrupar por idProducto
+                group: ['producto.idProducto'], // Agrupar por idProducto
+                order: [
+                    ['idProducto', 'DESC']
+                ]
             });
-
-
+      
             return productosConExistencia;
         } catch (error) {
             throw error;
@@ -90,12 +91,16 @@ module.exports = {
                 subcategoriaId: parametros.subcategoriaId
             };
 
-            const { idProducto } = await producto.create(nuevo);
+            const {
+                idProducto
+            } = await producto.create(nuevo);
 
 
 
             if (!utileria.arrayVacio(parametros.colores)) {
-                const coloresNuevos = parametros.colores.map(({ color }) => ({
+                const coloresNuevos = parametros.colores.map(({
+                    color
+                }) => ({
                     color: color,
                     productoId: idProducto,
                 }));
@@ -127,7 +132,10 @@ module.exports = {
             };
         } catch (error) {
             // Rollback en caso de error
-            if (transaction) await transaction.rollback();
+            if (transaction) {
+                console.log("rollback");
+                await transaction.rollback();
+            }
             throw error;
         }
     },
@@ -155,7 +163,11 @@ module.exports = {
                 subcategoriaId: parametros.subcategoriaId
             };
 
-            let response = await producto.update(actualizado, { where: { idProducto: parametros.idProducto } });
+            let response = await producto.update(actualizado, {
+                where: {
+                    idProducto: parametros.idProducto
+                }
+            });
 
 
             // Eliminar todas las medidas relacionadas con un producto específico
@@ -293,28 +305,7 @@ module.exports = {
                 idProducto
             } = parametros;
 
-            let dependencias = await carrito_producto.findAll({
-                where: {
-                    productoId: idProducto
-                }
-            });
-
-            if (!utileria.arrayVacio(dependencias)) {
-                throw new Error(`La producto cuenta con dependencias, en carrito de compras.`);
-            }
-
-
-            dependencias = await compra_producto.findAll({
-                where: {
-                    productoId: idProducto
-                }
-            });
-
-            if (!utileria.arrayVacio(dependencias)) {
-                throw new Error(`La producto cuenta con dependencias, en compras de producto.`);
-            }
-
-            dependencias = await stock.findAll({
+            let dependencias = await stock.findAll({
                 where: {
                     productoId: idProducto
                 }
@@ -377,16 +368,36 @@ module.exports = {
                     idProducto: idProducto
                 },
                 include: [{
-                    model: subcategoria,
-                    as: 'subcategoria',
-                    include: [{
-                        model: categoria,
-                        as: 'categoria',
-                    }]
-                }, {
-                    model: status,
-                    as: 'status',
-                }]
+                        model: subcategoria,
+                        as: 'subcategoria',
+                        include: [{
+                            model: categoria,
+                            as: 'categoria',
+                        }]
+                    }, {
+                        model: status,
+                        as: 'status',
+                    },
+                    {
+                        model: color,
+                        as: 'colores',
+                        required: false
+                    },
+                    {
+                        model: medida,
+                        as: 'medidas',
+                        required: false,
+                        include: [{
+                            model: talla,
+                            as: 'talla',
+                            required: false
+                        },{
+                            model: tipomedida,
+                            as: 'tipoMedida',
+                            required: false
+                        }]
+                    }
+                ]
             });
 
             let colores = await color.findAll({

@@ -19,6 +19,7 @@ module.exports = {
     listar: async () => {
         try {
             return await stock.findAll({
+                order: [['idStock', 'DESC']],
                 include: [
                     {
                         model: producto,
@@ -55,15 +56,20 @@ module.exports = {
             // Iniciando la transacción
             transaction = await conexion.transaction();
 
-            let filtrado = { productoId: parametros.idProducto };
-
-            if (parametros.tallaId) {
-                filtrado.tallaId = parametros.tallaId;
+            let filtrado = { productoId: parametros.productoId };
+            if(parametros.idStock > 0){
+                filtrado = { idStock: parametros.idStock };
+            }else{
+                filtrado = { productoId: parametros.productoId };
+                if (parametros.tallaId) {
+                    filtrado.tallaId = parametros.tallaId;
+                }
+    
+                if (parametros.tallaId) {
+                    filtrado.colorId = parametros.colorId;
+                }
             }
-
-            if (parametros.tallaId) {
-                filtrado.colorId = parametros.colorId;
-            }
+            
 
             let stockBuscado = await stock.findOne({ where: filtrado });
 
@@ -73,7 +79,7 @@ module.exports = {
                 let stockNuevo = {
                     precio: parametros.precio,
                     existencia: parametros.existencia,
-                    productoId: parametros.idProducto,
+                    productoId: parametros.productoId,
                 };
                 if (parametros.tallaId) {
                     stockNuevo.tallaId = parametros.tallaId;
@@ -87,7 +93,7 @@ module.exports = {
                 const actualizado = {
                     precio: parametros.precio,
                     existencia: parametros.existencia,
-                    productoId: parametros.idProducto,
+                    productoId: parametros.productoId,
                 };
                 if (parametros.tallaId) {
                     actualizado.tallaId = parametros.tallaId;

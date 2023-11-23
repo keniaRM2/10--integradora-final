@@ -6,7 +6,9 @@ const utileria = require("../utils/utileria");
 module.exports = {
     listar: async () => {
         try {
-            return await tipomedida.findAll({});
+            return await tipomedida.findAll({
+                order: [['idTipoMedida', 'DESC']]
+            });
         } catch (error) {
             throw error;
         }
@@ -44,7 +46,7 @@ module.exports = {
 
 
             const {
-                idTipomedida,
+                idTipoMedida,
                 nombre
             } = parametros;
 
@@ -54,14 +56,14 @@ module.exports = {
                 }
             });
 
-            if (tipomedidaRepetida && tipomedidaRepetida.idTipomedida !== idTipomedida) {
+            if (tipomedidaRepetida && tipomedidaRepetida.idTipoMedida !== idTipoMedida) {
                 throw new Error(`Nombre del tipo de medida  ${nombre}, no disponible.`);
             }
 
             let actualizado = {
                 nombre: nombre
             };
-            return await tipomedida.update(actualizado, {where: { idTipomedida: idTipomedida}});
+            return await tipomedida.update(actualizado, {where: { idTipoMedida: idTipoMedida}});
         } catch (error) {
             throw error;
         }
@@ -70,12 +72,12 @@ module.exports = {
         try {
 
             const {
-                idTipomedida
+                idTipoMedida
             } = parametros;
 
             const medidas = await medida.findAll({
                 where: {
-                    tipoMedidaId: idTipomedida
+                    tipoMedidaId: idTipoMedida
                 }
             });
 
@@ -86,7 +88,7 @@ module.exports = {
 
             return await tipomedida.destroy({
                 where: {
-                    idTipomedida: idTipomedida
+                    idTipoMedida: idTipoMedida
                 }
             });
 
@@ -98,12 +100,12 @@ module.exports = {
         try {
 
             const {
-                idTipomedida
+                idTipoMedida
             } = parametros;
 
             return await tipomedida.findOne({
                 where: {
-                    idTipomedida: idTipomedida
+                    idTipoMedida: idTipoMedida
                 }
             });
 

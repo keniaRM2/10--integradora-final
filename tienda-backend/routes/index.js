@@ -7,6 +7,7 @@ const subCategoriaRouter = require('./subCategoriaRouter');
 const stockRouter = require('./stockRouter');
 const tallaRouter = require('./tallaRouter');
 const tipoMedidaRouter = require('./tipoMedidaRouter');
+const pagoRouter = require('./pagoRouter');
 
 module.exports = [
     rolRouter, 
@@ -17,5 +18,6 @@ module.exports = [
     subCategoriaRouter,
     stockRouter,
     tallaRouter,
-    tipoMedidaRouter
+    tipoMedidaRouter,
+    pagoRouter
 ];

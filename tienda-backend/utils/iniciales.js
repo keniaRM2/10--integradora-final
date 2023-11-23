@@ -5,7 +5,8 @@ const {
     categoria,
     subcategoria,
     talla,
-    tipomedida,usuario
+    tipomedida,
+    usuario
 } = require("../dao/models/init-models");
 const usuarioDAO = require("../dao/usuarioDAO");
 const constantes = require("./constantes");
@@ -150,12 +151,37 @@ async function insertarUsuarios() {
         where: {
             nombre: constantes.ROL_ADMINISTRADOR
         }
-    }); 
-    
+    });
+    const generoMujer = await genero.findOne({
+        where: {
+            nombre: constantes.GENERO_FEMENINO
+        }
+    });
+
     const usuarioAdmin = {
         usuario: 'admin@gmail.com',
         contrasena: 'admin@gmail.com',
-        rolId: rolAdministrador.idRol
+        rolId: rolAdministrador.idRol,
+        persona: {
+            nombre: 'Kenia',
+            primerApellido: 'Reyes',
+            segundoApellido: 'Molina',
+            fechaNacimiento: '1996-03-27',
+            generoId: generoMujer.idGenero,
+            direccion: {
+                numeroInterior: '123',
+                numeroExterior: '456',
+                calle: 'Av. Principal',
+                colonia: 'Centro',
+                municipio: 'Cuernavaca',
+                entidadFederativa: 'Morelos',
+            },
+            contacto: {
+                correoElectronico: 'kenia@gmail.com',
+                telefonoPrincipal: '7771234567',
+                telefonoSecundario: '7771478596',
+            },
+        },
     };
 
     const usuarios = [usuarioAdmin];
@@ -167,7 +193,7 @@ async function insertarUsuarios() {
                 usuario: item.usuario
             }
         });
-        if(!usuarioExistente){
+        if (!usuarioExistente) {
             usuarioDAO.registrarUsuario(item);
         }
     }

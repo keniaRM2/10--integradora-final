@@ -42,7 +42,7 @@ const Login = () => {
                         backgroundColor: "rgb(255 255 255 / 89%)"
                     }}>
         <CardBody>
-          <h2 className="text-center">SHOP</h2>
+          <h2 className="text-center">CHROCHETCHIC</h2>
           <h4 className="text-center mb-3">Iniciar sesión</h4>
           <Form onSubmit={handleSubmit}>
             <FormGroup>

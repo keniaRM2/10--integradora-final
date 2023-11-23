@@ -1,103 +1,163 @@
-import React, { Fragment, useState, useEffect } from "react";
-import {
-  Label,
-  InputGroup,
-  FormGroup,
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-} from "reactstrap";
-import { Form, Field, ErrorMessage, Formik, FieldArray } from "formik";
+import React, { useState, useEffect } from "react";
+import { Label, InputGroup, FormGroup, Row, Col, Form, Button } from "reactstrap";
+import { Field, ErrorMessage, Formik } from "formik";
 import Utileria from "../../util";
 import SubCategoriaService from "../../services/SubCategoriaService";
-import { ta, tr } from "date-fns/locale";
+import TallaService from "../../services/TallaService";
+import TipoMedidaService from "../../services/TipoMedidaService";
 import { PhotoshopPicker } from "react-color";
+import DataTable from 'react-data-table-component';
 
-const Formulario = (props) => {
-  let { errors, touched } = props;
+const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
+  const [subcategorias, setSubcategorias] = useState([]);
+  const [tallas, setTallas] = useState([]);
+  const [tiposMedida, setTiposMedida] = useState([]);
+  const [medida, setMedida] = useState({ medida: "", tipoMedidaId: "", tallaId: "" });
 
-  let [subcategorias, setSubcategorias] = useState([]);
+  const [estadoFormulario, setEstadoFormulario] = useState({
+    colores: [],
+    medidas: []
+  });
 
-  let [state, setState] = useState(false);
-
-  const [selectedColores, setSelectedColores] = useState([]);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [currentColor, setCurrentColor] = useState("#ffffff"); // Color inicial
+  const [currentColor, setCurrentColor] = useState({ color: "#ffffff" });
 
+  const columnas = [
+    {
+      name: 'NO.',
+      center: true,
+      selector: row => row.indice,
+      width: "10%"
+    },
+    {
+      name: 'TALLA',
+      center: true,
+      selector: row => row.talla.nombre,
+    },
+    {
+      name: 'TIPO DE MEDIDA',
+      center: true,
+      selector: row => row.tipoMedida.nombre,
+    },
+    {
+      name: 'MEDIDA',
+      center: true,
+      selector: row => row.medida,
+    },
+    {
+      name: 'ACCIONES',
+      center: true,
+      cell: (row, index) => (
+        <Button onClick={() => eliminarMedida(row, index)} outline className="my-2 border-0 btn-transition" color="danger">
+        <i className="pe-7s-trash" style={{ fontSize: 19 }} />
+      </Button>
+      ),
+      width: "10%"
+    }
+  ];
+
+  const sinResultados = (
+    <div className="text-center">
+      <p>Sin resultados disponibles</p>
+    </div>
+  );
+
+
+  const eliminarMedida = (row, index) => {
+    const updatedMedidas = [...estadoFormulario.medidas];
+    updatedMedidas.splice(index, 1);    
+    setEstadoFormulario({ ...estadoFormulario, medidas: updatedMedidas });
+    setValues({ ...values, medidas: updatedMedidas });
+  };
   const handleColorChange = (color) => {
-    setCurrentColor(color.hex);
+    setCurrentColor({ color: color.hex });
   };
 
   const handleColorAdd = () => {
-    setSelectedColores([...selectedColores, currentColor]);
+    const updatedColores = [...estadoFormulario.colores, currentColor];
+    setEstadoFormulario({ ...estadoFormulario, colores: updatedColores });
     setDisplayColorPicker(false);
+    setValues({ ...values, colores: updatedColores });
   };
+
   const handleRemoveColor = (index) => {
-    const updatedColores = [...selectedColores];
-    updatedColores.splice(index, 1);
-    setSelectedColores(updatedColores);
+    const updatedColores = estadoFormulario.colores.filter((_, i) => i !== index);
+    setEstadoFormulario({ ...estadoFormulario, colores: updatedColores });
+    setValues({ ...values, colores: updatedColores });
   };
+
+
 
   const listarSubctategorias = () => {
     SubCategoriaService.listar()
       .then(({ data }) => {
-        setSubcategorias(data);
+        setSubcategorias(data.map((item) => ({ ...item, nombreCompleto: `${item?.categoria?.nombre} / ${item.nombre}` })));
       })
       .catch((e) => {
         Utileria.errorhttp(e);
       });
   };
 
-  let [tallasSeleccionadas, setTallasSeleccionadas] = useState([]);
-
-  const listaTallas = [
-    {
-      id: 1,
-      nombre: "S",
-      active: true,
-    },
-    {
-      id: 2,
-      nombre: "M",
-      active: true,
-    },
-    {
-      id: 3,
-      nombre: "L",
-      active: true,
-    },
-    {
-      id: 4,
-      nombre: "XL",
-      active: true,
-    },
-    {
-      id: 5,
-      nombre: "XXL",
-      active: true,
-    },
-    {
-      id: 6,
-      nombre: "XXXL",
-      active: true,
-    },
-  ];
-
-  const initialValues = {
-    nombre: "",
-    descripcion: "",
-    precio: 0,
-    existencia: 0,
-    categoriaId: "",
-    subcategoriaId: "",
-    color: "",
-    tallas: [],
+  const listarTallas = () => {
+    TallaService.listar()
+      .then(({ data }) => {
+        setTallas(data);
+      })
+      .catch((e) => {
+        Utileria.errorhttp(e);
+      });
   };
+
+  const listarTiposMedidas = () => {
+    TipoMedidaService.listar()
+      .then(({ data }) => {
+        setTiposMedida(data);
+      })
+      .catch((e) => {
+        Utileria.errorhttp(e);
+      });
+  };
+
+  const agregarMedida = () => {
+    const { medida: medidaValue, tallaId, tipoMedidaId } = medida;
+
+    if (!medidaValue || !tallaId || !tipoMedidaId) {
+      Utileria.catchError("Complete los campos");
+    } else {
+      const talla = tallas.find((item) => item.idTalla == tallaId)
+      const tipoMedida = tiposMedida.find((item) => item.idTipoMedida == tipoMedidaId);
+
+      const nuevaMedida = { medida: medidaValue, tipoMedidaId, tallaId, talla, tipoMedida };
+
+      let updatedMedidas = [...estadoFormulario.medidas, nuevaMedida];
+
+      setEstadoFormulario({ ...estadoFormulario, medidas: updatedMedidas });
+      setValues({ ...values, medidas: updatedMedidas });
+      setMedida({ medida: "", tipoMedidaId: "", tallaId: "" });
+    }
+  };
+
+
+
+
+
   useEffect(() => {
     listarSubctategorias();
+    listarTallas();
+    listarTiposMedidas();
+
+    values.colores && setEstadoFormulario((prevState) => ({
+      ...prevState,
+      colores: values.colores
+    }));
+
+    values.medidas && setEstadoFormulario((prevState) => ({
+      ...prevState,
+      medidas: values.medidas
+    }));
   }, []);
+
+
 
   return (
     <>
@@ -127,7 +187,6 @@ const Formulario = (props) => {
               />
             </FormGroup>
           </Col>
-
           <Col>
             <FormGroup
               className={Utileria.claseInputForm(
@@ -135,33 +194,27 @@ const Formulario = (props) => {
                 touched.subcategoriaId
               )}
             >
-              <Label htmlFor="categoriaId">Categoría:</Label>
+              <Label htmlFor="subcategoriaId">Subcategoría:</Label>
               <InputGroup className="input-group-alternative">
                 <Field
                   className="form-control"
                   placeholder="Ingrese..."
-                  id="categoriaId"
-                  name="categoriaId"
+                  id="subcategoriaId"
+                  name="subcategoriaId"
                   type="number"
                   autoComplete="off"
                   required
                   as="select"
                 >
-                  {
-                    subcategorias.map((item) => (
-                      <option
-                        key={item.idSubcategoria}
-                        value={item.idSubcategoria}
-                      >
-                        {item.nombre + " / " + item.categoria.nombre}
-                      </option>
-                    ))
-                    // subcategorias.map((item) => (
-                    //     <option key={item.idSubcategoria} value={item.idSubcategoria}>
-                    //         {item.nombre}
-                    //     </option>
-                    // ))
-                  }
+                  <option value="">Seleccione...</option>
+                  {subcategorias.map((item) => (
+                    <option
+                      key={item.idSubcategoria}
+                      value={item.idSubcategoria}
+                    >
+                      {`${item?.categoria?.nombre} / ${item.nombre}`}
+                    </option>
+                  ))}
                 </Field>
               </InputGroup>
               <ErrorMessage
@@ -186,7 +239,7 @@ const Formulario = (props) => {
               <InputGroup className="input-group-alternative">
                 <Field
                   className="form-control"
-                  placeholder="Ingrese alguna descripción ..."
+                  placeholder="Ingrese alguna descripción"
                   id="descripcion"
                   name="descripcion"
                   type="textarea"
@@ -212,20 +265,20 @@ const Formulario = (props) => {
                 onClick={() => setDisplayColorPicker(!displayColorPicker)}
               />
               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {selectedColores.map((color, index) => (
+                {estadoFormulario.colores.map(({ color }, index) => (
                   <div
                     key={index}
                     style={{
-                        backgroundColor: color,
-                        width: "30px",
-                        height: "30px",
-                        margin: "5px",
-                        border: "1px solid black",
-                        display: "flex", // Usa flexbox
-                        justifyContent: "center", // Centra horizontalmente
-                        alignItems: "center", // Centra verticalmente
-                      }}
-                    
+                      backgroundColor: color,
+                      width: "30px",
+                      height: "30px",
+                      margin: "5px",
+                      border: "1px solid black",
+                      display: "flex", // Usa flexbox
+                      justifyContent: "center", // Centra horizontalmente
+                      alignItems: "center", // Centra verticalmente
+                    }}
+
                   >
                     <a
                       className="text-white"
@@ -241,7 +294,7 @@ const Formulario = (props) => {
                 {displayColorPicker && (
                   <div style={{ position: "absolute", zIndex: "2" }}>
                     <PhotoshopPicker
-                      color={currentColor}
+                      color={currentColor.color}
                       onChange={handleColorChange}
                       onAccept={handleColorAdd}
                       onCancel={() =>
@@ -254,101 +307,108 @@ const Formulario = (props) => {
             </div>
           </Col>
         </Row>
+        <Row className="mt-5">
+          <Col md={4}>
+            <Label htmlFor="tallaId">Talla:</Label>
+            <InputGroup className="input-group-alternative">
+              <Field
+                className="form-control"
+                placeholder="Ingrese..."
+                id="tallaId"
+                name="tallaId"
+                type="number"
+                autoComplete="off"
+                required
+                as="select"
+                value={medida.tallaId}
+                onChange={(e) => { setMedida({ ...medida, tallaId: e.target.value }) }}
+              >
+                <option value="">Seleccione...</option>
+                {tallas.map((item) => (
+                  <option
+                    key={item.idTalla}
+                    value={item.idTalla}
+                  >
+                    {item.nombre}
+                  </option>
+                ))}
+              </Field>
+            </InputGroup>
+          </Col>
+          <Col md={4}>
 
-        <Row>
+            <Label htmlFor="tipoMedidaId">Tipo de medida:</Label>
+            <InputGroup className="input-group-alternative">
+              <Field
+                className="form-control"
+                placeholder="Ingrese..."
+                id="tipoMedidaId"
+                name="tipoMedidaId"
+                type="number"
+                autoComplete="off"
+                required
+                as="select"
+                value={medida.tipoMedidaId}
+                onChange={(e) => { setMedida({ ...medida, tipoMedidaId: e.target.value }) }}
+              >
+                <option value="">Seleccione...</option>
+                {tiposMedida.map((item) => (
+                  <option
+                    key={item.idTipoMedida}
+                    value={item.idTipoMedida}
+                  >
+                    {item.nombre}
+                  </option>
+                ))}
+              </Field>
+            </InputGroup>
+
+          </Col>
           <Col>
-            <FormGroup
-              className={Utileria.claseInputForm(
-                errors.subcategoriaId,
-                touched.subcategoriaId
-              )}
-            >
-              <Label htmlFor="subcategoriaId">Subcategoría:</Label>
-              <InputGroup className="input-group-alternative">
-                <Field
-                  className="form-control"
-                  placeholder="Ingrese..."
-                  id="subcategoriaId"
-                  name="subcategoriaId"
-                  type="number"
-                  autoComplete="off"
-                  required
-                  as="select"
-                >
-                  {subcategorias.map((item) => (
-                    <option
-                      key={item.idSubcategoria}
-                      value={item.idSubcategoria}
-                    >
-                      {item.nombre + " / " + item.categoria.nombre}
-                    </option>
-                  ))}
-                </Field>
-              </InputGroup>
-              <ErrorMessage
-                name="subcategoriaId"
-                component={() => (
-                  <small className="text-danger">{errors.subcategoriaId}</small>
-                )}
+
+            <Label htmlFor="medida">Medida:</Label>
+            <InputGroup className="input-group-alternative">
+              <Field
+                className="form-control"
+                placeholder="Ingrese medida..."
+                id="medida"
+                name="medida"
+                type="text"
+                autoComplete="off"
+                required
+                value={medida.medida}
+                onChange={(e) => { setMedida({ ...medida, medida: e.target.value }) }}
               />
-            </FormGroup>
+            </InputGroup>
+
+          </Col>
+          <Col md="2" className="text-center mt-4">
+            <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }}
+              size="lg" onClick={() => agregarMedida()} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <FormGroup switch>
-              <Input
-                type="switch"
-                checked={state}
-                onClick={() => {
-                  setState(!state);
-                }}
-              />
-              <Label check>Requiere añadir tallas ?</Label>
-            </FormGroup>
-            {state && (
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>Tallas:</Label>
-                    <Table striped bordered>
-                      <thead>
-                        <tr>
-                          <th>Nombre</th>
-                          <th>Unidades</th>
-                          <th>Activo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {listaTallas.map((talla) => (
-                          <tr key={talla.id}>
-                            <td>{talla.nombre}</td>
-                            <td>
-                              <Field
-                                className="form-control"
-                                name={`tallas[${talla.id}].unidades`}
-                                type="number"
-                              />
-                            </td>
-                            <td>
-                              <Input
-                                type="switch"
-                                checked={talla.active}
-                                onClick={() => {
-                                  talla.active = !talla.active;
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </FormGroup>
-                </Col>
-              </Row>
-            )}
+            <DataTable
+              columns={columnas}
+              data={estadoFormulario.medidas}
+              subHeader
+              persistTableHead
+              paginationComponentOptions={{
+                rowsPerPageText: 'Filas por página',
+                rangeSeparatorText: 'de',
+                selectAllRowsItem: true,
+                selectAllRowsItemText: 'Todos'
+              }}
+              pagination
+              dense
+              noDataComponent={sinResultados}
+            />
+
           </Col>
         </Row>
+
+
       </Form>
     </>
   );

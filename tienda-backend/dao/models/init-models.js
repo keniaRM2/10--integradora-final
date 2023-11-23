@@ -83,13 +83,13 @@ function initModels(sequelize) {
   usuario.belongsTo(persona, { as: "persona", foreignKey: "personaId"});
   persona.hasOne(usuario, { as: "usuario", foreignKey: "personaId"});
   color.belongsTo(producto, { as: "producto", foreignKey: "productoId"});
-  producto.hasMany(color, { as: "colors", foreignKey: "productoId"});
+  producto.hasMany(color, { as: "colores", foreignKey: "productoId"});
   imagen.belongsTo(producto, { as: "producto", foreignKey: "productoId"});
   producto.hasMany(imagen, { as: "imagens", foreignKey: "productoId"});
   medida.belongsTo(producto, { as: "producto", foreignKey: "productoId"});
   producto.hasMany(medida, { as: "medidas", foreignKey: "productoId"});
-  stock.belongsTo(producto, { as: "producto", foreignKey: "productoid"});
-  producto.hasMany(stock, { as: "stocks", foreignKey: "productoid"});
+  stock.belongsTo(producto, { as: "producto", foreignKey: "productoId"});
+  producto.hasMany(stock, { as: "stocks", foreignKey: "productoId"});
   usuario.belongsTo(rol, { as: "rol", foreignKey: "rolId"});
   rol.hasMany(usuario, { as: "usuarios", foreignKey: "rolId"});
   categoria.belongsTo(status, { as: "status", foreignKey: "statusId"});
