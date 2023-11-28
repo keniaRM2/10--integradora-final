@@ -111,7 +111,7 @@ export const setBackgroundImage = backgroundImage => ({
 
 export default function reducer(state = {
     backgroundColor: 'bg-integradora sidebar-text-dark',
-    headerBackgroundColor: 'bg-integradora -bliss header-text-light',
+    headerBackgroundColor: 'bg-secundario -bliss header-text-light',
     enableMobileMenuSmall: '',
     enableBackgroundImage: true,
     enableClosedSidebar: false,
@@ -122,7 +122,7 @@ export default function reducer(state = {
     enableFixedSidebar: true,
     colorScheme: 'white',
     // backgroundImage: sideBar6,
-    backgroundImageOpacity: 'opacity-06',
+    // backgroundImageOpacity: 'opacity-06',
     enablePageTitleIcon: true,
     enablePageTitleSubheading: true,
     enablePageTabsAlt: false,

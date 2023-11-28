@@ -7,12 +7,19 @@ import TallaService from "../../services/TallaService";
 import TipoMedidaService from "../../services/TipoMedidaService";
 import { PhotoshopPicker } from "react-color";
 import DataTable from 'react-data-table-component';
+import CategoriaService from "../../services/CategoriaService";
+import Slider from 'react-slick';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
   const [subcategorias, setSubcategorias] = useState([]);
   const [tallas, setTallas] = useState([]);
   const [tiposMedida, setTiposMedida] = useState([]);
   const [medida, setMedida] = useState({ medida: "", tipoMedidaId: "", tallaId: "" });
+  const [categorias, setCategorias] = useState([]);
+  const [file, setFile] = useState([]);
 
   const [estadoFormulario, setEstadoFormulario] = useState({
     colores: [],
@@ -21,6 +28,19 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [currentColor, setCurrentColor] = useState({ color: "#ffffff" });
+
+
+  const listarCategorias = () => {
+    CategoriaService.listar().then(({ data }) => {
+      setCategorias(data);
+    }).catch((e) => {
+      Utileria.errorhttp(e);
+    });
+  };
+
+  useEffect(() => {
+    listarCategorias();
+  }, []);
 
   const columnas = [
     {
@@ -49,10 +69,9 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
       center: true,
       cell: (row, index) => (
         <Button onClick={() => eliminarMedida(row, index)} outline className="my-2 border-0 btn-transition" color="danger">
-        <i className="pe-7s-trash" style={{ fontSize: 19 }} />
-      </Button>
+          <i className="pe-7s-trash" style={{ fontSize: 19 }} />
+        </Button>
       ),
-      width: "10%"
     }
   ];
 
@@ -65,7 +84,7 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
 
   const eliminarMedida = (row, index) => {
     const updatedMedidas = [...estadoFormulario.medidas];
-    updatedMedidas.splice(index, 1);    
+    updatedMedidas.splice(index, 1);
     setEstadoFormulario({ ...estadoFormulario, medidas: updatedMedidas });
     setValues({ ...values, medidas: updatedMedidas });
   };
@@ -139,6 +158,39 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
 
 
 
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [error, setError] = useState(null);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    const maxAllowedFiles = 3;
+
+    if (files.length > maxAllowedFiles) {
+      setError(`Selecciona como máximo ${maxAllowedFiles} archivos.`);
+      return;
+    }
+
+    const imageFiles = Array.from(files).filter((file) =>
+      file.type.startsWith('image/')
+    );
+
+    if (imageFiles.length > 0) {
+      const imagesArray = imageFiles.map((file) => URL.createObjectURL(file));
+      setSelectedImages(imagesArray);
+      setError(null);
+    } else {
+      setSelectedImages([]);
+      setError('Solo se permiten archivos de imagen (JPEG, PNG, etc.)');
+    }
+
+  };
 
 
   useEffect(() => {
@@ -183,6 +235,44 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
                 name="nombre"
                 component={() => (
                   <small className="text-danger">{errors.nombre}</small>
+                )}
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup
+              className={Utileria.claseInputForm(
+                errors.categoriaId,
+                touched.categoriaId
+              )}
+            >
+              <Label htmlFor="categoriaId">Categoría:</Label>
+              <InputGroup className="input-group-alternative">
+                <Field
+                  className="form-control"
+                  placeholder="Ingrese..."
+                  id="categoriaId"
+                  name="categoriaId"
+                  type="number"
+                  autoComplete="off"
+                  required
+                  as="select"
+                >
+                  <option value="">Seleccione...</option>
+                  {categorias.map((item) => (
+                    <option
+                      key={item.idCategoria}
+                      value={item.idCategoria}
+                    >
+                      {item.nombre}
+                    </option>
+                  ))}
+                </Field>
+              </InputGroup>
+              <ErrorMessage
+                name="categoriaId"
+                component={() => (
+                  <small className="text-danger">{errors.categoriaId}</small>
                 )}
               />
             </FormGroup>
@@ -407,7 +497,41 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
 
           </Col>
         </Row>
+        <Row className="mt-5 mb-3">
+          <Col md="6">
 
+
+            <label for="files" class="btn">Escoge una imagen: </label>
+            <br />
+            <input
+            style={{ marginLeft: 10 }}
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleImageChange}
+
+
+            />
+          </Col>
+          <Col md="6">
+
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {selectedImages.length > 0 && (
+              <div style={{ maxWidth: '400px', width: '100%', margin: 'auto' }}>
+                <Slider {...settings}>
+                  {selectedImages.map((image, index) => (
+                    <img
+                      src={image}
+                      alt={`Preview ${index}`}
+                      style={{ height: 50, objectFit: 'cover' }}
+                    />
+
+                  ))}
+                </Slider>
+              </div>
+            )}
+          </Col>
+        </Row>
 
       </Form>
     </>

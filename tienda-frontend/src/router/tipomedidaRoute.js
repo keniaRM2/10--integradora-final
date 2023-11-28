@@ -18,19 +18,19 @@ const columnas = [
     name: 'NO.',
     center: true,
     selector: row => row.indice,
-    width: "10%"
+
   },
   {
     name: 'NOMBRE',
     center: true,
     selector: row => row.nombre,
-    width: "80%"
+
   },
   {
     name: 'ACCIONES',
     center: true,
     selector: row => row.acciones,
-    width: "10%"
+
   }
 ];
 

@@ -3022,7 +3022,6 @@ textarea.form-control-lg {
   color: #000;
   background-color: #3ac47d;
   border-color: #3ac47d;
-  cursor: not-allowed !important;
 }
 
 .btn-info {
@@ -7581,7 +7580,11 @@ textarea.form-control-lg {
 }
 
 .bg-integradora {
-  /* background-color: #F6D9BC !important; */
+  background-color: #ffcc99 !important;
+}
+
+.bg-secundario {
+  background:  linear-gradient(to left, #D5C8FF, #ffcc99) !important;
 }
 
 .bg-dark {
@@ -11045,7 +11048,7 @@ button,
 }
 
 .app-header {
-  height: 60px;
+  height: 70px;
   display: flex;
   align-items: center;
   align-content: center;
@@ -11054,7 +11057,7 @@ button,
   transition: all 0.2s;
 }
 .app-header.header-shadow {
-  box-shadow: 0 0.46875rem 2.1875rem rgba(8, 10, 37, 0.03), 0 0.9375rem 1.40625rem rgba(8, 10, 37, 0.03), 0 0.25rem 0.53125rem rgba(8, 10, 37, 0.05), 0 0.125rem 0.1875rem rgba(8, 10, 37, 0.03);
+ 
 }
 .app-header .app-header__content {
   display: flex;
@@ -11595,20 +11598,20 @@ button,
   border-right: 0 !important;
 }
 .app-sidebar.sidebar-text-dark .app-sidebar__heading {
-  color: rgba(0, 0, 0, 0.6);
+  color: white;
 }
 .app-sidebar.sidebar-text-dark .app-sidebar__heading::before {
   background: rgba(0, 0, 0, 0.5) !important;
 }
 .app-sidebar.sidebar-text-dark .metismenu .metismenu-container .metismenu-link {
-  color: rgba(0, 0, 0, 0.7);
+  color: black;
 }
 .app-sidebar.sidebar-text-dark .metismenu .metismenu-container .metismenu-link:hover {
   color: black;
-  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(90deg, rgba(255,255,255,1) 2%, rgba(255,204,153,1) 100%);
 }
 .app-sidebar.sidebar-text-dark .metismenu .metismenu-container .metismenu-link.active {
-  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(90deg, rgba(255,255,255,1) 2%, rgba(255,204,153,1) 100%);
 }
 .app-sidebar.sidebar-text-dark .metismenu .metismenu-container.metismenu-container.visible .metismenu-item > .metismenu-link {
   color: rgba(0, 0, 0, 0.6);
@@ -11863,10 +11866,7 @@ button,
 }
 .app-theme-white .app-footer .app-footer__inner,
 .app-theme-white .app-header {
-  background: linear-gradient(90deg,#FBB660,#D5C8FF);
-  font-weight: bolder;
-  color: #fff!important;
-  /* background: #fafbfc; */
+  background: #fafbfc;
 }
 .app-theme-white.fixed-header .app-header__logo {
   background: rgba(250, 251, 252, 0.1);
@@ -22390,10 +22390,6 @@ button.rbc-input::-moz-focus-inner {
   background-color: #f88ca270;
 }
 
-.dKzMcW {
-  height: 32px !important;
-}
-
 @font-face {
   font-family: "Linearicons-Free";
   src: url("components/icons/linearicons/Linearicons-Free.eot?w118d");
@@ -28435,7 +28431,7 @@ body .card.mb-3 {
   -webkit-box-align: stretch;
   align-items: stretch;
   width: 100%;
-  background-color: #D5C8FF !important;
+  background-color: #F88CA2 !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   min-height: 32px;
   color: white !important;
@@ -28446,7 +28442,7 @@ body .card.mb-3 {
 }
 
 .bg-login {
-  background-image: url("../assets/utils/images/logo_background.png");
+  background-image: url("../assets/utils/images/fondo.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

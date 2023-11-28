@@ -89,6 +89,7 @@ const Crud = (props) => {
   };
 
   const registrar = (valores) => {
+    console.log('valores', valores);
     if (!enviando) {
       setEnviando(true);
 
