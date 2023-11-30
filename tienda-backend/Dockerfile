@@ -10,6 +10,7 @@ COPY . ./
 
 # Instala las dependencias y realiza la compilación
 RUN npm install
+RUN npm run build
 
 # Utiliza la misma imagen de Node.js para la etapa de ejecución
 FROM node:18.18.0
