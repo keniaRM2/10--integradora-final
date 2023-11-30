@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copia el archivo package.json y el código fuente
 COPY package.json .
-COPY src ./src
+COPY src ./
 
 # Instala las dependencias y realiza la compilación
 RUN npm install
