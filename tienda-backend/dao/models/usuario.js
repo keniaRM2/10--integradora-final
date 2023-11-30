@@ -18,8 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     fechaRegistro: {
       type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue:new Date()
+      allowNull: false
     },
     rolId: {
       type: DataTypes.INTEGER,

@@ -11,20 +11,21 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false
     },
-    productoId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'producto',
-        key: 'idProducto'
-      }
-    },
     carritoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'carrito',
         key: 'idCarrito'
+      },
+      unique: "fkCarritoCopy1Carrito1"
+    },
+    stockId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'stock',
+        key: 'idStock'
       }
     }
   }, {
@@ -46,14 +47,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "carritoId" },
-          { name: "productoId" },
-        ]
-      },
-      {
-        name: "fkCarritoCopy1Producto1Idx",
-        using: "BTREE",
-        fields: [
-          { name: "productoId" },
         ]
       },
       {
@@ -61,6 +54,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "carritoId" },
+        ]
+      },
+      {
+        name: "fk_carrito_producto_stock1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "stockId" },
         ]
       },
     ]

@@ -11,8 +11,8 @@ require('dotenv').config();
 const app = express();
 
 app.use(bodyParser.json());
-// app.use(validarToken);
 app.use(cors());
+app.use(validarToken);
 
 
 iniciales();

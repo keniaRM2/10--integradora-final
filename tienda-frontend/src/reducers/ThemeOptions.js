@@ -110,8 +110,8 @@ export const setBackgroundImage = backgroundImage => ({
 });
 
 export default function reducer(state = {
-    backgroundColor: 'bg-royal sidebar-text-dark',
-    headerBackgroundColor: 'bg-strong-bliss header-text-light',
+    backgroundColor: 'bg-integradora sidebar-text-dark',
+    headerBackgroundColor: 'bg-secundario -bliss header-text-light',
     enableMobileMenuSmall: '',
     enableBackgroundImage: true,
     enableClosedSidebar: false,
@@ -121,8 +121,8 @@ export default function reducer(state = {
     enableFixedFooter: true,
     enableFixedSidebar: true,
     colorScheme: 'white',
-    backgroundImage: sideBar6,
-    backgroundImageOpacity: 'opacity-06',
+    // backgroundImage: sideBar6,
+    // backgroundImageOpacity: 'opacity-06',
     enablePageTitleIcon: true,
     enablePageTitleSubheading: true,
     enablePageTabsAlt: false,

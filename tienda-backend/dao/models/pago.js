@@ -23,6 +23,11 @@ module.exports = function(sequelize, DataTypes) {
         key: 'idPersona'
       }
     },
+    clave: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      unique: "clave"
+    },
     compraId: {
       type: DataTypes.INTEGER,
       allowNull: false,

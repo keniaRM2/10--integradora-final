@@ -13,7 +13,8 @@ module.exports = {
                 include: [{
                     model: subcategoria,
                     as: 'subcategoria'
-                }]
+                }],
+                order: [['idCategoria', 'DESC']]
             });
         } catch (error) {
             throw error;

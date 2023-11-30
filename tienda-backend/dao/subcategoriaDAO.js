@@ -9,6 +9,7 @@ module.exports = {
     listar: async () => {
         try {
             return await subcategoria.findAll({
+                order: [['idSubcategoria', 'DESC']],
                 include: [{
                     model: categoria,
                     as: 'categoria'

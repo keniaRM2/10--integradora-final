@@ -1,7 +1,9 @@
 const {
   usuario,
   status,
-  persona
+  persona,
+  direccion,
+  contacto
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
@@ -9,7 +11,11 @@ const constantes = require("../utils/constantes");
 module.exports = {
   listarUsuario: async () => {
     try {
-      return await usuario.findAll();
+      return await usuario.findAll({
+        order: [
+          ['idUsuario', 'DESC']
+        ]
+      });
     } catch (error) {
       throw error;
     }
@@ -39,12 +45,57 @@ module.exports = {
         usuario: nombreUsuario,
         contrasena: utileria.encriptarContrasena(parametros.contrasena),
         rolId: parametros.rolId,
-        statusId: statusActivo.idStatus
+        statusId: statusActivo.idStatus,
+        fechaRegistro: new Date()
       };
+
+      if (parametros.persona) {
+        let nuevaPersona = {
+          nombre: parametros.persona.nombre,
+          primerApellido: parametros.persona.primerApellido,
+          segundoApellido: parametros.persona.segundoApellido || '',
+          fechaNacimiento: parametros.persona.fechaNacimiento,
+          generoId: parametros.persona.generoId,
+        }
+
+        let {
+          idPersona
+        } = await persona.create(nuevaPersona);
+        nuevoUsuario["personaId"] = idPersona;
+
+        if (parametros.persona.direccion) {
+          let nuevaDireccion = {
+            numeroInterior: parametros.persona.direccion.numeroInterior,
+            numeroExterior: parametros.persona.direccion.numeroExterior,
+            calle: parametros.persona.direccion.calle,
+            colonia: parametros.persona.direccion.colonia,
+            municipio: parametros.persona.direccion.municipio,
+            entidadFederativa: parametros.persona.direccion.entidadFederativa,
+            personaId: idPersona
+          };
+          await direccion.create(nuevaDireccion);
+        }
+        if (parametros.persona.contacto) {
+          let nuevoContacto = {
+            correoElectronico: parametros.persona.contacto.correoElectronico || '',
+            telefonoPrincipal: parametros.persona.contacto.telefonoPrincipal || '',
+            telefonoSecundario: parametros.persona.contacto.telefonoSecundario || '',
+            personaId: idPersona
+          };
+          await contacto.create(nuevoContacto);
+        }
+      }
+
+
 
       const {
         idUsuario
       } = await usuario.create(nuevoUsuario);
+
+
+
+
+
 
       return {
         idUsuario: idUsuario
@@ -89,10 +140,11 @@ module.exports = {
       }
 
       const token = await utileria.generarJWT(usuarioLogin);
-
       return {
         idUsuario: usuarioLogin.idUsuario,
-        token: token, ... usuarioLogin.persona.dataValues
+        idPersona: usuarioLogin.personaId,
+        token: token,
+        ...usuarioLogin.persona
       }
     } catch (error) {
       throw error;
@@ -102,7 +154,7 @@ module.exports = {
     try {
 
       const usuarioObj = await usuario.findOne({
-        where:{
+        where: {
           idUsuario: parametros.idUsuario
         }
       });

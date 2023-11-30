@@ -54,10 +54,10 @@ const Crud = (props) => {
           Utileria.notifications("Eliminado correctamente.", "success")
         }).catch((e) => {
           Utileria.errorhttp(e);
-        }).finally(()=>{
+        }).finally(() => {
           setEnviando(false);
         })
-      }else{
+      } else {
         setEnviando(false);
       }
 
@@ -68,27 +68,28 @@ const Crud = (props) => {
   const listar = () => {
     servicio.listar().then(({ data }) => {
 
-      let datos = data.map((item) => {
+      let datos = data.map((item, i) => {
+        item["indice"] = (<div>{i + 1}</div>)
         item["acciones"] = (<div>
 
-          <Button onClick={() => eliminar(item)} outline className="mb-2 me-2 border-0 btn-transition" color="danger">
-            <i className="pe-7s-trash" />
+          <Button onClick={() => eliminar(item)} outline className="my-2 border-0 btn-transition" color="danger">
+            <i className="pe-7s-trash" style={{ fontSize: 19 }} />
           </Button>
-          <Button onClick={() => obtener(item)} outline className="mb-2 me-2 border-0 btn-transition" color="info">
-            <i className="pe-7s-pen" />
+          <Button onClick={() => obtener(item)} outline className="my-2 me-2 border-0 btn-transition" color="warning">
+            <i className="pe-7s-pen" style={{ fontSize: 19 }} />
           </Button>
         </div>);
         return item;
       })
       setRegistros(datos);
 
-    }).catch((error) => {
+    }).catch((e) => {
       Utileria.errorhttp(e);
     });
   };
 
   const registrar = (valores) => {
-
+    console.log('valores', valores);
     if (!enviando) {
       setEnviando(true);
 
@@ -137,19 +138,20 @@ const Crud = (props) => {
     }
   };
 
-  
 
-  const formularioFormik = ({ errors, touched, isValid, values }) => {
+
+  const formularioFormik = (props) => {
+    const { errors, touched, isValid, values, setValues, setFieldValue } = props;
     let cancelar = () => {
       setValoresFormulario(inicial)
       setVista(LISTADO);
     };
-  
+
     return (
       <div>
-  
-      <Formulario errors={errors} touched={touched} isValid={isValid} />
-  
+
+        <Formulario errors={errors} touched={touched} values={values} isValid={isValid} setValues={setValues} setFieldValue={setFieldValue} />
+
         <div className="text-center">
           <Button className="mt-4 hand m-3"
             color="warning" type="button"
@@ -160,7 +162,8 @@ const Crud = (props) => {
           <Button className="mt-4 hand m-3"
             color="success" type="submit"
             onClick={() => { guardar(values) }}
-            disabled={!(isValid && Utileria.nonEmptyObject(touched)) || enviando}>
+            disabled={!(isValid) || enviando}>
+            {/* disabled={!(isValid && Utileria.nonEmptyObject(touched)) || enviando}> */}
             {enviando ? 'Guardando...' : 'Guardar'} <i className="pe-7s-diskette" />
           </Button>
         </div>
@@ -172,9 +175,21 @@ const Crud = (props) => {
     if (vista === LISTADO) {
       return (
         <Card className="main-card mb-3">
-          <CardTitle className="text-center mt-2">
-              <i className="pe-7s-plus btn-outline-2x hand" color="dark" style={{ fontSize: '2.5em' }}  size="lg" onClick={() => setVista(REGISTRO)}/>
-          </CardTitle>
+          <div style={{ marginLeft: 40, marginTop: 40 }} className='row'>
+            <Col md="10">
+              <PageTitle
+                className="col-10"
+                heading={cabecera.titulo}
+                subheading={cabecera.descripcion}
+                icon={cabecera.icono || "pe-7s-tools"}
+              />
+            </Col>
+            <Col md="2">
+              <CardTitle className="text-center mt-2">
+                <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }} size="lg" onClick={() => setVista(REGISTRO)} />
+              </CardTitle>
+            </Col>
+          </div>
           <CardBody>
             <Tabla columnas={columnas} registros={registros} />
           </CardBody>
@@ -187,6 +202,18 @@ const Crud = (props) => {
     if (vista === REGISTRO || vista === MODIFICACION) {
       return (
         <Card className="main-card mb-3">
+          <div style={{ marginLeft: 40, marginTop: 40 }} className='row'>
+            <Col md="12">
+              <PageTitle
+                className="col-10"
+                heading={cabecera.titulo}
+                subheading={cabecera.descripcion}
+                icon={cabecera.icono || "pe-7s-tools"}
+              />
+              <hr/>
+            </Col>
+            
+          </div>
           <CardBody className='mt-1'>
 
             <div className="ml-8 mr-8">
@@ -217,11 +244,6 @@ const Crud = (props) => {
               <TransitionGroup>
                 <CSSTransition component="div" appear={true} timeout={0} enter={false} exit={false}>
                   <div>
-                    <PageTitle
-                      heading={cabecera.titulo}
-                      subheading={cabecera.descripcion}
-                      icon={cabecera.icono || "pe-7s-tools"}
-                    />
                     <div>
                       <Row>
                         <Col lg="12">

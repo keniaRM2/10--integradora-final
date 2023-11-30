@@ -50,7 +50,6 @@ const columnas = [{
         name: 'ACCIONES',
         center: true,
         selector: row => row.acciones,
-        width: "10%"
     }
 ];
 

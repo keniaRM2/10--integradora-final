@@ -16,6 +16,18 @@ export default class ServiceConstant {
     static PRODUCTO_ACTUALIZAR =  `${ENDPOINT}producto/actualizar`;
     static PRODUCTO_ELIMINAR =  `${ENDPOINT}producto/eliminar`;
 
+    static STOCK_LISTAR =  `${ENDPOINT}stock`;
+    static STOCK_REGISTRAR =  `${ENDPOINT}stock/registrar`;
+    static STOCK_OBTENER =  `${ENDPOINT}stock/obtener`;
+    static STOCK_ACTUALIZAR =  `${ENDPOINT}stock/actualizar`;
+    static STOCK_ELIMINAR =  `${ENDPOINT}stock/eliminar`;
+
+    static PAGO_LISTAR =  `${ENDPOINT}pago`;
+    static PAGO_REGISTRAR =  `${ENDPOINT}pago/registrar`;
+    static PAGO_OBTENER =  `${ENDPOINT}pago/obtener`;
+    static PAGO_ACTUALIZAR =  `${ENDPOINT}pago/actualizar`;
+    static PAGO_ELIMINAR =  `${ENDPOINT}pago/eliminar`;
+
     static SUBCATEGORIA_LISTAR =  `${ENDPOINT}subcategoria`;
     static SUBCATEGORIA_REGISTRAR =  `${ENDPOINT}subcategoria/registrar`;
     static SUBCATEGORIA_OBTENER =  `${ENDPOINT}subcategoria/obtener`;
@@ -27,5 +39,17 @@ export default class ServiceConstant {
     static USUARIO_OBTENER =  `${ENDPOINT}usuario/obtener`;
     static USUARIO_ACTUALIZAR =  `${ENDPOINT}usuario/actualizar`;
     static USUARIO_ELIMINAR =  `${ENDPOINT}usuario/eliminar`;
+
+    static TALLA_LISTAR = `${ENDPOINT}talla`;
+    static TALLA_REGISTRAR = `${ENDPOINT}talla/registrar`;
+    static TALLA_OBTENER = `${ENDPOINT}talla/obtener`;
+    static TALLA_ACTUALIZAR = `${ENDPOINT}talla/actualizar`;
+    static TALLA_ELIMINAR = `${ENDPOINT}talla/eliminar`;
+
+    static TIPO_MEDIDA_LISTAR = `${ENDPOINT}tipoMedida`;
+    static TIPO_MEDIDA_REGISTRAR = `${ENDPOINT}tipoMedida/registrar`;
+    static TIPO_MEDIDA_OBTENER = `${ENDPOINT}tipoMedida/obtener`;
+    static TIPO_MEDIDA_ACTUALIZAR = `${ENDPOINT}tipoMedida/actualizar`;
+    static TIPO_MEDIDA_ELIMINAR = `${ENDPOINT}tipoMedida/eliminar`;
 
 }

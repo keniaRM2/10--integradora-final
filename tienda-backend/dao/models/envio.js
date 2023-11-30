@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false
     },
+    fechaEntrega: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     compraId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -25,6 +29,14 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'persona',
         key: 'idPersona'
+      }
+    },
+    statusId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'status',
+        key: 'idStatus'
       }
     }
   }, {
@@ -52,6 +64,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "personaResponsableId" },
+        ]
+      },
+      {
+        name: "fk_envio_status1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "statusId" },
         ]
       },
     ]

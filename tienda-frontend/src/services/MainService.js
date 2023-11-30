@@ -19,7 +19,7 @@ export default class MainService {
     static GET_SECURED(path) {
         return axios.get(path, {
             headers: {
-                Authorization:  localStorage.getItem('tkn'),
+                'authorization':  localStorage.getItem('tkn'),
             },
         });
     }

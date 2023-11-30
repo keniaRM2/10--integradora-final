@@ -4,6 +4,10 @@ const authRouter = require('./authRouter');
 const categoriaRouter = require('./categoriaRouter');
 const productoRouter = require('./productoRouter');
 const subCategoriaRouter = require('./subCategoriaRouter');
+const stockRouter = require('./stockRouter');
+const tallaRouter = require('./tallaRouter');
+const tipoMedidaRouter = require('./tipoMedidaRouter');
+const pagoRouter = require('./pagoRouter');
 
 module.exports = [
     rolRouter, 
@@ -11,5 +15,9 @@ module.exports = [
     authRouter,
     categoriaRouter,
     productoRouter,
-    subCategoriaRouter
+    subCategoriaRouter,
+    stockRouter,
+    tallaRouter,
+    tipoMedidaRouter,
+    pagoRouter
 ];

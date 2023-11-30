@@ -30,13 +30,15 @@ const validarContrasena = (contrasena, contrasenaOriginal) => {
 
 const generarJWT = ({
     usuario,
-    idUsuario
+    idUsuario,
+    personaId
 }) => {
 
     return new Promise((resolve, reject) => {
         jwt.sign({
             usuario,
-            idUsuario
+            idUsuario,
+            idPersona: personaId
         }, process.env.CLAVE_TOKEN, {
             expiresIn: '24h'
         }, (err, token) => {
