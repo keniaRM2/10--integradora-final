@@ -14,12 +14,11 @@ RUN npm run build
 
 # Utiliza la misma imagen de Node.js para la etapa de ejecución
 FROM node:18.18.0
+# Establece el directorio de trabajo en /app
+WORKDIR /app
 
 # Copia los archivos generados desde el contenedor de compilación
 COPY --from=builder /app/dist /app
-
-# Establece el directorio de trabajo en /app
-WORKDIR /app
 
 # Expone el puerto en el que se ejecuta tu aplicación (ajusta el puerto según tu aplicación)
 EXPOSE 3000
