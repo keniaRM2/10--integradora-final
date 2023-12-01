@@ -18,7 +18,7 @@ FROM node:18.18.0
 WORKDIR /app
 
 # Copia los archivos generados desde el contenedor de compilación
-COPY --from=builder /app/dist /app
+COPY --from=builder /app/dist ./
 
 # Expone el puerto en el que se ejecuta tu aplicación (ajusta el puerto según tu aplicación)
 EXPOSE 3000
