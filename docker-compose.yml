@@ -18,5 +18,14 @@ services:
     restart: always
     depends_on:
       - mysql8
+  front:
+    build:
+      context: ./tienda-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "81:80"
+    restart: always
+    depends_on:
+      - api
   
        
