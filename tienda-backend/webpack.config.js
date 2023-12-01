@@ -2,8 +2,6 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  // Otras configuraciones de webpack existentes
-
   resolve: {
     fallback: {
       util: require.resolve('util/'),
@@ -21,12 +19,14 @@ module.exports = {
       http: require.resolve('stream-http'),
       os: require.resolve('os-browserify'),
       https: require.resolve('https-browserify'),
+      express : require.resolve('express'),
+      express_validator : require.resolve('express-validator'),
     },
   },
 
   entry: './app.js',
   output: {
-    filename: 'bundle.js',
+    filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
   },
   target: 'node', // Indica que la compilación es para el entorno de Node.js
