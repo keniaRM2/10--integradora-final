@@ -6,8 +6,8 @@ const {
 
 
 const configuracion = {
-  host:  process.env.BASE_DATOS_HOST,
-  dialect:  process.env.BASE_DATOS_DIALECTO,
+  host:  process.env.NODE_ENV === "production" ? process.env.BASE_DATOS_HOST_PROD : process.env.BASE_DATOS_HOST_DEV,
+  dialect:  process.env.NODE_ENV === "production" ? process.env.BASE_DATOS_DIALECTO_PROD : process.env.BASE_DATOS_DIALECTO_DEV,
   directory: '../models',
   additional: {
     timestamps: false, 
@@ -18,9 +18,9 @@ const configuracion = {
 }
 
 const sequelize = new Sequelize(
-  process.env.BASE_DATOS_NOMBRE,
-  process.env.BASE_DATOS_USUARIO,
-  process.env.BASE_DATOS_CONTRASENA,
+  process.env.NODE_ENV === "production" ? process.env.BASE_DATOS_NOMBRE_PROD : process.env.BASE_DATOS_NOMBRE_DEV,
+  process.env.NODE_ENV === "production" ? process.env.BASE_DATOS_USUARIO_PROD : process.env.BASE_DATOS_USUARIO_DEV,
+  process.env.NODE_ENV === "production" ? process.env.BASE_DATOS_CONTRASENA_PROD : process.env.BASE_DATOS_CONTRASENA_DEV,
   configuracion
 );
 

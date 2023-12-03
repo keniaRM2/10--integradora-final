@@ -23,7 +23,8 @@ for (let i = 0; i < rutas.length; i++) {
 }
 
 
-const port = process.env.PORT || 3000;
+let port =  process.env.NODE_ENV === "production" ? process.env.PORT_PROD : process.env.PORT_DEV;
+port = port || 3000;
 
 app.listen(port, () => {
 
