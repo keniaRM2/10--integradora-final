@@ -69,11 +69,11 @@ const Login = () => {
                 <Button
                   className="mb-2 mt-4"
                   style={{
-                    background: 'linear-gradient(to right, #ffcc99, #D5C8FF)',
+                    background: '#ffcc99',
                     color: 'white',
                     border: 'none',
                     borderRadius: '5px',
-                    fontSize: '1.2rem', // Tamaño del texto aumentado
+                    fontSize: '1.2rem',
                   }}
                   block
                 >
