@@ -30,13 +30,15 @@ const validarContrasena = (contrasena, contrasenaOriginal) => {
 
 const generarJWT = ({
     usuario,
-    idUsuario
+    idUsuario,
+    personaId
 }) => {
 
     return new Promise((resolve, reject) => {
         jwt.sign({
             usuario,
-            idUsuario
+            idUsuario,
+            idPersona: personaId
         }, process.env.CLAVE_TOKEN, {
             expiresIn: '24h'
         }, (err, token) => {
@@ -85,6 +87,22 @@ const validarCampos = (req, res = response, next) => {
     next();
 };
 
+
+const nonEmpty = (data, valueDafault) => {
+    if (valueDafault != null && valueDafault != undefined && valueDafault != "") {
+        if (data != null && data != undefined && data != "") {
+            return data;
+        } else {
+            return valueDafault;
+        }
+    }
+    return data != null && data != undefined && data != "";
+};
+
+const isEmpty = (data) => {
+    return !nonEmpty(data);
+};
+
 module.exports = {
     responseOk,
     reponseError,
@@ -92,5 +110,7 @@ module.exports = {
     validarContrasena,
     generarJWT,
     validarCampos,
-    arrayVacio
+    arrayVacio,
+    isEmpty,
+    nonEmpty
 };

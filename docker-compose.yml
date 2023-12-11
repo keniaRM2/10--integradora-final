@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  mysql8:
+      image: mysql:8.0
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: shop
+      volumes:
+        - ./mysql:/varlib/mysql
+        - ./init_db/:/docker-entrypoint-initdb.d
+  api:
+    build:
+      context: ./tienda-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - mysql8
+  front:
+    build:
+      context: ./tienda-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "81:80"
+    restart: always
+    depends_on:
+      - api
+  
+       

@@ -1,10 +1,12 @@
 const {
     status,
     categoria,
-    subcategoria
+    subcategoria,
+    imagen
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
+const conexion = require('./config/conexionBD');
 
 module.exports = {
     listar: async () => {
@@ -12,15 +14,21 @@ module.exports = {
             return await categoria.findAll({
                 include: [{
                     model: subcategoria,
-                    as: 'subcategoria' 
-                }]
+                    as: 'subcategoria'
+                }],
+                order: [['idCategoria', 'DESC']]
             });
         } catch (error) {
             throw error;
         }
     },
     registrar: async (parametros) => {
+        let transaction;
+
         try {
+
+            // Iniciando la transacción
+            transaction = await conexion.transaction();
 
             const statusActivo = await status.findOne({
                 where: {
@@ -50,16 +58,52 @@ module.exports = {
                 idCategoria
             } = await categoria.create(nuevo);
 
+
+            if (!utileria.arrayVacio(parametros.imagenes)) {
+                const imagenesNuevas = parametros.imagenes.map((imagen) => {
+
+                    const base64String = imagen;
+
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    let formato = 'jpeg';
+                    if (matches && matches.length > 1) {
+                        formato = matches[1];
+                    }
+
+                    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+                    const bufferData = Buffer.from(base64Data, 'base64');
+
+                    return {
+                        formato: formato,
+                        imagen: bufferData,
+                        categoriaId: idCategoria
+                    }
+                });
+
+                await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
+                console.log('Imagenes creadas exitosamente.');
+            }
+
+             // Commit si todo se realizó correctamente
+             await transaction.commit();
+
             return {
                 idCategoria: idCategoria
             };
         } catch (error) {
+             // Rollback en caso de error
+             if (transaction) {
+                console.log("rollback");
+                await transaction.rollback();
+            }
             throw error;
         }
     },
     actualizar: async (parametros) => {
+        let transaction;
         try {
-
+            // Iniciando la transacción
+            transaction = await conexion.transaction();
 
             const {
                 idCategoria,
@@ -77,17 +121,57 @@ module.exports = {
                 throw new Error(`Nombre de la categoría ${nombre}, no disponible.`);
             }
 
-            let actualizado = await categoria.findOne({
+            let actualizado = {
+                nombre: nombre,
+                descripcion: descripcion
+            };
+
+            let respuesta = await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
+
+
+            await imagen.destroy({
                 where: {
-                    idCategoria: idCategoria
+                    categoriaId: idCategoria
                 }
             });
 
-            actualizado.nombre = nombre;
-            actualizado.descripcion = descripcion;
+            if (!utileria.arrayVacio(parametros.imagenes)) {
+                const imagenesNuevas = parametros.imagenes.map((imagen) => {
 
-            return await categoria.update(actualizado);
+                    const base64String = imagen;
+
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    let formato = 'jpeg';
+                    if (matches && matches.length > 1) {
+                        formato = matches[1];
+                    }
+
+                    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+                    const bufferData = Buffer.from(base64Data, 'base64');
+
+                    return {
+                        formato: formato,
+                        imagen: bufferData,
+                        categoriaId: idCategoria
+                    }
+                });
+
+                await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
+                console.log('Imagenes creadas exitosamente.');
+            }
+
+
+
+            // Commit si todo se realizó correctamente
+            await transaction.commit();
+
+            return respuesta;
         } catch (error) {
+             // Rollback en caso de error
+             if (transaction) {
+                console.log("rollback");
+                await transaction.rollback();
+            }
             throw error;
         }
     },
@@ -122,10 +206,8 @@ module.exports = {
             } else if (actualizado.statusId === statusInactivo.idStatus) {
                 actualizado.statusId = statusActivo.idStatus;
             }
-    
-            await actualizado.save(); // Guarda los cambios en la base de datos
-    
-            return actualizado; // Devuelve la categoría actualizada
+            return await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
+
         } catch (error) {
             throw error;
         }
@@ -148,11 +230,44 @@ module.exports = {
             }
 
 
-            return await categoria.delete({
+            return await categoria.destroy({
+                where: {
+                    idCategoria: idCategoria
+                }
+            });
+
+        } catch (error) {
+            throw error;
+        }
+    },
+    obtener: async (parametros) => {
+        try {
+
+            const {
+                idCategoria
+            } = parametros;
+
+            let respuesta =  await categoria.findOne({
+                where: {
+                    idCategoria: idCategoria
+                }
+            });
+            respuesta = respuesta.toJSON();
+
+
+            let imagenes = await imagen.findAll({
                 where: {
                     categoriaId: idCategoria
                 }
             });
+
+            let imagenesBase64 = imagenes.map(imagen => {
+                return `data:image/${imagen.formato};base64,${imagen.imagen.toString('base64')}`;
+            });
+
+            respuesta.imagenes = imagenesBase64 || [];
+            
+            return respuesta;
 
         } catch (error) {
             throw error;

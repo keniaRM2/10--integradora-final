@@ -1,5 +1,5 @@
-import React, {Fragment} from 'react';
-import {connect} from 'react-redux';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 
 import { Slider } from "react-burgers";
 
@@ -23,7 +23,7 @@ class HeaderLogo extends React.Component {
     }
 
     toggleEnableClosedSidebar = () => {
-        let {enableClosedSidebar, setEnableClosedSidebar} = this.props;
+        let { enableClosedSidebar, setEnableClosedSidebar } = this.props;
         setEnableClosedSidebar(!enableClosedSidebar);
     }
 
@@ -47,18 +47,24 @@ class HeaderLogo extends React.Component {
         return (
             <Fragment>
                 <div className="app-header__logo">
-                    <div className="logo-src"/>
+                    <div>
+                        <img src={require('../../assets/utils/images/logo_background.png')} alt=" " width={140} height={105} style={{ marginTop : 5 }}/>
+                    </div>
+                    {/* <div className="logo-src"/> */}
+               { /* <h2 className="text-center"><img src={require('../../assets/images/logo.png')} alt=" " /> {!this.state.active ? 'Chrochetic' : ''}</h2> */}
+                    
+                  
                     <div className="header__pane ms-auto">
                         <div onClick={this.toggleEnableClosedSidebar}>
                             <Slider
                                 active={enableClosedSidebar}
                                 type="elastic"
-                                onClick={() => this.setState({active: !this.state.active})}
+                                onClick={() => this.setState({ active: !this.state.active })}
                             />
                         </div>
                     </div>
                 </div>
-                <AppMobileMenu/>
+                <AppMobileMenu />
             </Fragment>
         )
     }

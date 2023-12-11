@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     nombre: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      unique: "usuario_UNIQUE"
+      unique: "status_UNIQUE"
     }
   }, {
     sequelize,
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "usuario_UNIQUE",
+        name: "status_UNIQUE",
         unique: true,
         using: "BTREE",
         fields: [

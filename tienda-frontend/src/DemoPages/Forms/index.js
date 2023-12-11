@@ -22,7 +22,6 @@ const Forms = ({match}) => (
                 <div className="app-main__inner">
 
                     {/* Form Elements */}
-
                     <Route path={`${match.url}/controls`} component={FormElementsControls}/>
                     <Route path={`${match.url}/layouts`} component={FormElementsLayouts}/>
                     <Route path={`${match.url}/validation`} component={FormElementsValidation}/>

@@ -26,6 +26,13 @@ router.post('/categoria/actualizar',
     ],
     categoriaController.actualizar);
 
+router.post('/categoria/obtener',
+    [
+        body('idCategoria').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+        utileria.validarCampos
+    ],
+    categoriaController.obtener);
+
 router.post('/categoria/actualizarEstatus',
     [
         body('idCategoria').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
