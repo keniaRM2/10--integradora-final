@@ -1,7 +1,10 @@
 /**
  * @author Kenia Reyes
  */
-import React, {Component, Fragment} from 'react';
+import React, {
+    Component,
+    Fragment
+} from 'react';
 import moment from "moment";
 import {
     ToastContainer,
@@ -71,6 +74,19 @@ export default class Utileria {
             return moment(date).endOf('day');
         }
         return null;
+    }
+
+    static formatMoney(money) {
+        if(this.nonEmpty(money)){
+            const formatter = new Intl.NumberFormat('es-MX', {
+                style: 'decimal',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+            return `$${formatter.format(money)}`
+        }
+        return "$0.00";
+
     }
 
     static startOfDay(date) {
@@ -154,7 +170,6 @@ export default class Utileria {
     };
 
     static errorInput = (errors) => {
-        return (<small className="text-danger">   {errors.usuario} </small>)
+        return (<small className="text-danger" > {errors.usuario} </small>)
     };
-
 }

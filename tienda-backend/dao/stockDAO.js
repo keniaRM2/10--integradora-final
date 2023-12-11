@@ -14,6 +14,7 @@ const {
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
 const conexion = require('./config/conexionBD');
+const productoDAO = require("./productoDAO");
 
 module.exports = {
     listar: async () => {
@@ -176,10 +177,7 @@ module.exports = {
                 where: {
                     idStock: idStock
                 },
-                include: [{
-                    model: producto,
-                    as: 'producto',
-                },
+                include: [
                 {
                     model: talla,
                     as: 'talla',
@@ -191,7 +189,9 @@ module.exports = {
                     required: false, // Indica que es un left join
                 }]
             });
+            respuesta = respuesta.toJSON();
 
+            respuesta.producto = await productoDAO.obtener({idProducto: respuesta.productoId});
 
             return respuesta;
         } catch (error) {

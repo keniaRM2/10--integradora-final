@@ -152,6 +152,12 @@ async function insertarUsuarios() {
             nombre: constantes.ROL_ADMINISTRADOR
         }
     });
+
+    const rolCliente = await rol.findOne({
+        where: {
+            nombre: constantes.ROL_CLIENTE
+        }
+    });
     const generoMujer = await genero.findOne({
         where: {
             nombre: constantes.GENERO_FEMENINO
@@ -183,8 +189,33 @@ async function insertarUsuarios() {
             },
         },
     };
+    const usuarioCliente = {
+        usuario: 'cliente@gmail.com',
+        contrasena: 'cliente@gmail.com',
+        rolId: rolCliente.idRol,
+        persona: {
+            nombre: 'Andrea',
+            primerApellido: 'Reyes',
+            segundoApellido: 'Molina',
+            fechaNacimiento: '1996-03-27',
+            generoId: generoMujer.idGenero,
+            direccion: {
+                numeroInterior: '123',
+                numeroExterior: '456',
+                calle: 'Av. Principal',
+                colonia: 'Centro',
+                municipio: 'Cuernavaca',
+                entidadFederativa: 'Morelos',
+            },
+            contacto: {
+                correoElectronico: 'cliente@gmail.com',
+                telefonoPrincipal: '7771234567',
+                telefonoSecundario: '7771478596',
+            },
+        },
+    };
 
-    const usuarios = [usuarioAdmin];
+    const usuarios = [usuarioAdmin, usuarioCliente];
 
 
     for (const item of usuarios) {
