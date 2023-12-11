@@ -19,11 +19,11 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
   const [tiposMedida, setTiposMedida] = useState([]);
   const [medida, setMedida] = useState({ medida: "", tipoMedidaId: "", tallaId: "" });
   const [categorias, setCategorias] = useState([]);
-  const [file, setFile] = useState([]);
 
   const [estadoFormulario, setEstadoFormulario] = useState({
     colores: [],
-    medidas: []
+    medidas: [],
+    imagenes: []
   });
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
@@ -158,39 +158,52 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
 
 
 
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [error, setError] = useState(null);
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
-  const handleImageChange = (event) => {
-    const files = event.target.files;
-    const maxAllowedFiles = 3;
 
-    if (files.length > maxAllowedFiles) {
-      setError(`Selecciona como máximo ${maxAllowedFiles} archivos.`);
-      return;
-    }
+  const handleFileChange = (event) => {
 
-    const imageFiles = Array.from(files).filter((file) =>
-      file.type.startsWith('image/')
-    );
+    const maxAllowedFiles = 2;
+    const countImages = estadoFormulario.imagenes?.length || 0;
 
-    if (imageFiles.length > 0) {
-      const imagesArray = imageFiles.map((file) => URL.createObjectURL(file));
-      setSelectedImages(imagesArray);
-      setError(null);
+    if (countImages > maxAllowedFiles) {
+      Utileria.catchError(`Selecciona como máximo 3 archivos.`);
+
+      setEstadoFormulario({ ...estadoFormulario, imagen: '' });
+      setValues({ ...values, imagen: '' });
     } else {
-      setSelectedImages([]);
-      setError('Solo se permiten archivos de imagen (JPEG, PNG, etc.)');
+
+      const file = event.currentTarget.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+
+        const newImageBase64 = reader.result;
+        let updatedImages = [...estadoFormulario.imagenes, newImageBase64];
+
+        setEstadoFormulario({ ...estadoFormulario, imagenes: updatedImages, imagen: '' });
+        setValues({ ...values, imagenes: updatedImages, imagen: '' });
+
+
+
+      };
+      reader.readAsDataURL(file);
+
     }
 
+
   };
+
+  const handleRemoveImage = (index) => {
+
+    const updatedImages = [...estadoFormulario.imagenes];
+
+    updatedImages.splice(index, 1);
+
+
+    setEstadoFormulario({ ...estadoFormulario, imagenes: updatedImages });
+    setValues({ ...values, imagenes: updatedImages });
+
+  };
+
 
 
   useEffect(() => {
@@ -207,6 +220,12 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
       ...prevState,
       medidas: values.medidas
     }));
+
+    values.imagenes && setEstadoFormulario((prevState) => ({
+      ...prevState,
+      imagenes: values.imagenes
+    }));
+
   }, []);
 
 
@@ -497,39 +516,65 @@ const Formulario = ({ errors, touched, setValues, values, setFieldValue }) => {
 
           </Col>
         </Row>
-        <Row className="mt-5 mb-3">
-          <Col md="6">
+        <Row className="mt-4 justify-content-center" >
+          <Col md="4" >
+            <FormGroup
+              className={Utileria.claseInputForm(errors.imagen, touched.imagen)}
+            >
+              <Label htmlFor="nombre">Imagen:</Label>
+              <InputGroup className="input-group-alternative">
+
+                <Field
+                  placeholder="Seleccione imagen"
+                  className="form-control"
+                  autoComplete="off"
+                  type="file"
+                  id="imagen"
+                  name="imagen"
+                  accept="image/*"
+                  onChange={(event) => handleFileChange(event)}
+                />
 
 
-            <label for="files" class="btn">Escoge una imagen: </label>
-            <br />
-            <input
-            style={{ marginLeft: 10 }}
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleImageChange}
-
-
-            />
+              </InputGroup>
+              <ErrorMessage
+                name="imagen"
+                component={() => (
+                  <small className="text-danger">{errors.imagen}</small>
+                )}
+              />
+            </FormGroup>
           </Col>
-          <Col md="6">
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {selectedImages.length > 0 && (
-              <div style={{ maxWidth: '400px', width: '100%', margin: 'auto' }}>
-                <Slider {...settings}>
-                  {selectedImages.map((image, index) => (
-                    <img
-                      src={image}
-                      alt={`Preview ${index}`}
-                      style={{ height: 50, objectFit: 'cover' }}
-                    />
 
-                  ))}
-                </Slider>
-              </div>
-            )}
+        </Row>
+        <Row className="mt-1 justify-content-center" >
+          <Col md="12" className="justify-content-center">
+            <FormGroup>
+              <InputGroup className="input-group-alternative">
+
+                {values.imagenes && (
+                  values.imagenes.map((imagen, index) => {
+                    return <div className="mt-1  justify-content-center align-items-center" key={index} >
+
+                      <img src={imagen} alt="Imagen cargada" className="mt-2 mr-4" style={{ height: "30vh" }} />
+                      <br />
+                      <a
+                        className="text-black ml-6"
+                        onClick={() => handleRemoveImage(index)}
+                        style={{ fontSize: 24, color: "black", cursor: "pointer", marginLeft: "50%" }}
+                      >
+                        x
+                      </a>
+                    </div>
+                  })
+
+                )}
+
+
+              </InputGroup>
+
+            </FormGroup>
           </Col>
         </Row>
 

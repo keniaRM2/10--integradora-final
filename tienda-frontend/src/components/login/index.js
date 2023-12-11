@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Card, CardBody, Form, FormGroup, Label, Input, Button, Col, Row } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import Utileria from '../../util';
@@ -35,51 +35,58 @@ const Login = () => {
   };
 
   return (
-    <Row style={{ flex: 1, background: 'linear-gradient(to left, #D5C8FF, #ffcc99)' }}>
-      <Col md="6"  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-        <img src={require('../../assets/utils/images/logo_background.png')} alt="" style={{ marginTop: 2 }} />
-      </Col>
+    <Fragment>
+      <div className="bg-login" style={{ background: 'linear-gradient(to left, #D5C8FF, #ffcc99)' }}>
+        <Fragment>
 
-      <Col md="6" className="d-flex align-items-center justify-content-center p-0"> {/* Alinea y justifica el contenido del Col */}
-        <Card style={{ width: '90%', backgroundColor: 'white' }}>
-          <CardBody>
+          <Row >
+            <Col lg={{ size: 1 }}  >
+              <img src={require('../../assets/utils/images/logo_background.png')}  alt="" style={{ marginTop: 2 }} />
+            </Col>
 
-            <h2 className="text-center mb-3">Iniciar sesión</h2>
-            <Form onSubmit={handleSubmit}>
-              <FormGroup>
-                <Label for="username">Usuario: * </Label>
-                <Input
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  autoComplete='off'
-                />
-              </FormGroup>
+            <Col lg={{ size: 4, offset:6}} className="mt-5">
 
-              <FormGroup>
-                <Label for="password">Contraseña: *</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete='off'
-                />
-              </FormGroup>
-              <Button className="mb-2 mt-4 me-2" style={{ color : '#C4C4C4', justifyContent : 'center', alignSelf : 'center'}} block>
-                <small style={{ color : 'white'}}> Iniciar Sesión </small>
-              </Button>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
+              <Card style={{ backgroundColor: 'white' }}>
+                <CardBody>
+
+                  <h2 className="text-center mb-3">Iniciar sesión</h2>
+                  <Form onSubmit={handleSubmit}>
+                    <FormGroup>
+                      <Label for="username">Usuario: * </Label>
+                      <Input
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        autoComplete='off'
+                      />
+                    </FormGroup>
+
+                    <FormGroup>
+                      <Label for="password">Contraseña: *</Label>
+                      <Input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        autoComplete='off'
+                      />
+                    </FormGroup>
+                    <Button className="mb-2 mt-4 me-2" style={{ justifyContent: 'center', alignSelf: 'center', backgroundColor: 'black' }} block>
+                      <small > Ingresar </small>
+                    </Button>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
 
 
-    </Row>
-
+          </Row>
+        </Fragment>
+      </div>
+    </Fragment>
   );
 };
 

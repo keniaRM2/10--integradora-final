@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import MetisMenu from 'react-metismenu';
-import { ProductoNav, CajaNav, AccesoNav, AdminNav } from './NavItems';
+import { ProductoNav, CajaNav, AccesoNav, AdminNav, CompraNav } from './NavItems';
 
 class Nav extends Component {
     state = {};
@@ -28,6 +28,7 @@ class Nav extends Component {
     render() {
         const menus = [
             { navItems: AccesoNav, title: 'Acceso' },
+            { navItems: CompraNav, title: 'Compras' },
             { navItems: ProductoNav, title: 'Productos' },
             { navItems: CajaNav, title: 'Caja' },
             { navItems: AdminNav, title: 'Administración' },

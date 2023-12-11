@@ -1,10 +1,12 @@
 const {
     status,
     categoria,
-    subcategoria
+    subcategoria,
+    imagen
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
+const conexion = require('./config/conexionBD');
 
 module.exports = {
     listar: async () => {
@@ -21,7 +23,12 @@ module.exports = {
         }
     },
     registrar: async (parametros) => {
+        let transaction;
+
         try {
+
+            // Iniciando la transacción
+            transaction = await conexion.transaction();
 
             const statusActivo = await status.findOne({
                 where: {
@@ -51,16 +58,52 @@ module.exports = {
                 idCategoria
             } = await categoria.create(nuevo);
 
+
+            if (!utileria.arrayVacio(parametros.imagenes)) {
+                const imagenesNuevas = parametros.imagenes.map((imagen) => {
+
+                    const base64String = imagen;
+
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    let formato = 'jpeg';
+                    if (matches && matches.length > 1) {
+                        formato = matches[1];
+                    }
+
+                    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+                    const bufferData = Buffer.from(base64Data, 'base64');
+
+                    return {
+                        formato: formato,
+                        imagen: bufferData,
+                        categoriaId: idCategoria
+                    }
+                });
+
+                await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
+                console.log('Imagenes creadas exitosamente.');
+            }
+
+             // Commit si todo se realizó correctamente
+             await transaction.commit();
+
             return {
                 idCategoria: idCategoria
             };
         } catch (error) {
+             // Rollback en caso de error
+             if (transaction) {
+                console.log("rollback");
+                await transaction.rollback();
+            }
             throw error;
         }
     },
     actualizar: async (parametros) => {
+        let transaction;
         try {
-
+            // Iniciando la transacción
+            transaction = await conexion.transaction();
 
             const {
                 idCategoria,
@@ -82,8 +125,53 @@ module.exports = {
                 nombre: nombre,
                 descripcion: descripcion
             };
-            return await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
+
+            let respuesta = await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
+
+
+            await imagen.destroy({
+                where: {
+                    categoriaId: idCategoria
+                }
+            });
+
+            if (!utileria.arrayVacio(parametros.imagenes)) {
+                const imagenesNuevas = parametros.imagenes.map((imagen) => {
+
+                    const base64String = imagen;
+
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    let formato = 'jpeg';
+                    if (matches && matches.length > 1) {
+                        formato = matches[1];
+                    }
+
+                    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+                    const bufferData = Buffer.from(base64Data, 'base64');
+
+                    return {
+                        formato: formato,
+                        imagen: bufferData,
+                        categoriaId: idCategoria
+                    }
+                });
+
+                await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
+                console.log('Imagenes creadas exitosamente.');
+            }
+
+
+
+            // Commit si todo se realizó correctamente
+            await transaction.commit();
+
+            return respuesta;
         } catch (error) {
+             // Rollback en caso de error
+             if (transaction) {
+                console.log("rollback");
+                await transaction.rollback();
+            }
             throw error;
         }
     },
@@ -160,11 +248,27 @@ module.exports = {
                 idCategoria
             } = parametros;
 
-            return await categoria.findOne({
+            let respuesta =  await categoria.findOne({
                 where: {
                     idCategoria: idCategoria
                 }
             });
+            respuesta = respuesta.toJSON();
+
+
+            let imagenes = await imagen.findAll({
+                where: {
+                    categoriaId: idCategoria
+                }
+            });
+
+            let imagenesBase64 = imagenes.map(imagen => {
+                return `data:image/${imagen.formato};base64,${imagen.imagen.toString('base64')}`;
+            });
+
+            respuesta.imagenes = imagenesBase64 || [];
+            
+            return respuesta;
 
         } catch (error) {
             throw error;

@@ -5,6 +5,10 @@ export default class routeConstant {
     static USUARIO =  `/usuarios`;
     static CATEGORIA =  `/categorias`;
     static PRODUCTO =  `/productos`;
+    static CARRITO =  `/carrito`;
+    static MI_CARRITO =  `/miCarrito`;
+    static COMPRA =  `/compras`;
+    static ENVIO =  `/envios`;
     static STOCK =  `/almacen`;
     static PAGO =  `/pagos`;
     static SUBCATEGORIA =  `/subcategorias`;

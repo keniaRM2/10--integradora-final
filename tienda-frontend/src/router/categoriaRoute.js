@@ -43,7 +43,8 @@ const columnas = [
 //VALOR INICIAL DEL OBJETO DEL FORMULARIO
 const inicial = {
   nombre: '',
-  descripcion: ''
+  descripcion: '',
+  imagenes:[]
 };
 
 //VALIDACIONES POR CADA ATRIBUTO DEL FORMULARIO

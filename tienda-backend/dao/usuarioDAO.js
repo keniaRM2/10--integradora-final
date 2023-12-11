@@ -144,7 +144,7 @@ module.exports = {
         idUsuario: usuarioLogin.idUsuario,
         idPersona: usuarioLogin.personaId,
         token: token,
-        ...usuarioLogin.persona
+        ...usuarioLogin.persona.toJSON()
       }
     } catch (error) {
       throw error;

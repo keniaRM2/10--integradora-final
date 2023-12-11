@@ -10,10 +10,56 @@ import Utileria from "../../util";
 import CategoriaService from "../../services/CategoriaService";
 
 const Formulario = (props) => {
-    let { errors, touched } = props;
+    let { errors, touched, setValues, values, } = props;
 
     const [categorias, setCategorias] = useState([]);
-    const [file, setFile] = useState([]);
+
+    const [estadoFormulario, setEstadoFormulario] = useState({
+        imagenes: []
+    });
+    const handleFileChange = (event) => {
+
+        const maxAllowedFiles = 2;
+        const countImages = estadoFormulario.imagenes?.length || 0;
+
+        if (countImages > maxAllowedFiles) {
+            Utileria.catchError(`Selecciona como máximo 3 archivos.`);
+
+            setEstadoFormulario({ ...estadoFormulario, imagen: '' });
+            setValues({ ...values, imagen: '' });
+        } else {
+
+            const file = event.currentTarget.files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+
+                const newImageBase64 = reader.result;
+                let updatedImages = [...estadoFormulario.imagenes, newImageBase64];
+
+                setEstadoFormulario({ ...estadoFormulario, imagenes: updatedImages, imagen: '' });
+                setValues({ ...values, imagenes: updatedImages, imagen: '' });
+
+
+
+            };
+            reader.readAsDataURL(file);
+
+        }
+
+
+    };
+
+    const handleRemoveImage = (index) => {
+
+        const updatedImages = [...estadoFormulario.imagenes];
+
+        updatedImages.splice(index, 1);
+
+
+        setEstadoFormulario({ ...estadoFormulario, imagenes: updatedImages });
+        setValues({ ...values, imagenes: updatedImages });
+
+    };
 
     const listarCategorias = () => {
         CategoriaService.listar().then(({ data }) => {
@@ -26,67 +72,15 @@ const Formulario = (props) => {
 
     useEffect(() => {
         listarCategorias();
+        values.imagenes && setEstadoFormulario((prevState) => ({
+            ...prevState,
+            imagenes: values.imagenes
+        }));
+
+
     }, []);
 
-    const items = [
-        {
-            src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-            header: 'Slide 1 Header'
-        },
-        {
-            src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-            altText: 'Slide 2',
-            caption: 'Slide 2',
-            header: 'Slide 2 Header'
-        },
-        {
-            src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-            altText: 'Slide 3',
-            caption: 'Slide 3',
-            header: 'Slide 3 Header'
-        }
-    ];
 
-    const onChange = (e) => {
-        setFile(...file, URL.createObjectURL(e.target.files[0]));
-
-
-        console.log(file, 'files ahahaha');
-    }
-
-    const [selectedImages, setSelectedImages] = useState([]);
-    const [error, setError] = useState(null);
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
-
-    const handleImageChange = (event) => {
-        const files = event.target.files;
-        const maxAllowedFiles = 1;
-
-        if (files.length > maxAllowedFiles) {
-            setError(`Selecciona como máximo ${maxAllowedFiles} archivo.`);
-            return;
-        }
-
-        const imageFiles = Array.from(files).filter((file) =>
-            file.type.startsWith('image/')
-        );
-
-        if (imageFiles.length > 0) {
-            const imagesArray = imageFiles.map((file) => URL.createObjectURL(file));
-            setSelectedImages(imagesArray);
-            setError(null);
-        } else {
-            setSelectedImages([]);
-            setError('Solo se permiten archivos de imagen (JPEG, PNG, GIF, etc.)');
-        }
-
-    };
 
     return (
         <>
@@ -152,34 +146,67 @@ const Formulario = (props) => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xs="12">
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            
-                             <label for="files" style={{ labelStyle }} class="btn">Escoge una imagen</label>
-                            <input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                
-                               
-                            />
-                            {error && <p style={{ color: 'red' }}>{error}</p>}
-                            {selectedImages.length > 0 && (
-                                <div style={{ maxWidth: '400px', width: '100%', margin: 'auto' }}>
-                                    <Slider {...settings}>
-                                        {selectedImages.map((image, index) => (
-                                            <img
-                                                src={image}
-                                                alt={`Preview ${index}`}
-                                                style={{ height: 50, objectFit: 'cover' }}
-                                            />
+                </Row>
 
-                                        ))}
-                                    </Slider>
-                                </div>
-                            )}
-                        </div>
+                <Row className="mt-4 justify-content-center" >
+                    <Col md="4" >
+                        <FormGroup
+                            className={Utileria.claseInputForm(errors.imagen, touched.imagen)}
+                        >
+                            <Label htmlFor="nombre">Imagen:</Label>
+                            <InputGroup className="input-group-alternative">
+
+                                <Field
+                                    placeholder="Seleccione imagen"
+                                    className="form-control"
+                                    autoComplete="off"
+                                    type="file"
+                                    id="imagen"
+                                    name="imagen"
+                                    accept="image/*"
+                                    onChange={(event) => handleFileChange(event)}
+                                />
+
+
+                            </InputGroup>
+                            <ErrorMessage
+                                name="imagen"
+                                component={() => (
+                                    <small className="text-danger">{errors.imagen}</small>
+                                )}
+                            />
+                        </FormGroup>
+                    </Col>
+
+
+                </Row>
+                <Row className="mt-1 justify-content-center" >
+                    <Col md="12" className="justify-content-center">
+                        <FormGroup>
+                            <InputGroup className="input-group-alternative">
+
+                                {values.imagenes && (
+                                    values.imagenes.map((imagen, index) => {
+                                        return <div className="mt-1  justify-content-center align-items-center" key={index} >
+
+                                            <img src={imagen} alt="Imagen cargada" className="mt-2 mr-4" style={{ height: "30vh" }} />
+                                            <br />
+                                            <a
+                                                className="text-black ml-6"
+                                                onClick={() => handleRemoveImage(index)}
+                                                style={{ fontSize: 24, color: "black", cursor: "pointer", marginLeft: "50%" }}
+                                            >
+                                                x
+                                            </a>
+                                        </div>
+                                    })
+
+                                )}
+
+
+                            </InputGroup>
+
+                        </FormGroup>
                     </Col>
                 </Row>
 
@@ -201,13 +228,13 @@ const yourBtnStyle = {
     textAlign: 'center',
     backgroundColor: '#DDD',
     cursor: 'pointer',
-  };
+};
 
-  const labelStyle = {
+const labelStyle = {
     backgroundColor: '#3498db',
     color: 'white',
     padding: '10px 15px',
     borderRadius: '5px',
     cursor: 'pointer',
     display: 'inline-block',
-  };
+};

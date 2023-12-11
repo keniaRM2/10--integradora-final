@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Row, Col, Card, CardBody, Button, CardTitle } from 'reactstrap';
+import { Row, Col, Card, CardBody, Button, CardTitle, Label } from 'reactstrap';
+import Slider from 'react-slick';
 import { Formik, useFormik, Field } from "formik";
 import AppHeader from '../../Layout/AppHeader/';
 import AppSidebar from '../../Layout/AppSidebar/';
@@ -17,6 +18,7 @@ const Crud = (props) => {
   const LISTADO = 1;
   const REGISTRO = 2;
   const MODIFICACION = 3;
+  const VISUALIZACION = 4;
 
   const [registros, setRegistros] = useState([]);
   const [vista, setVista] = useState(LISTADO);
@@ -38,10 +40,25 @@ const Crud = (props) => {
       }).finally(() => {
         setEnviando(false);
       });
-
     }
   };
 
+  let ver = (params, i) => {
+
+    if (!enviando) {
+
+      setEnviando(true);
+
+      servicio.obtener(params).then(({ data }) => {
+        setValoresFormulario(data);
+        setVista(VISUALIZACION);
+      }).catch((e) => {
+        Utileria.errorhttp(e);
+      }).finally(() => {
+        setEnviando(false);
+      });
+    }
+  };
 
   let eliminar = (params, i) => {
     if (!enviando) {
@@ -72,11 +89,14 @@ const Crud = (props) => {
         item["indice"] = (<div>{i + 1}</div>)
         item["acciones"] = (<div>
 
-          <Button onClick={() => eliminar(item)} outline className="my-2 border-0 btn-transition" color="danger">
+          {/* <Button onClick={() => eliminar(item)} outline className="my-2 border-0 btn-transition" color="danger">
             <i className="pe-7s-trash" style={{ fontSize: 19 }} />
           </Button>
           <Button onClick={() => obtener(item)} outline className="my-2 me-2 border-0 btn-transition" color="warning">
             <i className="pe-7s-pen" style={{ fontSize: 19 }} />
+          </Button> */}
+          <Button onClick={() => ver(item)} outline className="my-2 me-2 border-0 btn-transition" color="blue">
+            <i className="pe-7s-look" style={{ fontSize: 19 }} />
           </Button>
         </div>);
         return item;
@@ -171,6 +191,147 @@ const Crud = (props) => {
     );
   };
 
+  const formularioVisualizacion = () => {
+    let cancelar = () => {
+      setValoresFormulario(inicial)
+      setVista(LISTADO);
+    };
+
+    const { persona, fechaActualizacion, total, carrito_producto } = valoresFormulario;
+
+  
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
+
+    return (
+      <div>
+
+        <Row className='mb-2'>
+          <Col>
+          <h5><strong> <i className="pe-7s-user" style={{ fontSize: 20, marginRight:'10px'  }} /> Cliente</strong></h5>
+          </Col>
+        </Row>
+        <Row className="mt-4 justify-content-center" >
+          <Col >
+            <h5>
+            <strong ><Label>Nombre: </Label></strong>
+            <span style={{ marginLeft: '10px' }}>
+              {`${persona?.nombre} ${persona?.primerApellido} ${persona?.segundoApellido ? ' ' + persona?.segundoApellido : ''}`}
+            </span>
+            </h5>
+          </Col>
+          <Col >
+            <h5>
+            <strong ><Label>Fecha de actualización: </Label></strong>
+            <span style={{ marginLeft: '10px' }}>
+              {Utileria.formatDateTime(fechaActualizacion)}
+            </span>
+            </h5>
+          </Col>
+          <Col >
+            <h5><strong ><Label>Total: </Label></strong>
+            <span style={{ marginLeft: '10px' }}>
+              {`${Utileria.formatMoney(total)}`}
+            </span></h5>
+          </Col>
+        </Row>
+        <Row className='mb-2 mt-4'>
+          <Col>
+            <h5><strong><i className="pe-7s-cart" style={{ fontSize: 20, marginRight:'10px' }} />Productos</strong></h5>
+          </Col>
+        </Row>
+
+        {carrito_producto.map((item) => {
+          return (<div>
+            <Row>
+              <Col md={{offset:3, size:3}}>
+                <div>
+                  <strong ><Label>Producto: </Label></strong>
+                  <span style={{ marginLeft: '10px' }}>
+                    {item.stock?.producto.nombre}
+                  </span>
+                </div>
+                <div>
+                  <strong ><Label>Fecha de registro: </Label></strong>
+                  <span style={{ marginLeft: '10px' }}>
+                    {Utileria.formatDateTime(item.fechaRegistro)}
+                  </span>
+                </div>
+                <div>
+                  <strong ><Label>Talla: </Label></strong>
+                  <span style={{ marginLeft: '10px' }}>
+                    {item.stock?.talla.nombre}
+                  </span>
+                </div>
+                <div>
+                  <strong ><Label>Color: </Label></strong>
+                  <span style={{ marginLeft: '10px' }}>
+                    {item.stock?.color ? (<span style={{ backgroundColor: item.stock.color.color, borderRadius: '8px', padding: '5px' }}>
+                      {item.stock.color.color}</span>) : '- - -'
+                    }
+                  </span>
+                </div>
+                <div>
+                  <strong ><Label>Precio: </Label></strong>
+                  <span style={{ marginLeft: '10px' }}>
+                    {Utileria.formatMoney(item.stock.precio)}
+                  </span>
+                </div>
+                <div>
+                  <strong ><Label>Existencia: </Label></strong>
+                  <strong style={{ marginLeft: '10px' }} className='text-success'>
+                    {item.stock.existencia}
+                  </strong>
+                </div>
+              </Col>
+              <Col md={3}>
+                {item.stock.producto.imagenes.length > 0 && (
+                  <div style={{ maxWidth: '200px', width: '100%', margin: 'auto' }}>
+                    <Slider {...settings}>
+                      {item.stock.producto.imagenes.map((image, index) => (
+                        <img
+                          src={image}
+                          alt={`Preview ${index}`}
+                          style={{ height: 50, objectFit: 'cover' }}
+                        />
+
+                      ))}
+                    </Slider>
+                  </div>
+                )}
+              </Col>
+            </Row>
+            <hr />
+          </div>)
+        })}
+
+        {carrito_producto.length == 0 ? <Row><Col>Sin resultados disponibles.</Col></Row> : ''}
+
+
+
+
+
+
+
+
+
+        <div className="text-center">
+          <Button className="mt-4 hand m-3"
+            color="warning" type="button"
+            onClick={() => { cancelar() }}
+            disabled={enviando}>
+            <i className="pe-7s-back-2" /> Volver
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   const vistaListado = () => {
     if (vista === LISTADO) {
       return (
@@ -186,10 +347,10 @@ const Crud = (props) => {
             </Col>
             <Col md="2">
               <CardTitle className="text-center mt-2">
-                { ocultarRegistro ? '' : 
-                                <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }} size="lg" onClick={() => setVista(REGISTRO)} />
+                {ocultarRegistro ? '' :
+                  <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }} size="lg" onClick={() => setVista(REGISTRO)} />
 
-                
+
                 }
               </CardTitle>
             </Col>
@@ -203,6 +364,7 @@ const Crud = (props) => {
   };
 
   const vistaFormulario = () => {
+
     if (vista === REGISTRO || vista === MODIFICACION) {
       return (
         <Card className="main-card mb-3">
@@ -214,9 +376,9 @@ const Crud = (props) => {
                 subheading={cabecera.descripcion}
                 icon={cabecera.icono || "pe-7s-tools"}
               />
-              <hr/>
+              <hr />
             </Col>
-            
+
           </div>
           <CardBody className='mt-1'>
 
@@ -224,6 +386,28 @@ const Crud = (props) => {
               <Formik initialValues={valoresFormulario} validationSchema={validaciones} >
                 {formularioFormik}
               </Formik>
+            </div>
+          </CardBody>
+        </Card>)
+    } else if (vista === VISUALIZACION) {
+      return (
+        <Card className="main-card mb-3">
+          <div style={{ marginLeft: 40, marginTop: 40 }} className='row'>
+            <Col md="12">
+              <PageTitle
+                className="col-10"
+                heading={cabecera.titulo}
+                subheading={cabecera.descripcion}
+                icon={cabecera.icono || "pe-7s-tools"}
+              />
+              <hr />
+            </Col>
+
+          </div>
+          <CardBody className='mt-1'>
+
+            <div className="ml-8 mr-8">
+              {formularioVisualizacion()}
             </div>
           </CardBody>
         </Card>)

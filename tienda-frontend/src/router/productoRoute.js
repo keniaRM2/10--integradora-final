@@ -62,8 +62,10 @@ const columnas = [
 const inicial = {
   nombre: "",
   descripcion: "",
+  imagen: null,
   tallas:[],
-  colores:[]
+  colores:[],
+  imagenes: []
 };
 
 //VALIDACIONES POR CADA ATRIBUTO DEL FORMULARIO

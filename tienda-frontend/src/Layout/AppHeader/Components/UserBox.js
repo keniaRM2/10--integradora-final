@@ -24,13 +24,19 @@ const UserBox = () => {
     });
   };
 
+  const getUsername = () => {
+    const userInfo = JSON.parse(localStorage.getItem('info'));
+    const {nombre, primerApellido, segundoApellido} = userInfo;
+    return `${nombre} ${primerApellido} ${segundoApellido || ''}`;
+  };
+
   return (
     <div className="header-btn-lg pe-0">
       <div className="widget-content p-0">
         <div className="widget-content-wrapper">
           <div className="widget-content-left ms-3 header-user-info">
-            <div className="widget-heading">
-              Alina Mclourd
+            <div className="widget-heading" style={{color:'black'}}>
+               { getUsername() }
             </div>
           </div>
           <div className="widget-content-right header-user-info ms-3">

@@ -87,6 +87,22 @@ const validarCampos = (req, res = response, next) => {
     next();
 };
 
+
+const nonEmpty = (data, valueDafault) => {
+    if (valueDafault != null && valueDafault != undefined && valueDafault != "") {
+        if (data != null && data != undefined && data != "") {
+            return data;
+        } else {
+            return valueDafault;
+        }
+    }
+    return data != null && data != undefined && data != "";
+};
+
+const isEmpty = (data) => {
+    return !nonEmpty(data);
+};
+
 module.exports = {
     responseOk,
     reponseError,
@@ -94,5 +110,7 @@ module.exports = {
     validarContrasena,
     generarJWT,
     validarCampos,
-    arrayVacio
+    arrayVacio,
+    isEmpty,
+    nonEmpty
 };

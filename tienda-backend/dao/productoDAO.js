@@ -52,7 +52,7 @@ module.exports = {
                     ['idProducto', 'DESC']
                 ]
             });
-      
+
             return productosConExistencia;
         } catch (error) {
             throw error;
@@ -121,6 +121,31 @@ module.exports = {
 
                 await Promise.all(medidasNuevas.map((nuevaMedida) => medida.create(nuevaMedida)));
                 console.log('Medidas creadas exitosamente.');
+            }
+
+            if (!utileria.arrayVacio(parametros.imagenes)) {
+                const imagenesNuevas = parametros.imagenes.map((imagen) => {
+
+                    const base64String = imagen;
+
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    let formato = 'jpeg';
+                    if (matches && matches.length > 1) {
+                        formato = matches[1];
+                    }
+
+                    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+                    const bufferData = Buffer.from(base64Data, 'base64');
+
+                    return {
+                        formato: formato,
+                        imagen: bufferData,
+                        productoId: idProducto
+                    }
+                });
+
+                await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
+                console.log('Imagenes creadas exitosamente.');
             }
 
 
@@ -241,6 +266,40 @@ module.exports = {
                         idColor: coloresEliminar[i].idColor
                     }
                 });
+            }
+
+
+
+            // Eliminar todas las imagenes relacionadas con un producto específico
+            await imagen.destroy({
+                where: {
+                    productoId: parametros.idProducto
+                }
+            });
+
+            if (!utileria.arrayVacio(parametros.imagenes)) {
+                const imagenesNuevas = parametros.imagenes.map((imagen) => {
+
+                    const base64String = imagen;
+
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    let formato = 'jpeg';
+                    if (matches && matches.length > 1) {
+                        formato = matches[1];
+                    }
+
+                    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+                    const bufferData = Buffer.from(base64Data, 'base64');
+
+                    return {
+                        formato: formato,
+                        imagen: bufferData,
+                        productoId: parametros.idProducto
+                    }
+                });
+
+                await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
+                console.log('Imagenes creadas exitosamente.');
             }
 
 
@@ -368,57 +427,75 @@ module.exports = {
                     idProducto: idProducto
                 },
                 include: [{
-                        model: subcategoria,
-                        as: 'subcategoria',
-                        include: [{
-                            model: categoria,
-                            as: 'categoria',
-                        }]
-                    }, {
-                        model: status,
-                        as: 'status',
-                    },
-                    {
-                        model: color,
-                        as: 'colores',
+                    model: subcategoria,
+                    as: 'subcategoria',
+                    include: [{
+                        model: categoria,
+                        as: 'categoria',
+                    }]
+                }, {
+                    model: status,
+                    as: 'status',
+                },
+                {
+                    model: color,
+                    as: 'colores',
+                    required: false
+                },
+                {
+                    model: medida,
+                    as: 'medidas',
+                    required: false,
+                    include: [{
+                        model: talla,
+                        as: 'talla',
                         required: false
-                    },
-                    {
-                        model: medida,
-                        as: 'medidas',
-                        required: false,
-                        include: [{
-                            model: talla,
-                            as: 'talla',
-                            required: false
-                        },{
-                            model: tipomedida,
-                            as: 'tipoMedida',
-                            required: false
-                        }]
-                    }
+                    }, {
+                        model: tipomedida,
+                        as: 'tipoMedida',
+                        required: false
+                    }]
+                }
                 ]
             });
 
-            let colores = await color.findAll({
+            let imagenes = await imagen.findAll({
                 where: {
                     productoId: idProducto
                 }
             });
 
-            respuesta.colores = colores;
-
-
-            let medidas = await medida.findAll({
-                where: {
-                    productoId: idProducto
-                }
+            let imagenesBase64 = imagenes.map(imagen => {
+                return `data:image/${imagen.formato};base64,${imagen.imagen.toString('base64')}`;
             });
 
-            respuesta.medidas = medidas;
+
+            const objetoFinal = {
+                idProducto: idProducto,
+                nombre: respuesta.nombre,
+                descripcion: respuesta.descripcion,
+                statusId: respuesta.statusId,
+                subcategoriaId: respuesta.subcategoriaId,
+                subcategoria: {
+                    idSubcategoria: respuesta.subcategoria.idSubcategoria,
+                    nombre: respuesta.subcategoria.nombre,
+                    categoriaId: respuesta.subcategoria.categoriaId,
+                    categoria: {
+                        idCategoria: respuesta.subcategoria.categoria.idCategoria,
+                        nombre: respuesta.subcategoria.categoria.nombre,
+                        descripcion: respuesta.subcategoria.categoria.descripcion,
+                        statusId: respuesta.subcategoria.categoria.statusId
+                    }
+                },
+                status: respuesta.status,
+                colores: respuesta.colores || [], 
+                medidas: respuesta.medidas || [], 
+                imagenes: imagenesBase64 || []
+            };
 
 
-            return respuesta;
+            return objetoFinal;
+
         } catch (error) {
             throw error;
         }
