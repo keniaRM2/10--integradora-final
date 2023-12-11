@@ -2,7 +2,7 @@
 	"search.exclude": {
 		"**/target": true,
 		"**/test": true,
-		"**/assets": true,
+		// "**/assets": true,
 		"**/node_modules": true,
 		".slcache": true,
 		"package-lock.json": true,
