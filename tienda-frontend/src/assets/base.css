@@ -28411,4 +28411,47 @@ body .card.mb-3 {
   }
 }
 
+<<<<<<< Updated upstream
 /*# sourceMappingURL=css.map */
+=======
+
+
+.kdwPEY {
+  display: flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  width: 100%;
+  background-color: #F88CA2 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  min-height: 32px;
+  color: white !important;
+}
+
+.hand{
+  cursor: pointer !important; 
+}
+
+.bg-login {
+  background-image: url("../assets/utils/images/fondo.jpg");
+  /* background-image: url("../assets/utils/images/fondo.jpg"); */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+
+.ljBFnW {
+  display: flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  align-content: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(255, 255, 255);
+  max-height: 25px !important;
+}
+>>>>>>> Stashed changes
