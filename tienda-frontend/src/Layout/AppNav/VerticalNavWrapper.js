@@ -2,14 +2,29 @@ import React, {Component, Fragment} from 'react';
 import {withRouter} from 'react-router-dom';
 
 import MetisMenu from 'react-metismenu';
+<<<<<<< Updated upstream
 
 import {MainNav, ComponentsNav, FormsNav, WidgetsNav, ChartsNav} from './NavItems';
+=======
+import { ProductoNav, CajaNav, AccesoNav, AdminNav, CompraNav } from './NavItems';
+>>>>>>> Stashed changes
 
 class Nav extends Component {
 
     state = {};
 
     render() {
+<<<<<<< Updated upstream
+=======
+        const menus = [
+            { navItems: AccesoNav, title: 'Acceso' },
+            { navItems: CompraNav, title: 'Compras' },
+            { navItems: ProductoNav, title: 'Productos' },
+            { navItems: CajaNav, title: 'Caja' },
+            { navItems: AdminNav, title: 'Administración' },
+        ];
+
+>>>>>>> Stashed changes
         return (
             <Fragment>
                 <h5 className="app-sidebar__heading">PRO VERSION</h5>
