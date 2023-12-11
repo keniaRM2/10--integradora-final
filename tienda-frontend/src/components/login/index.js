@@ -76,7 +76,7 @@ const Login = () => {
                     color: 'white',
                     border: 'none',
                     borderRadius: '5px',
-                    fontSize: '1.2rem', // Tamaño del texto aumentado
+                    fontSize: '1.3rem', // Tamaño del texto aumentado
                   }}
                   block
                 >
