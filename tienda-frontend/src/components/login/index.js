@@ -35,52 +35,67 @@ const Login = () => {
   };
 
   return (
-    <Row style={{ flex: 1, background: 'linear-gradient(to left, #D5C8FF, #ffcc99)' }}>
-      <Col md="6"  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-        <img src={require('../../assets/utils/images/logo_background.png')} alt="" style={{ marginTop: 2 }} />
-      </Col>
-
-      <Col md="6" className="d-flex align-items-center justify-content-center p-0"> {/* Alinea y justifica el contenido del Col */}
-        <Card style={{ width: '90%', backgroundColor: 'white' }}>
-          <CardBody>
-
-            <h2 className="text-center mb-3">Iniciar sesión</h2>
-            <Form onSubmit={handleSubmit}>
-              <FormGroup>
-                <Label for="username">Usuario: * </Label>
-                <Input
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  autoComplete='off'
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <Label for="password">Contraseña: *</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete='off'
-                />
-              </FormGroup>
-              <Button className="mb-2 mt-4 me-2" style={{ color : '#C4C4C4', justifyContent : 'center', alignSelf : 'center'}} block>
-                <small style={{ color : 'white'}}> Iniciar Sesión </small>
-              </Button>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'white' }}>
+      <Row className="m-0">
+        <Col lg={6} className="p-0">
+          <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: '10px', padding: '20px', width: '100%', height: '100%' }}>
+            <CardBody>
+            <h2 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold' }} className="text-center mb-3">Iniciar sesión</h2>
+              <Form onSubmit={handleSubmit}>
+                <FormGroup>
+                  <Label style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold' }} for="username">Usuario: *</Label>
+                  <Input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    autoComplete="off"
+                  />
+                </FormGroup>
 
 
-    </Row>
+                <FormGroup>
+                  <Label  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold' }} for="password">Contraseña: *</Label>
+                  <Input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="off"
+                  />
+                </FormGroup>
+                <Button
+                  className="mb-2 mt-4"
+                  style={{
+                    background: 'linear-gradient(to right, #ffcc99, #D5C8FF)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    fontSize: '1.2rem', // Tamaño del texto aumentado
+                  }}
+                  block
+                >
+                  Ingresar
+                </Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
 
+
+        <Col lg={6} className="p-0">
+          <Card className="mb-0" style={{ background: 'linear-gradient(to left, #D5C8FF, #ffcc99)', borderRadius: '10px', padding: '20px', width: '100%', height: '100%' }}>
+            <CardBody className="d-flex align-items-center justify-content-center">
+              <img src={require('../../assets/utils/images/logo_background.png')} alt="" style={{ width: '50%' }} />
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
+
 
 export default Login;
