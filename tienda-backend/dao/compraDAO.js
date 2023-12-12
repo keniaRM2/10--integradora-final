@@ -11,7 +11,9 @@ const {
     usuario,
     direccion,
     pago,
-    comprobante
+    comprobante,
+    carrito_producto,
+    carrito
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
@@ -19,6 +21,45 @@ const stockDAO = require("./stockDAO");
 const conexion = require("./config/conexionBD");
 
 module.exports = {
+    listarMisCompras: async (parametros) => {
+        try {
+
+            const { idUsuario } = parametros.usuarioSesion;
+            const userData = await usuario.findOne({ where: { idUsuario } });
+            const idPersona = userData.personaId;
+
+
+            let compras = await compra.findAll({
+                attributes: [
+                    'idCompra',
+                    'fechaCompra',
+                    'total',
+                    'montoPagado',
+                    'personaId',
+                    'statusId'
+                ],
+                where: {
+                    personaId: idPersona
+                },
+                include: [{
+                    model: persona,
+                    as: 'persona',
+                },
+                {
+                    model: status,
+                    as: 'status',
+                }
+                ],
+                order: [
+                    ['fechaCompra', 'DESC']
+                ]
+            });
+
+            return compras;
+        } catch (error) {
+            throw error;
+        }
+    },
     listar: async () => {
         try {
 
@@ -124,6 +165,56 @@ module.exports = {
             }));
 
             await compra_producto.bulkCreate(productosCompraConCompraId, { transaction }); // Asignación de la transacción al bulkCreate
+
+
+            let carritoData = await carrito.findOne({
+                where: {
+                    personaId: userData.personaId
+                },
+                transaction
+            });
+
+            if (carritoData) {
+
+
+                await carrito_producto.destroy({
+                    where: {
+                        carritoId: carritoData.idCarrito,
+                        stockId: stockIds
+                    },
+                    transaction
+                });
+
+                let productosAgregados = await carrito_producto.findAll({
+                    where: {
+                        carritoId: carritoData.idCarrito
+                    },
+                    include: [{
+                        model: stock,
+                        as: 'stock',
+                    }],
+                    transaction
+                });
+
+
+                let totalFinal = 0;
+                for (let i = 0; i < productosAgregados.length; i++) {
+                    totalFinal = totalFinal + productosAgregados[i].stock.precio;
+                }
+
+                let actualizado = {
+                    total: totalFinal,
+                    fechaActualizacion: new Date()
+                };
+
+                await carrito.update(actualizado, {
+                    where: { idCarrito: carritoData.idCarrito }
+                });
+
+
+            }
+
+
 
             await transaction.commit();
 

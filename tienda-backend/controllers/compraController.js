@@ -86,3 +86,15 @@ exports.rechazarCompra = async (req, res) => {
         return utileria.reponseError(error, res);
     }
 };
+
+
+exports.listarMisCompras = async (req, res) => {
+    try {
+        const parametros = req.body;
+        let lista = await compraDAO.listarMisCompras(parametros);
+        return utileria.responseOk(lista, res);
+
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};

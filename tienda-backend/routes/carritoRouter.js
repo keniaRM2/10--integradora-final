@@ -19,10 +19,8 @@ router.put('/carrito/registrar',
 
 router.post('/carrito/actualizar',
     [
-        body('idProducto').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-        body('nombre').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-        body('descripcion').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-        body('subcategoriaId').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+        body('idStock').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+        body('cantidad').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         utileria.validarCampos
     ],
     carritoController.actualizar);
@@ -30,7 +28,7 @@ router.post('/carrito/actualizar',
 
 router.delete('/carrito/eliminar',
     [
-        body('idProducto').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+        body('idStock').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
         utileria.validarCampos
     ],
     carritoController.eliminar);

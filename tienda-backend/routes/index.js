@@ -11,6 +11,7 @@ const tipoMedidaRouter = require('./tipoMedidaRouter');
 const pagoRouter = require('./pagoRouter');
 const compraRouter = require('./compraRouter');
 const envioRouter = require('./envioRouter');
+const generoRouter = require('./generoRouter');
 
 module.exports = [
     rolRouter, 
@@ -25,5 +26,6 @@ module.exports = [
     tipoMedidaRouter,
     pagoRouter,
     compraRouter,
-    envioRouter
+    envioRouter,
+    generoRouter
 ];

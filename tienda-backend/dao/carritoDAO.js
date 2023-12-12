@@ -45,7 +45,7 @@ module.exports = {
 
             // Iniciando la transacción
             // transaction = await conexion.transaction();
-            
+
             let {
                 idStock,
                 idPersona,
@@ -93,7 +93,7 @@ module.exports = {
                     include: [{
                         model: stock,
                         as: 'stock',
-                    }, ],
+                    },],
                 });
 
 
@@ -107,7 +107,7 @@ module.exports = {
                     fechaActualizacion: new Date()
                 };
 
-                return await carrito.update(actualizado, {where: { idCarrito: carritoUsuario.idCarrito}});
+                return await carrito.update(actualizado, { where: { idCarrito: carritoUsuario.idCarrito } });
 
             }
 
@@ -128,10 +128,123 @@ module.exports = {
         }
     },
     actualizar: async (parametros) => {
+        try {
 
+
+            let {
+                idStock,
+                idPersona,
+                usuarioSesion,
+                cantidad
+            } = parametros;
+
+            idPersona = idPersona ? idPersona : usuarioSesion.idPersona;
+
+
+
+            let carritoUsuario = await carrito.findOne({
+                where: {
+                    personaId: idPersona
+                }
+            });
+
+
+            let actualizado = {
+                cantidad: cantidad
+            };
+
+            await carrito_producto.update(actualizado, {
+                where: { stockId: idStock, carritoId: carritoUsuario.idCarrito }
+            });
+
+
+
+            console.log("car" + carritoUsuario.idCarrito)
+            console.log("stk" + idStock)
+
+            const productosAgregados = await carrito_producto.findAll({
+                where: {
+                    carritoId: carritoUsuario.idCarrito
+                },
+                include: [{
+                    model: stock,
+                    as: 'stock',
+                },],
+            });
+
+
+            let totalFinal = 0;
+            for (let i = 0; i < productosAgregados.length; i++) {
+                totalFinal = totalFinal + productosAgregados[i].stock.precio;
+            }
+
+            actualizado = {
+                total: totalFinal,
+                fechaActualizacion: new Date()
+            };
+
+            return await carrito.update(actualizado, { where: { idCarrito: carritoUsuario.idCarrito } });
+
+
+
+        } catch (error) {
+            throw error;
+        }
     },
     eliminar: async (parametros) => {
+        try {
 
+
+            let {
+                idStock,
+                idPersona,
+                usuarioSesion
+            } = parametros;
+
+            idPersona = idPersona ? idPersona : usuarioSesion.idPersona;
+
+
+
+            let carritoUsuario = await carrito.findOne({
+                where: {
+                    personaId: idPersona
+                }
+            });
+
+
+            await carrito_producto.destroy({
+                where: { stockId: idStock, carritoId: carritoUsuario.idCarrito }
+
+            });
+
+            const productosAgregados = await carrito_producto.findAll({
+                where: {
+                    carritoId: carritoUsuario.idCarrito
+                },
+                include: [{
+                    model: stock,
+                    as: 'stock',
+                },],
+            });
+
+
+            let totalFinal = 0;
+            for (let i = 0; i < productosAgregados.length; i++) {
+                totalFinal = totalFinal + productosAgregados[i].stock.precio;
+            }
+
+            actualizado = {
+                total: totalFinal,
+                fechaActualizacion: new Date()
+            };
+
+            return await carrito.update(actualizado, { where: { idCarrito: carritoUsuario.idCarrito } });
+
+
+
+        } catch (error) {
+            throw error;
+        }
     },
     obtener: async (parametros) => {
         try {

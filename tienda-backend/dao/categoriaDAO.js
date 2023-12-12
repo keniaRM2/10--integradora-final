@@ -177,34 +177,35 @@ module.exports = {
     },
     actualizarEstatus: async (parametros) => {
         try {
-            const { idCategoria } = parametros;
-    
+
+            const {
+                idCategoria
+            } = parametros;
+
             let actualizado = await categoria.findOne({
                 where: {
                     idCategoria: idCategoria
                 }
             });
-    
-            if (!actualizado) {
-                throw new Error(`La categoría con ID ${idCategoria} no existe.`);
-            }
-    
+
+
             const statusActivo = await status.findOne({
                 where: {
                     nombre: constantes.ESTATUS_ACTIVO
                 }
             });
-    
+
             const statusInactivo = await status.findOne({
                 where: {
                     nombre: constantes.ESTATUS_INACTIVO
                 }
             });
-    
+
             if (actualizado.statusId === statusActivo.idStatus) {
                 actualizado.statusId = statusInactivo.idStatus;
             } else if (actualizado.statusId === statusInactivo.idStatus) {
                 actualizado.statusId = statusActivo.idStatus;
+
             }
             return await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
 

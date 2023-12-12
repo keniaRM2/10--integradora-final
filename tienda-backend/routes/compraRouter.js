@@ -60,4 +60,7 @@ router.post('/compra/rechazar',
     compraController.rechazarCompra);
 
 
+router.get('/compra/listarMisCompras', compraController.listarMisCompras);
+
+
 module.exports = router;
