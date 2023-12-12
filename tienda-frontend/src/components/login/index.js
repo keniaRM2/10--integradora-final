@@ -35,59 +35,71 @@ const Login = () => {
   };
 
   return (
-    <Fragment>
-      <div className="bg-login" style={{ background: 'linear-gradient(to left, #D5C8FF, #ffcc99)' }}>
-        <Fragment>
-
-          <Row >
-            <Col lg={{ size: 1 }}  >
-              <img src={require('../../assets/utils/images/logo_background.png')}  alt="" style={{ marginTop: 2 }} />
-            </Col>
-
-            <Col lg={{ size: 4, offset:6}} className="mt-5">
-
-              <Card style={{ backgroundColor: 'white' }}>
-                <CardBody>
-
-                  <h2 className="text-center mb-3">Iniciar sesión</h2>
-                  <Form onSubmit={handleSubmit}>
-                    <FormGroup>
-                      <Label for="username">Usuario: * </Label>
-                      <Input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                        autoComplete='off'
-                      />
-                    </FormGroup>
-
-                    <FormGroup>
-                      <Label for="password">Contraseña: *</Label>
-                      <Input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        autoComplete='off'
-                      />
-                    </FormGroup>
-                    <Button className="mb-2 mt-4 me-2" style={{ justifyContent: 'center', alignSelf: 'center', backgroundColor: 'black' }} block>
-                      <small > Ingresar </small>
-                    </Button>
-                  </Form>
-                </CardBody>
-              </Card>
-            </Col>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'white' }}>
+      <Row className="m-0">
+        <Col lg={6} className="p-0">
+          <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: '10px', padding: '20px', width: '100%', height: '100%' }}>
+            <CardBody>
+            <h2 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold' }} className="text-center mb-3">Iniciar sesión</h2>
+              <Form onSubmit={handleSubmit}>
+                <FormGroup>
+                  <Label style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold' }} for="username">Usuario: *</Label>
+                  <Input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    autoComplete="off"
+                  />
+                </FormGroup>
 
 
-          </Row>
-        </Fragment>
-      </div>
-    </Fragment>
+                <FormGroup>
+                  <Label  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold' }} for="password">Contraseña: *</Label>
+                  <Input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="off"
+                  />
+                </FormGroup>
+                <Button
+                  className="mb-2 mt-4"
+                  style={{
+                    background: '#ffcc99',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    fontSize: '1.2rem',
+                  }}
+                  block
+                >
+                  Ingresar
+                </Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
+
+
+        <Col lg={6} className="p-0">
+          <Card className="mb-0" style={{ background: 'linear-gradient(to left, #D5C8FF, #ffcc99)', borderRadius: '10px', padding: '20px', width: '100%', height: '100%' }}>
+            <CardBody className="d-flex align-items-center justify-content-center">
+              <img src={require('../../assets/utils/images/logo_background.png')} alt="" style={{ width: '50%' }} />
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
 export default Login;
+
+
+
+
+
