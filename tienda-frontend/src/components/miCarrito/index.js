@@ -6,7 +6,6 @@ import { Formik, useFormik, Field } from "formik";
 import AppHeader from '../../Layout/AppHeader/';
 import AppSidebar from '../../Layout/AppSidebar/';
 import PageTitle from '../../Layout/AppMain/PageTitle';
-import Tabla from '../tabla';
 import Utileria from '../../util';
 
 

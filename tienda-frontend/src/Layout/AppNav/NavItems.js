@@ -24,13 +24,13 @@ export const AdminNav = [
     },
 ];
 
-export const CajaNav = [
-    {
-        icon: 'pe-7s-cash',
-        label: 'Pagos',
-        to: RouteConstant.PAGO
-    },
-];
+// export const CajaNav = [
+//     {
+//         icon: 'pe-7s-cash',
+//         label: 'Pagos',
+//         to: RouteConstant.PAGO
+//     },
+// ];
 export const AccesoNav = [
     {
         icon: 'pe-7s-user-female',
@@ -58,11 +58,11 @@ export const CompraNav = [
         label: 'Carritos',
         to: RouteConstant.CARRITO
     },
-    {
-        icon: 'pe-7s-shopbag',
-        label: 'Mi carrito',
-        to: RouteConstant.MI_CARRITO
-    },
+    // {
+    //     icon: 'pe-7s-shopbag',
+    //     label: 'Mi carrito',
+    //     to: RouteConstant.MI_CARRITO
+    // },
     {
         icon: 'pe-7s-calculator',
         label: 'Compras',
