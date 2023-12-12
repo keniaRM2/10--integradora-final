@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "generateModels": "node utils/importarTablas.js"
+    "generateModels": "node utils/importarTablas.js",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
