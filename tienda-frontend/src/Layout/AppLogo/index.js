@@ -48,7 +48,7 @@ class HeaderLogo extends React.Component {
             <Fragment>
                 <div className="app-header__logo">
                     <div>
-                        <img src={require('../../assets/utils/images/logo_background.png')} alt=" " width={140} height={105} style={{ marginTop : 5 }}/>
+                        <img src={require('../../assets/utils/images/logo_background.png')} alt=" " width={75} height={55} style={{ marginTop : 5 }}/>
                     </div>
                     {/* <div className="logo-src"/> */}
                { /* <h2 className="text-center"><img src={require('../../assets/images/logo.png')} alt=" " /> {!this.state.active ? 'Chrochetic' : ''}</h2> */}
