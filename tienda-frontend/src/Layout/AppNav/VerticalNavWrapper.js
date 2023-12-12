@@ -32,7 +32,7 @@ class Nav extends Component {
             { navItems: AccesoNav, title: 'Acceso' },
             { navItems: CompraNav, title: 'Compras' },
             { navItems: ProductoNav, title: 'Productos' },
-            { navItems: CajaNav, title: 'Caja' },
+            //{ navItems: CajaNav, title: 'Caja' },
             { navItems: AdminNav, title: 'Administración' },
         ];
 

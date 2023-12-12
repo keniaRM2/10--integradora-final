@@ -22,11 +22,11 @@ export default class ServiceConstant {
     static STOCK_ACTUALIZAR = `${ENDPOINT}stock/actualizar`;
     static STOCK_ELIMINAR = `${ENDPOINT}stock/eliminar`;
 
-    static PAGO_LISTAR = `${ENDPOINT}pago`;
-    static PAGO_REGISTRAR = `${ENDPOINT}pago/registrar`;
-    static PAGO_OBTENER = `${ENDPOINT}pago/obtener`;
-    static PAGO_ACTUALIZAR = `${ENDPOINT}pago/actualizar`;
-    static PAGO_ELIMINAR = `${ENDPOINT}pago/eliminar`;
+    // static PAGO_LISTAR = `${ENDPOINT}pago`;
+    // static PAGO_REGISTRAR = `${ENDPOINT}pago/registrar`;
+    // static PAGO_OBTENER = `${ENDPOINT}pago/obtener`;
+    // static PAGO_ACTUALIZAR = `${ENDPOINT}pago/actualizar`;
+    // static PAGO_ELIMINAR = `${ENDPOINT}pago/eliminar`;
 
     static SUBCATEGORIA_LISTAR = `${ENDPOINT}subcategoria`;
     static SUBCATEGORIA_REGISTRAR = `${ENDPOINT}subcategoria/registrar`;
