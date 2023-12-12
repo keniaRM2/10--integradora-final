@@ -5,7 +5,10 @@ import tallaRoute from "./tallaRoute";
 import tipomedidaRoute from "./tipomedidaRoute";
 import stockRoute from "./stockRoute";
 import subCategoriaRoute from "./subCategoriaRoute";
-import pagoRoute from "./pagoRoute";
+import carritoRoute from "./carritoRoute";
+import compraRoute from "./compraRoute";
+import envioRoute from "./envioRoute";
+
 
 const routes = [
   categoriaRoute,
@@ -15,7 +18,10 @@ const routes = [
   tipomedidaRoute,
   stockRoute,
   subCategoriaRoute,
-  pagoRoute
+  carritoRoute,
+  compraRoute,
+  envioRoute,
+  
 ];
 
 export default routes;

@@ -12,7 +12,7 @@ import Utileria from '../../util';
 
 const Crud = (props) => {
 
-  let { cabecera, columnas, servicio, Formulario, inicial, validaciones } = props;
+  let { cabecera, columnas, servicio, Formulario, inicial, validaciones, ocultarRegistro } = props;
 
   const LISTADO = 1;
   const REGISTRO = 2;
@@ -186,7 +186,11 @@ const Crud = (props) => {
             </Col>
             <Col md="2">
               <CardTitle className="text-center mt-2">
-                <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }} size="lg" onClick={() => setVista(REGISTRO)} />
+                { ocultarRegistro ? '' : 
+                                <i className="pe-7s-plus btn-outline-2x hand col-2" style={{ fontSize: '2.5em' }} size="lg" onClick={() => setVista(REGISTRO)} />
+
+                
+                }
               </CardTitle>
             </Col>
           </div>

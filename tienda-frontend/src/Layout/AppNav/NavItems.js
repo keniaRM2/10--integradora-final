@@ -24,13 +24,13 @@ export const AdminNav = [
     },
 ];
 
-export const CajaNav = [
-    {
-        icon: 'pe-7s-cash',
-        label: 'Pagos',
-        to: RouteConstant.PAGO
-    },
-];
+// export const CajaNav = [
+//     {
+//         icon: 'pe-7s-cash',
+//         label: 'Pagos',
+//         to: RouteConstant.PAGO
+//     },
+// ];
 export const AccesoNav = [
     {
         icon: 'pe-7s-user-female',
@@ -49,6 +49,29 @@ export const ProductoNav = [
         icon: 'pe-7s-box1',
         label: 'Almacén',
         to: RouteConstant.STOCK
+    }
+];
+
+export const CompraNav = [
+    {
+        icon: 'pe-7s-cart',
+        label: 'Carritos',
+        to: RouteConstant.CARRITO
+    },
+    // {
+    //     icon: 'pe-7s-shopbag',
+    //     label: 'Mi carrito',
+    //     to: RouteConstant.MI_CARRITO
+    // },
+    {
+        icon: 'pe-7s-calculator',
+        label: 'Compras',
+        to: RouteConstant.COMPRA
+    },
+    {
+        icon: 'pe-7s-plane',
+        label: 'Envios',
+        to: RouteConstant.ENVIO
     }
 ];
 

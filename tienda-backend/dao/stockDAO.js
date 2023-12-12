@@ -14,11 +14,12 @@ const {
 const utileria = require("../utils/utileria");
 const constantes = require("../utils/constantes");
 const conexion = require('./config/conexionBD');
+const productoDAO = require("./productoDAO");
 
 module.exports = {
     listar: async () => {
         try {
-            return await stock.findAll({
+            let lista = await stock.findAll({
                 order: [['idStock', 'DESC']],
                 include: [
                     {
@@ -44,6 +45,27 @@ module.exports = {
                         required: false, // Indica que es un left join
                     }]
             });
+
+
+            lista = lista.map(item => item.toJSON());
+
+            for (let i = 0; i < lista.length; i++) {
+                let element = lista[i];
+                
+                let imagenes = await imagen.findAll({
+                    where: {
+                        productoId: element.productoId
+                    }
+                });
+    
+                let imagenesBase64 = imagenes.map(imagen => {
+                    return `data:image/${imagen.formato};base64,${imagen.imagen.toString('base64')}`;
+                });
+
+                lista[i].producto.imagenes = imagenesBase64 || [];
+            }
+
+            return lista;
         } catch (error) {
             throw error;
         }
@@ -176,10 +198,7 @@ module.exports = {
                 where: {
                     idStock: idStock
                 },
-                include: [{
-                    model: producto,
-                    as: 'producto',
-                },
+                include: [
                 {
                     model: talla,
                     as: 'talla',
@@ -191,7 +210,9 @@ module.exports = {
                     required: false, // Indica que es un left join
                 }]
             });
+            respuesta = respuesta.toJSON();
 
+            respuesta.producto = await productoDAO.obtener({idProducto: respuesta.productoId});
 
             return respuesta;
         } catch (error) {
