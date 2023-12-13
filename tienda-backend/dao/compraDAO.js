@@ -55,7 +55,14 @@ module.exports = {
                 ]
             });
 
-            return compras;
+            const listaDeComprasJS = compras.map(compra => compra.get({ plain: true }));
+
+
+            for (let i = 0; i < listaDeComprasJS.length; i++) {
+                console.log(listaDeComprasJS[i]);
+                listaDeComprasJS[i].statusNombre = listaDeComprasJS[i].status.nombre;
+            }
+            return listaDeComprasJS;
         } catch (error) {
             throw error;
         }

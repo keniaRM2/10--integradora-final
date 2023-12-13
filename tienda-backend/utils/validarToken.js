@@ -3,7 +3,7 @@ const utileria = require("./utileria");
 
 function verificarToken(req, res, next) {
     let token = req.header('Authorization');
-    if(req.path.includes('/auth/')){
+    if(req.path.includes('/auth/') || req.path.includes('api/stock')){
         next();
     }else{
         if (!token) {
