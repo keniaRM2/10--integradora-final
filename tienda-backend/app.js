@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const app = express();
 
-// app.use(bodyParser.json());
+app.disable('x-powered-by');
 
 // Aumentar el límite de carga
 app.use(bodyParser.json({ limit: '50mb' }));

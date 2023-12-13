@@ -149,7 +149,6 @@ module.exports = {
             }
 
 
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return {
@@ -215,7 +214,6 @@ module.exports = {
             }
 
 
-            // Eliminar todos los colores relacionados con un producto específico
 
             let coloresEliminar = await color.findAll({
                 where: {
@@ -250,24 +248,23 @@ module.exports = {
                 }
             }
 
-            for (let i = 0; i < coloresEliminar.length; i++) {
+            for (const colorEliminar of coloresEliminar) {
                 let stocks = await stock.findAll({
                     where: {
-                        colorId: coloresEliminar[i].idColor
+                        colorId: colorEliminar.idColor
                     }
                 });
-
+            
                 if (!utileria.arrayVacio(stocks)) {
-                    throw new Error(`El color ${coloresEliminar[i].color}, cuenta con registros de stock.`);
+                    throw new Error(`El color ${colorEliminar.color}, cuenta con registros de stock.`);
                 }
-
+            
                 await color.destroy({
                     where: {
-                        idColor: coloresEliminar[i].idColor
+                        idColor: colorEliminar.idColor
                     }
                 });
-            }
-
+            }            
 
 
             // Eliminar todas las imagenes relacionadas con un producto específico
@@ -304,7 +301,6 @@ module.exports = {
 
 
 
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return response;
@@ -391,7 +387,6 @@ module.exports = {
             });
 
 
-            // Eliminar todos los colores relacionados con un producto específico
             await color.destroy({
                 where: {
                     productoId: parametros.idProducto
@@ -405,7 +400,6 @@ module.exports = {
                     idProducto: idProducto
                 }
             });
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return response;

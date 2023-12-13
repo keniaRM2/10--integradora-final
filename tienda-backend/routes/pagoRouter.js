@@ -17,31 +17,5 @@ router.put('/pago/registrar',
     ],
     pagoController.registrar);
 
-// router.post('/pago/actualizar',
-//     [
-//         body('idStock').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-//         body('precio').isDecimal().withMessage(mensajes.validationErrors.isInt),
-//         body('existencia').isInt().withMessage(mensajes.validationErrors.isInt),
-//         body('productoId').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-//         utileria.validarCampos
-//     ],
-//     pagoController.actualizar);
-
-
-
-// router.delete('/pago/eliminar',
-//     [
-//         body('idStock').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-//         utileria.validarCampos
-//     ],
-//     pagoController.eliminar);
-
-// router.post('/pago/obtener',
-//     [
-//         body('idStock').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
-//         utileria.validarCampos
-//     ],
-//     pagoController.obtener);
-
 
 module.exports = router;

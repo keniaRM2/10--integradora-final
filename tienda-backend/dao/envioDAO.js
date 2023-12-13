@@ -165,7 +165,6 @@ module.exports = {
             });
 
 
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return {idEnvio: parametros.idEnvio};
@@ -203,7 +202,6 @@ module.exports = {
             });
 
 
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return {idEnvio: parametros.idEnvio};

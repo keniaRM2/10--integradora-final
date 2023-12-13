@@ -13,7 +13,7 @@ const constantes = require("./constantes");
 
 
 async function insertarTipoMedidas() {
-    let obj = undefined;
+    let obj;
 
     for (const nombre of constantes.TIPOS_MEDIDAS) {
         obj = await tipomedida.findOne({
@@ -30,7 +30,7 @@ async function insertarTipoMedidas() {
     }
 }
 async function insertarTallas() {
-    let obj = undefined;
+    let obj;
 
     for (const nombre of constantes.TALLAS) {
         obj = await talla.findOne({
@@ -48,7 +48,7 @@ async function insertarTallas() {
 }
 
 async function insertarCategorias() {
-    let obj = undefined;
+    let obj;
     const statusActivo = await status.findOne({
         where: {
             nombre: constantes.ESTATUS_ACTIVO
@@ -91,7 +91,7 @@ async function insertarCategorias() {
     }
 }
 async function insertarGeneros() {
-    let obj = undefined;
+    let obj;
 
     for (const nombre of constantes.GENEROS) {
         obj = await genero.findOne({
@@ -108,7 +108,7 @@ async function insertarGeneros() {
     }
 }
 async function insertarRoles() {
-    let obj = undefined;
+    let obj;
 
     for (const nombre of constantes.ROLES) {
         obj = await rol.findOne({
@@ -126,7 +126,7 @@ async function insertarRoles() {
 }
 
 async function insertarStatus() {
-    let obj = undefined;
+    let obj;
 
     for (const nombre of constantes.ESTATUS) {
 

@@ -52,7 +52,7 @@ const generarJWT = ({
 };
 
 const camelCaseToSentence = (textoCamelCase) => {
-    let palabras = textoCamelCase.match(/[A-Z]*[^A-Z]+/g);
+    let palabras = textoCamelCase.match(/[A-Z][a-z]*/g);
   
     if (!palabras) {
       return textoCamelCase;

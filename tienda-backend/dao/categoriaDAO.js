@@ -83,8 +83,6 @@ module.exports = {
                 await Promise.all(imagenesNuevas.map((nuevaImagen) => imagen.create(nuevaImagen)));
                 console.log('Imagenes creadas exitosamente.');
             }
-
-             // Commit si todo se realizó correctamente
              await transaction.commit();
 
             return {
@@ -160,9 +158,6 @@ module.exports = {
                 console.log('Imagenes creadas exitosamente.');
             }
 
-
-
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return respuesta;

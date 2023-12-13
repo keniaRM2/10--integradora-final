@@ -77,7 +77,6 @@ module.exports = {
 
 
 
-             // Commit si todo se realizó correctamente
              await transaction.commit();
 
             return {
@@ -156,7 +155,6 @@ module.exports = {
             }
 
 
-             // Commit si todo se realizó correctamente
              await transaction.commit();
 
              return respuesta;

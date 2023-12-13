@@ -3,15 +3,11 @@ const {
     persona,
     carrito_producto,
     stock,
-    producto,
     talla,
     color
 } = require("./models/init-models");
 const utileria = require("../utils/utileria");
-const constantes = require("../utils/constantes");
-const productoDAO = require('./productoDAO');
 const stockDAO = require('./stockDAO');
-const conexion = require('./config/conexionBD');
 
 module.exports = {
     listar: async () => {
@@ -39,7 +35,6 @@ module.exports = {
         }
     },
     registrar: async (parametros) => {
-        // let transaction;
 
         try {
 
@@ -98,8 +93,9 @@ module.exports = {
 
 
                 let totalFinal = 0;
-                for (let i = 0; i < productosAgregados.length; i++) {
-                    totalFinal = totalFinal + productosAgregados[i].stock.precio;
+
+                for (const producto of productosAgregados) {
+                    totalFinal += producto.stock.precio;
                 }
 
                 let actualizado = {
@@ -111,19 +107,10 @@ module.exports = {
 
             }
 
-
-            // Commit si todo se realizó correctamente
-            // await transaction.commit();
-
             return {
                 idCarritoProducto: carritoProducto.idCarritoProducto
             };
         } catch (error) {
-            // Rollback en caso de error
-            // if (transaction) {
-            //     console.log("rollback");
-            //     await transaction.rollback();
-            // }
             throw error;
         }
     },
@@ -138,7 +125,7 @@ module.exports = {
                 cantidad
             } = parametros;
 
-            idPersona = idPersona ? idPersona : usuarioSesion.idPersona;
+            idPersona = idPersona ?? usuarioSesion.idPersona;
 
 
 
@@ -156,11 +143,6 @@ module.exports = {
             await carrito_producto.update(actualizado, {
                 where: { stockId: idStock, carritoId: carritoUsuario.idCarrito }
             });
-
-
-
-            console.log("car" + carritoUsuario.idCarrito)
-            console.log("stk" + idStock)
 
             const productosAgregados = await carrito_producto.findAll({
                 where: {
@@ -201,7 +183,7 @@ module.exports = {
                 usuarioSesion
             } = parametros;
 
-            idPersona = idPersona ? idPersona : usuarioSesion.idPersona;
+            idPersona = idPersona ?? usuarioSesion.idPersona;
 
 
 
@@ -229,8 +211,8 @@ module.exports = {
 
 
             let totalFinal = 0;
-            for (let i = 0; i < productosAgregados.length; i++) {
-                totalFinal = totalFinal + productosAgregados[i].stock.precio;
+            for (const productoAgregado of productosAgregados) {
+                totalFinal += productoAgregado.stock.precio;
             }
 
             actualizado = {

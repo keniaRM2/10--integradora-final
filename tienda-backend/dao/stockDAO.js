@@ -95,7 +95,7 @@ module.exports = {
 
             let stockBuscado = await stock.findOne({ where: filtrado });
 
-            let response = undefined;
+            let response;
 
             if (!stockBuscado) {
                 let stockNuevo = {
@@ -128,7 +128,6 @@ module.exports = {
 
 
 
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return response;
@@ -177,7 +176,6 @@ module.exports = {
                     idStock: idStock
                 }
             });
-            // Commit si todo se realizó correctamente
             await transaction.commit();
 
             return response;

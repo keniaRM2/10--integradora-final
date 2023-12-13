@@ -198,9 +198,9 @@ module.exports = {
 
 
                 let totalFinal = 0;
-                for (let i = 0; i < productosAgregados.length; i++) {
-                    totalFinal = totalFinal + productosAgregados[i].stock.precio;
-                }
+                for (const productoAgregado of productosAgregados) {
+                    totalFinal += productoAgregado.stock.precio;
+                }                
 
                 let actualizado = {
                     total: totalFinal,
@@ -356,13 +356,13 @@ module.exports = {
                 }]
             });
 
-            for (let i = 0; i < productos.length; i++) {
-                const element = productos[i];
+            for (const element of productos) {
                 const nuevaExistencia = element.stock.existencia - element.cantidad;
                 if (nuevaExistencia < 0) {
                     throw new Error(`El producto ${element.stock.producto.nombre}, no disponible.`);
                 }
             }
+            
 
 
 

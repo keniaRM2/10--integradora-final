@@ -222,7 +222,7 @@ module.exports = {
       };
 
       if (usuarioEntity?.persona?.direccion) {
-        direccionData = await direccion.update(
+         await direccion.update(
           direccionData,
           {
             where: { idDireccion: usuarioEntity?.persona?.direccion.idDireccion },
@@ -230,7 +230,7 @@ module.exports = {
           }
         );
       } else {
-        direccionData = await direccion.create(direccionData, { transaction });
+         await direccion.create(direccionData, { transaction });
       }
 
       let contactoData = {
@@ -241,7 +241,7 @@ module.exports = {
       };
 
       if (usuarioEntity?.persona?.contacto) {
-        contactoData = await contacto.update(
+         await contacto.update(
           contactoData,
           {
             where: { idContacto: usuarioEntity?.persona?.contacto.idContacto },
@@ -249,7 +249,7 @@ module.exports = {
           }
         );
       } else {
-        contactoData = await contacto.create(contactoData, { transaction });
+        await contacto.create(contactoData, { transaction });
       }
 
 
