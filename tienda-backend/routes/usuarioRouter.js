@@ -43,6 +43,35 @@ router.post('/usuario/actualizar', [
 ], usuarioController.actualizar);
 
 
+router.post('/usuario/actualizarPersona', [
+    body('idUsuario').isInt().withMessage(mensajes.validationErrors.isInt),
+    body('nombre').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('primerApellido').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('fechaNacimiento').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    utileria.validarCampos
+], usuarioController.actualizarPersona);
+
+
+
+router.post('/usuario/actualizarDireccion', [
+    body('idUsuario').isInt().withMessage(mensajes.validationErrors.isInt),
+    body('numeroExterior').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('calle').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('colonia').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('municipio').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('entidadFederativa').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    utileria.validarCampos
+], usuarioController.actualizarDireccion);
+
+
+
+router.post('/usuario/actualizarContacto', [
+    body('idUsuario').isInt().withMessage(mensajes.validationErrors.isInt),
+    body('correoElectronico').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    body('telefonoPrincipal').notEmpty().withMessage(mensajes.validationErrors.isEmpty),
+    utileria.validarCampos
+], usuarioController.actualizarContacto);
+
 router.post('/usuario/eliminar', [
     body('idUsuario').isInt().withMessage(mensajes.validationErrors.isInt),
     utileria.validarCampos
@@ -50,7 +79,7 @@ router.post('/usuario/eliminar', [
 
 
 router.post('/usuario/obtener', [
-    body('idUsuario').isInt().withMessage(mensajes.validationErrors.isInt),
+    // body('idUsuario').isInt().withMessage(mensajes.validationErrors.isInt),
     utileria.validarCampos
 ], usuarioController.obtener);
 

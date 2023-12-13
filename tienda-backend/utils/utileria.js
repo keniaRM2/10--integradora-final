@@ -39,9 +39,7 @@ const generarJWT = ({
             usuario,
             idUsuario,
             idPersona: personaId
-        }, process.env.CLAVE_TOKEN, {
-            expiresIn: '24h'
-        }, (err, token) => {
+        }, process.env.CLAVE_TOKEN, (err, token) => {
             if (err) {
                 reject(err);
             } else {

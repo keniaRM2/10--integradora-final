@@ -23,6 +23,42 @@ exports.actualizar = async (req, res) => {
     }
 };
 
+exports.actualizarDireccion = async (req, res) => {
+    try {
+
+        const parametros = req.body;
+        const respuesta = await usuarioDAO.actualizarDireccion(parametros);
+        
+        return utileria.responseOk(respuesta, res);
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};
+
+
+exports.actualizarContacto = async (req, res) => {
+    try {
+
+        const parametros = req.body;
+        const respuesta = await usuarioDAO.actualizarContacto(parametros);
+        
+        return utileria.responseOk(respuesta, res);
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};
+exports.actualizarPersona = async (req, res) => {
+    try {
+
+        const parametros = req.body;
+        const respuesta = await usuarioDAO.actualizarPersona(parametros);
+        
+        return utileria.responseOk(respuesta, res);
+    } catch (error) {
+        return utileria.reponseError(error, res);
+    }
+};
+
 exports.eliminar = async (req, res) => {
     try {
 
