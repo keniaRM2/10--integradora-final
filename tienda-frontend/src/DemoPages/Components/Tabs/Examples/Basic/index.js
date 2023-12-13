@@ -9,12 +9,7 @@ import {
     CardTitle, Button, ButtonGroup
 } from 'reactstrap';
 
-// import {
-//     faCommentDots,
-//     faBullhorn,
-// } from '@fortawesome/free-solid-svg-icons';
 
-// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export default class TabsExample extends React.Component {
     constructor(props) {
@@ -37,7 +32,7 @@ export default class TabsExample extends React.Component {
     render() {
 
         return (
-            <Fragment>
+
                 <TransitionGroup>
                     <CSSTransition
                         component="div"
@@ -393,7 +388,7 @@ export default class TabsExample extends React.Component {
                         </Row>
                     </CSSTransition>
                 </TransitionGroup>
-            </Fragment>
+
         );
     }
 }

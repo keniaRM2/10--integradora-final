@@ -33,7 +33,7 @@ class DynamicPagination extends Component {
         super();
 
         // an example array of items to be paged
-        var exampleItems = [...Array(150).keys()].map(i => ({id: (i + 1), name: 'Item ' + (i + 1)}));
+        let exampleItems = [...Array(150).keys()].map(i => ({id: (i + 1), name: 'Item ' + (i + 1)}));
 
         // bind the onChangePage method to this React component
         this.onChangePage = this.onChangePage.bind(this);
@@ -52,7 +52,7 @@ class DynamicPagination extends Component {
 
     render() {
         return (
-            <Fragment>
+
                 <TransitionGroup>
                     <CSSTransition
                         component="div"
@@ -97,9 +97,7 @@ class DynamicPagination extends Component {
                         </Row>
                     </CSSTransition>
                 </TransitionGroup>
-            </Fragment>
-        )
-            ;
+        );
     };
 
 }

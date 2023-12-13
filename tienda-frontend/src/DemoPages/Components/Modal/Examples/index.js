@@ -23,7 +23,7 @@ class ModalsExample extends React.Component {
 
     render() {
         return (
-            <Fragment>
+
                 <TransitionGroup>
                     <CSSTransition
                         component="div"
@@ -55,7 +55,7 @@ class ModalsExample extends React.Component {
                         </Row>
                     </CSSTransition>
                 </TransitionGroup>
-            </Fragment>
+
         )
     }
 }

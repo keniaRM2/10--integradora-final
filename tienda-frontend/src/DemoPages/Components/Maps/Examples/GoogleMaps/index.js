@@ -21,7 +21,7 @@ class GoogleMapsExample extends React.Component {
     render() {
 
         return (
-            <Fragment>
+
                 <TransitionGroup>
                 <CSSTransition
                     component="div"
@@ -55,7 +55,7 @@ class GoogleMapsExample extends React.Component {
                     </Row>
                 </CSSTransition>
                 </TransitionGroup>
-            </Fragment>
+
         )
     }
 }

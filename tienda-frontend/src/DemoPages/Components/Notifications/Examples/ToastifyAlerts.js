@@ -183,7 +183,7 @@ class ToastifyAlerts extends Component {
 
     render() {
         return (
-            <Fragment>
+
                 <TransitionGroup>
                     <CSSTransition
                         component="div"
@@ -270,7 +270,7 @@ class ToastifyAlerts extends Component {
                     </CSSTransition>
                 </TransitionGroup>
 
-            </Fragment>
+  
         );
     }
 }

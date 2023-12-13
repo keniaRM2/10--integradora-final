@@ -12,7 +12,7 @@ import CustomExample from './CustomTag';
 
 const CarouselBSExample = (props) => {
     return (
-        <Fragment>
+
             <TransitionGroup>
                 <CSSTransition
                     component="div"
@@ -40,7 +40,7 @@ const CarouselBSExample = (props) => {
                     </Row>
                 </CSSTransition>
             </TransitionGroup>
-        </Fragment>
+
     );
 };
 

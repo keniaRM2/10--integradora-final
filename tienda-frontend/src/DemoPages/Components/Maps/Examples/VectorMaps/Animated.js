@@ -109,7 +109,7 @@ export default class VectorMapsAnimated extends React.Component {
                                         {(geographies, projection) =>
                                             geographies.map((geography, i) => geography.id !== "010" && (
                                                 <Geography
-                                                    key={i}
+                                                    key={+geography.id}
                                                     geography={geography}
                                                     projection={projection}
                                                     style={{

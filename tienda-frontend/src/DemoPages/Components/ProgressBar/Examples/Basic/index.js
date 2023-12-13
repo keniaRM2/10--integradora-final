@@ -18,7 +18,7 @@ import ProgressStripedExample from './ProgressStriped';
 
 const ProgressBarExample = (props) => {
     return (
-        <Fragment>
+
             <TransitionGroup>
                 <CSSTransition
                     component="div"
@@ -89,7 +89,7 @@ const ProgressBarExample = (props) => {
                     </Row>
                 </CSSTransition>
             </TransitionGroup>
-        </Fragment>
+
     );
 };
 

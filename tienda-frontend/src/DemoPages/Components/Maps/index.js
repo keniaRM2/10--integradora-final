@@ -5,14 +5,10 @@ import Tabs from 'react-responsive-tabs';
 import PageTitle from '../../../Layout/AppMain/PageTitle';
 
 // Examples
-// import VectorMapsExample from './Examples/VectorMaps';
+
 import GoogleMapsExample from './Examples/GoogleMaps';
 
 const tabsContent = [
-    // {
-    //     title: 'Vector Maps',
-    //     content: <VectorMapsExample/>
-    // },
     {
         title: 'Google Maps',
         content: <GoogleMapsExample/>

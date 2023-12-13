@@ -14,7 +14,7 @@ export default class VectorMapsBasic extends React.Component {
     render() {
 
         return (
-            <Fragment>
+
                 <div>
                     <ComposableMap
                         projectionConfig={{
@@ -30,7 +30,7 @@ export default class VectorMapsBasic extends React.Component {
                             <Geographies geography={world}>
                                 {(geographies, projection) => geographies.map((geography, i) => geography.id !== "ATA" && (
                                     <Geography
-                                        key={i}
+                                        key={+geography.id}
                                         geography={geography}
                                         projection={projection}
                                         style={{
@@ -59,7 +59,7 @@ export default class VectorMapsBasic extends React.Component {
                         </ZoomableGroup>
                     </ComposableMap>
                 </div>
-            </Fragment>
+
         )
     }
 }

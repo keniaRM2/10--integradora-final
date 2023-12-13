@@ -10,7 +10,7 @@ import {
 
 const BasicPagination = (props) => {
     return (
-        <Fragment>
+
             <TransitionGroup>
                 <CSSTransition
                     component="div"
@@ -189,7 +189,7 @@ const BasicPagination = (props) => {
                     </Row>
                 </CSSTransition>
             </TransitionGroup>
-        </Fragment>
+
     );
 };
 

@@ -104,7 +104,7 @@ class PopoversBasicExample extends React.Component {
 
     render() {
         return (
-            <Fragment>
+           
                 <div className="text-center">
                     {this.state.popovers.map((popover, i) => {
                         return (
@@ -112,7 +112,6 @@ class PopoversBasicExample extends React.Component {
                         );
                     })}
                 </div>
-            </Fragment>
         );
     }
 }

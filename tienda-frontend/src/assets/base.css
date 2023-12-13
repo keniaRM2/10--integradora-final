@@ -28442,7 +28442,6 @@ body .card.mb-3 {
 
 .bg-login {
   background-image: url("../assets/utils/images/fondo.jpg");
-  /* background-image: url("../assets/utils/images/fondo.jpg"); */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

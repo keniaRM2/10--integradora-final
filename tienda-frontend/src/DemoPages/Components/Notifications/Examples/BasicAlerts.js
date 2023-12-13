@@ -24,7 +24,7 @@ class BasicAlerts extends React.Component {
 
     render() {
         return (
-            <Fragment>
+
                 <TransitionGroup>
                     <CSSTransition
                         component="div"
@@ -261,7 +261,6 @@ class BasicAlerts extends React.Component {
                         </div>
                     </CSSTransition>
                 </TransitionGroup>
-            </Fragment>
         );
     }
 }

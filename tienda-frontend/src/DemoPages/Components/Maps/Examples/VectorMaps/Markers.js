@@ -35,7 +35,7 @@ export default class VectorMapsMarkers extends React.Component {
     render() {
 
         return (
-            <Fragment>
+
                 <ComposableMap
                     projectionConfig={{scale: 605}}
                     width={980}
@@ -115,7 +115,7 @@ export default class VectorMapsMarkers extends React.Component {
                         </Markers>
                     </ZoomableGroup>
                 </ComposableMap>
-            </Fragment>
+   
         )
     }
 }
