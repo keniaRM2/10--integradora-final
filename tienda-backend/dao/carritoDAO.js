@@ -31,7 +31,9 @@ module.exports = {
 
             return carritos;
         } catch (error) {
-            throw error;
+             console.error('Ocurrió un error:', error.message);
+console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -47,7 +49,7 @@ module.exports = {
                 usuarioSesion
             } = parametros;
 
-            idPersona = idPersona ? idPersona : usuarioSesion.idPersona;
+            idPersona = idPersona ?? usuarioSesion.idPersona;
 
 
             let carritoUsuario = await carrito.findOne({
@@ -79,7 +81,7 @@ module.exports = {
                     carritoId: carritoUsuario.idCarrito,
                     stockId: idStock
                 };
-                carritoProducto = await carrito_producto.create(nuevo);
+                 await carrito_producto.create(nuevo);
 
                 const productosAgregados = await carrito_producto.findAll({
                     where: {
@@ -111,7 +113,9 @@ module.exports = {
                 idCarritoProducto: carritoProducto.idCarritoProducto
             };
         } catch (error) {
-            throw error;
+             console.error('Ocurrió un error:', error.message);
+console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizar: async (parametros) => {
@@ -156,9 +160,10 @@ module.exports = {
 
 
             let totalFinal = 0;
-            for (let i = 0; i < productosAgregados.length; i++) {
-                totalFinal = totalFinal + productosAgregados[i].stock.precio;
-            }
+            for (const productoAgregado of productosAgregados) {
+                totalFinal += productoAgregado.stock.precio;
+              }
+              
 
             actualizado = {
                 total: totalFinal,
@@ -170,7 +175,9 @@ module.exports = {
 
 
         } catch (error) {
-            throw error;
+             console.error('Ocurrió un error:', error.message);
+console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -215,7 +222,7 @@ module.exports = {
                 totalFinal += productoAgregado.stock.precio;
             }
 
-            actualizado = {
+            let actualizado = {
                 total: totalFinal,
                 fechaActualizacion: new Date()
             };
@@ -225,7 +232,9 @@ module.exports = {
 
 
         } catch (error) {
-            throw error;
+             console.error('Ocurrió un error:', error.message);
+console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -282,7 +291,9 @@ module.exports = {
 
             return respuesta;
         } catch (error) {
-            throw error;
+             console.error('Ocurrió un error:', error.message);
+console.error('Ocurrió un error:', error.message);
+throw error;;
         }
 
     },
@@ -342,7 +353,9 @@ module.exports = {
 
             return respuesta;
         } catch (error) {
-            throw error;
+             console.error('Ocurrió un error:', error.message);
+console.error('Ocurrió un error:', error.message);
+throw error;;
         }
 
     },

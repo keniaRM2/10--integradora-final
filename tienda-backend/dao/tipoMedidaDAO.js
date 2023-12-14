@@ -10,7 +10,8 @@ module.exports = {
                 order: [['idTipoMedida', 'DESC']]
             });
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -38,7 +39,8 @@ module.exports = {
                 idTipomedida: idTipomedida
             };
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizar: async (parametros) => {
@@ -65,7 +67,8 @@ module.exports = {
             };
             return await tipomedida.update(actualizado, {where: { idTipoMedida: idTipoMedida}});
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -93,7 +96,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -110,7 +114,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
 };

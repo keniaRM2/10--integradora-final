@@ -67,7 +67,8 @@ module.exports = {
 
             return lista;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     guardar: async (parametros) => {
@@ -134,7 +135,8 @@ module.exports = {
         } catch (error) {
             // Rollback en caso de error
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -182,7 +184,8 @@ module.exports = {
 
         } catch (error) {
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -214,7 +217,8 @@ module.exports = {
 
             return respuesta;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
 };

@@ -11,7 +11,8 @@ module.exports = {
                 order: [['idTalla', 'DESC']]
             });
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -39,7 +40,8 @@ module.exports = {
                 idTalla: idTalla
             };
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizar: async (parametros) => {
@@ -66,7 +68,8 @@ module.exports = {
             };
             return await talla.update(actualizado, {where: { idTalla: idTalla}});
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -94,7 +97,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -111,7 +115,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
 };

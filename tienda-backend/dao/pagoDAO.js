@@ -19,7 +19,8 @@ module.exports = {
                 ]
             });
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -84,12 +85,12 @@ module.exports = {
 
 
                 // Verificar si el archivo es una imagen
-                const imageRegex = /^data:image\/([A-Za-z-+\/]+);base64/;
+                const imageRegex = /^data:image\/([A-Za-z-+/]+);base64/;
                 const imageMatches = base64String.match(imageRegex);
 
                 // Verificar si el archivo es un PDF
                 const pdfRegex = /^data:application\/pdf;base64/;
-                const isPdf = pdfRegex.test(base64String);
+                const isPdf = base64String.startsWith('data:application/pdf');
 
                 let formato = 'jpeg'; // Formato predeterminado para imágenes
 
@@ -117,7 +118,7 @@ module.exports = {
                     pagoId: nuevoPago.idPago
                 };
                 
-                nuevoComprobante = await comprobante.create(nuevoComprobante, { transaction });
+                 await comprobante.create(nuevoComprobante, { transaction });
 
                 console.log(`Comprobante ${formato} registrado exitosamente.`);
             }
@@ -131,7 +132,8 @@ module.exports = {
             return { idPago: nuevoPago.idPago };
         } catch (error) {
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizar: async (parametros) => {
@@ -158,7 +160,8 @@ module.exports = {
             };
             return await pago.update(actualizado, { where: { idPago: idPago } });
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -186,7 +189,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -203,7 +207,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
 };

@@ -19,7 +19,8 @@ module.exports = {
                 order: [['idCategoria', 'DESC']]
             });
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -64,7 +65,7 @@ module.exports = {
 
                     const base64String = imagen;
 
-                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+/]+);base64/);
                     let formato = 'jpeg';
                     if (matches && matches.length > 1) {
                         formato = matches[1];
@@ -94,7 +95,8 @@ module.exports = {
                 console.log("rollback");
                 await transaction.rollback();
             }
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizar: async (parametros) => {
@@ -138,7 +140,7 @@ module.exports = {
 
                     const base64String = imagen;
 
-                    const matches = base64String.match(/^data:image\/([A-Za-z-+\/]+);base64/);
+                    const matches = base64String.match(/^data:image\/([A-Za-z-+/]+);base64/);
                     let formato = 'jpeg';
                     if (matches && matches.length > 1) {
                         formato = matches[1];
@@ -167,7 +169,8 @@ module.exports = {
                 console.log("rollback");
                 await transaction.rollback();
             }
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizarEstatus: async (parametros) => {
@@ -205,7 +208,8 @@ module.exports = {
             return await categoria.update(actualizado, {where: { idCategoria: idCategoria}});
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -233,7 +237,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -266,7 +271,8 @@ module.exports = {
             return respuesta;
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
 };

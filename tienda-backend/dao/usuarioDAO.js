@@ -17,7 +17,8 @@ module.exports = {
         order: [["idUsuario", "DESC"]],
       });
     } catch (error) {
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   registrarUsuario: async (parametros) => {
@@ -92,7 +93,8 @@ module.exports = {
         idUsuario: idUsuario,
       };
     } catch (error) {
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   login: async (parametros) => {
@@ -149,7 +151,8 @@ module.exports = {
         ...personaData,
       };
     } catch (error) {
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   actualizar: async (parametros) => {
@@ -251,7 +254,8 @@ module.exports = {
       };
     } catch (error) {
       if (transaction) await transaction.rollback();
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   actualizarPersona: async (parametros) => {
@@ -318,7 +322,8 @@ module.exports = {
       };
     } catch (error) {
       if (transaction) await transaction.rollback();
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   actualizarDireccion: async (parametros) => {
@@ -399,7 +404,8 @@ module.exports = {
       };
     } catch (error) {
       if (transaction) await transaction.rollback();
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   actualizarContacto: async (parametros) => {
@@ -477,7 +483,8 @@ module.exports = {
       };
     } catch (error) {
       if (transaction) await transaction.rollback();
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
   obtener: async (parametros) => {
@@ -523,7 +530,8 @@ module.exports = {
         ...usuarioDTO.persona?.contacto,
       };
     } catch (error) {
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
 };

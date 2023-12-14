@@ -18,7 +18,8 @@ module.exports = {
                 }]
             });
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -89,7 +90,8 @@ module.exports = {
                 console.log("rollback");
                 await transaction.rollback();
             }
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     actualizar: async (parametros) => {
@@ -165,7 +167,8 @@ module.exports = {
                 console.log("rollback");
                 await transaction.rollback();
             }
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     eliminar: async (parametros) => {
@@ -193,7 +196,8 @@ module.exports = {
             });
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     obtener: async (parametros) => {
@@ -231,7 +235,8 @@ module.exports = {
             return respuesta;
 
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
 };

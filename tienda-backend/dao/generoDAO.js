@@ -7,7 +7,8 @@ module.exports = {
         order: [['idGenero', 'ASC']]
       });
     } catch (error) {
-      throw error;
+      console.error('Ocurrió un error:', error.message);
+throw error;;
     }
   },
 };

@@ -51,7 +51,8 @@ module.exports = {
 
             return envios;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -135,7 +136,8 @@ module.exports = {
 
             return respuesta;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     enviar: async (parametros) => {
@@ -171,7 +173,8 @@ module.exports = {
         } catch (error) {
             // Rollback en caso de error
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     entregar: async (parametros) => {
@@ -208,7 +211,8 @@ module.exports = {
         } catch (error) {
             // Rollback en caso de error
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     }
 };

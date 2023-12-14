@@ -58,13 +58,15 @@ module.exports = {
             const listaDeComprasJS = compras.map(compra => compra.get({ plain: true }));
 
 
-            for (let i = 0; i < listaDeComprasJS.length; i++) {
-                console.log(listaDeComprasJS[i]);
-                listaDeComprasJS[i].statusNombre = listaDeComprasJS[i].status.nombre;
-            }
+            for (const compra of listaDeComprasJS) {
+                console.log(compra);
+                compra.statusNombre = compra.status.nombre;
+              }
+              
             return listaDeComprasJS;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     listar: async () => {
@@ -95,7 +97,8 @@ module.exports = {
 
             return compras;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     registrar: async (parametros) => {
@@ -228,7 +231,8 @@ module.exports = {
             return { idCompra: nuevaCompra.idCompra };
         } catch (error) {
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
 
     },
@@ -330,7 +334,8 @@ module.exports = {
 
             return respuesta;
         } catch (error) {
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
 
     },
@@ -410,30 +415,32 @@ module.exports = {
 
 
 
-            for (let i = 0; i < productos.length; i++) {
-                const element = productos[i];
-                const nuevaExistencia = element.stock.existencia - element.cantidad;
-                let stockActualizado = {
-                    existencia: nuevaExistencia
+            for (const { stock, cantidad } of productos) {
+                const nuevaExistencia = stock.existencia - cantidad;
+                const stockActualizado = {
+                  existencia: nuevaExistencia
                 };
+              
                 await stock.update(stockActualizado, {
-                    where: {
-                        idStock: element.stock.idStock
-                    }
+                  where: {
+                    idStock: stock.idStock
+                  }
                 });
-            }
+              }
+              
 
 
 
 
-            // Commit si todo se realizó correctamente
+            // Commit si sse realizó correctamente
             await transaction.commit();
 
             return { idEnvio: idEnvio };
         } catch (error) {
             // Rollback en caso de error
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     },
     rechazarCompra: async (parametros) => {
@@ -462,14 +469,15 @@ module.exports = {
             });
 
 
-            // Commit si todo se realizó correctamente
+            // Commit si sse realizó correctamente
             await transaction.commit();
 
             return { idCompra: parametros.idCompra };
         } catch (error) {
             // Rollback en caso de error
             if (transaction) await transaction.rollback();
-            throw error;
+            console.error('Ocurrió un error:', error.message);
+throw error;;
         }
     }
 };
