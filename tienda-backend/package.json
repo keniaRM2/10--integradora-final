@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
     "generateModels": "node utils/importarTablas.js",
-    "build": "webpack"
+    "build": "webpack",
+    "sonarqube": "sonar-scanner"
   },
   "author": "",
   "license": "ISC",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
+    "sonar-scanner": "^3.1.0",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0"

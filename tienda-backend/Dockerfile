@@ -1,20 +1,20 @@
 # Utiliza una imagen de Node.js en la versión 18.18.0 como base para la etapa de compilación
-# Etapa de construcción
-FROM node:18.18.0 as builder
-
-# Cambia al usuario no root
-USER jenkins
+FROM node:18.18.0
 
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copia el archivo package.json y el código fuente
+# Copia solo el archivo package.json primero para aprovechar la caché de capas de Docker
 COPY package.json .
-COPY . ./
 
-# Instala las dependencias y realiza la compilación
+# Instala las dependencias
 RUN npm install --ignore-scripts
-RUN npm run build --ignore-scripts
+
+# Copia el resto de los archivos (ignora node_modules si está en el mismo directorio)
+COPY . .
+
+# Realiza la compilación
+RUN npm run build
 
 # Expone el puerto en el que se ejecuta tu aplicación (ajusta el puerto según tu aplicación)
 EXPOSE 3000

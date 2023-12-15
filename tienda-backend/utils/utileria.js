@@ -64,7 +64,7 @@ const camelCaseToSentence = (textoCamelCase) => {
   }
   
 
-const validarCampos = (req, res = response, next) => {
+const validarCampos = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errores = errors.array().map(error => {
