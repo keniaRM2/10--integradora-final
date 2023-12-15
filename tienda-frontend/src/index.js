@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter  } from 'react-router-dom';
 import './assets/base.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import Main from './DemoPages/Main';
 import configureStore from './config/configureStore';
 import { Provider } from 'react-redux';
 
@@ -22,6 +21,6 @@ const renderApp = Component => {
   );
 };
 
-renderApp(Main);
+renderApp();
 
 
